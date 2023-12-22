@@ -1,5 +1,5 @@
 {
-  "name": "da2-monorepo",
+  "name": "TDTU-DA2",
   "private": true,
   "scripts": {
     "build": "turbo build",
