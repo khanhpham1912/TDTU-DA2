@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@use "base/reset";
+
+:root {
+  --color-primary: #1eb980;
+
+  --color-secondary: #264fb4;
+  --color-secondary-400: #324d90;
+  --color-secondary-300: #6075a8;
+  --color-secondary-200: #8d9cc1;
+  --color-secondary-100: #bac3da;
+  --color-secondary-50: #e8ebf2;
+
+  --color-neutral: #8d97a6;
+  --color-neutral-900: #282b32;
+  --color-neutral-800: #3d424c;
+  --color-neutral-700: #515866;
+  --color-neutral-600: #666f80;
+  --color-neutral-500: #8d97a6;
+  --color-neutral-400: #b8c0cc;
+  --color-neutral-300: #c9d0d9;
+  --color-neutral-200: #dce0e5;
+  --color-neutral-100: #e8edf2;
+  --color-neutral-50: #f6f8fb;
+
+  --color-info: #096dd9;
+  --color-warning: #fa8c16;
+  --color-success: #28a745;
+  --color-danger: #ff4d4f;
+
+  --color-bg: #f9f9f9;
+  --color-bg-menu: #fff;
+  --color-text: #333333;
+  --color-bg-nav: #282b32;
+
+  --text-h1: 38px;
+  --line-height-h1: 46px;
+  --text-h2: 30px;
+  --line-height-h2: 40px;
+  --text-h3: 24px;
+  --line-height-h3: 32px;
+  --text-h4: 20px;
+  --line-height-h4: 28px;
+  --text-h5: 16px;
+  --line-height-h5: 24px;
+  --text-body: 14px;
+  --line-height-body: 22px;
+  --text-note: 12px;
+  --line-height-note: 20px;
+
+  --width-menu: 208px;
+  --width-menu-collapsed: 80px;
+}
