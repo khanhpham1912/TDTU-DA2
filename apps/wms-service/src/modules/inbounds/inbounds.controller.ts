@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { UpdateWriteOpResult } from 'mongoose';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IsObjectIdPipe } from 'src/pipes/is.object.id.pipe';
-import { CreateInboundDto } from './dto/create.update.inbound.dto.ts/create.inbound.dto';
-import { UpdateInboundDto } from './dto/create.update.inbound.dto.ts/update.inbound.dto';
-import { FindingOptionInboundDto } from './dto/finding.option.inbound.dto';
+import { CreateInboundDto } from './dto/create.update.inbound.dto/create.inbound.dto';
+import { UpdateInboundDto } from './dto/create.update.inbound.dto/update.inbound.dto';
+import { FilterPaginationInboundDto } from './dto/filter.pagination.inbound.dto/filter.pagination.inbound.dto';
 import { UpdateStatusInboundDto } from './dto/update.status.inbound.dto';
-import { InboundDocument } from './inbound.schema';
 import { InboundsService } from './inbounds.service';
+import { InboundDocument } from './schemas/inbound.schema';
+@ApiBearerAuth()
 @ApiTags('Inbounds')
 @Controller('inbounds')
 export class InboundsController {
@@ -17,41 +17,39 @@ export class InboundsController {
   async create(
     @Body() createInboundDto: CreateInboundDto,
   ): Promise<InboundDocument> {
-    return this.inboundsService.create(createInboundDto);
+    return await this.inboundsService.create(createInboundDto);
   }
-
-  // TODO: pagination
-  // TODO: DELETE
-  // TODO: can update if new
 
   @Post('search')
   async findByOption(
-    @Body() findingOptionInboundDto: FindingOptionInboundDto,
+    @Body() filterPaginationInboundDto: FilterPaginationInboundDto,
   ): Promise<InboundDocument[]> {
-    return this.inboundsService.findByOption(findingOptionInboundDto);
+    return await this.inboundsService.findByOption(filterPaginationInboundDto);
   }
 
-  // ! Only New accepted
   @Put(':id')
   async updateInboundStatus(
     @Param('id', new IsObjectIdPipe()) id: string,
     @Body() updateStatusInboundDto: UpdateStatusInboundDto,
-  ): Promise<UpdateWriteOpResult> {
-    return this.inboundsService.updateInboundStatus(id, updateStatusInboundDto);
+  ): Promise<InboundDocument> {
+    return await this.inboundsService.updateInboundStatus(
+      id,
+      updateStatusInboundDto,
+    );
   }
 
   @Put('update/:id')
   async updateInbound(
     @Param('id', new IsObjectIdPipe()) id: string,
-    @Body() updateInbound: UpdateInboundDto,
+    @Body() updateInboundDto: UpdateInboundDto,
   ) {
-    return this.inboundsService.updateInbound(id, updateInbound);
+    return await this.inboundsService.updateInbound(id, updateInboundDto);
   }
 
   @Delete(':id')
   async softDelete(
     @Param('id', new IsObjectIdPipe()) id: string,
   ): Promise<InboundDocument> {
-    return this.inboundsService.softDelete(id);
+    return await this.inboundsService.softDelete(id);
   }
 }

@@ -1,8 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthGuard } from './auth/auth.guard';
+import { AuthModule } from './auth/auth.module';
 import { InboundsModule } from './inbounds/inbounds.module';
 import { ItemsModule } from './items/items.module';
+import { OutboundsModule } from './outbounds/outbounds.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -10,6 +15,15 @@ import { ItemsModule } from './items/items.module';
     MongooseModule.forRoot(process.env.URI),
     ItemsModule,
     InboundsModule,
+    OutboundsModule,
+    AuthModule,
+    UsersModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
   ],
 })
 export class AppModule {}

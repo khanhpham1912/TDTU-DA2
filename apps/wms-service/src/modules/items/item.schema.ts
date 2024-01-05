@@ -7,22 +7,13 @@ export type ItemDocument = HydratedDocument<Item>;
 })
 export class Item {
   @Prop({
+    type: String,
     unique: true,
   })
   sku: string;
 
   @Prop()
   name: string;
-
-  @Prop({
-    default: 0,
-  })
-  inventory: number;
-
-  @Prop({
-    default: 0,
-  })
-  availableInventory: number;
 
   @Prop({
     default: true,

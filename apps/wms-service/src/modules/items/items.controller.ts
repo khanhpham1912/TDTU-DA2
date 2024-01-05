@@ -1,11 +1,13 @@
 import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IsObjectIdPipe } from 'src/pipes/is.object.id.pipe';
-import { CreateItemDto } from './dto/create.update.item.dto.ts/create.item.dto';
-import { UpdateItemDto } from './dto/create.update.item.dto.ts/update.item.dto';
-import { FindingOptionItemDto } from './dto/finding.option.item.dto';
+import { MapItemsAndInventory } from 'src/types/map.items.and.inventory';
+import { CreateItemDto } from './dto/create.update.item.dto/create.item.dto';
+import { UpdateItemDto } from './dto/create.update.item.dto/update.item.dto';
+import { FilterPaginationItemDto } from './dto/filter.pagination.item.dto/filter.pagination.item.dto';
 import { ItemDocument } from './item.schema';
 import { ItemsService } from './items.service';
+@ApiBearerAuth()
 @ApiTags('Items')
 @Controller('items')
 export class ItemsController {
@@ -13,14 +15,14 @@ export class ItemsController {
 
   @Post('create')
   async create(@Body() createItemDto: CreateItemDto): Promise<ItemDocument> {
-    return this.itemsService.create(createItemDto);
+    return await this.itemsService.create(createItemDto);
   }
 
   @Post('search')
   async findByOption(
-    @Body() findingOptionItemDto: FindingOptionItemDto,
-  ): Promise<ItemDocument[]> {
-    return this.itemsService.findByOption(findingOptionItemDto);
+    @Body() filterPaginationItemDto: FilterPaginationItemDto,
+  ): Promise<MapItemsAndInventory[]> {
+    return await this.itemsService.findByOption(filterPaginationItemDto);
   }
 
   @Put('update/:id')
@@ -28,13 +30,13 @@ export class ItemsController {
     @Param('id', new IsObjectIdPipe()) id: string,
     @Body() updateItem: UpdateItemDto,
   ) {
-    return this.itemsService.updateInbound(id, updateItem);
+    return await this.itemsService.updateItem(id, updateItem);
   }
 
   @Delete(':id')
   async softDelete(
     @Param('id', new IsObjectIdPipe()) id: string,
   ): Promise<ItemDocument> {
-    return this.itemsService.softDelete(id);
+    return await this.itemsService.softDelete(id);
   }
 }
