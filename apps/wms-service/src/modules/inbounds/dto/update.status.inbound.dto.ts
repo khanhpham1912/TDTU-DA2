@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, NotEquals } from 'class-validator';
-import { Status } from 'src/enums/status.enum';
+import { EStatus } from 'src/enums/status.enum';
 
 export class UpdateStatusInboundDto {
-  @NotEquals(Status[Status.NEW])
-  @IsEnum(Status)
+  @NotEquals(EStatus[EStatus.NEW])
+  @IsEnum(EStatus)
   @ApiProperty()
   @IsNotEmpty()
-  status: Status;
+  status: EStatus;
 }

@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import activeOption from 'src/config/active.config';
-import { Status } from 'src/enums/status.enum';
+import { EStatus } from 'src/enums/status.enum';
 import { BadRequestException } from 'src/exceptions/bad.request.exception';
 import { ItemsRepository } from '../items/items.repository';
 import { CreateInboundDto } from './dto/create.update.inbound.dto/create.inbound.dto';
@@ -31,11 +31,8 @@ export class InboundRepository {
     }
   }
 
-  async findByOption(
-    filterPaginationInboundDto: FilterPaginationInboundDto,
-  ): Promise<InboundDocument[]> {
-    const { filter, pagination }: FilterPaginationInboundDto =
-      filterPaginationInboundDto;
+  async findByOption(filterPaginationInboundDto: FilterPaginationInboundDto): Promise<InboundDocument[]> {
+    const { filter, pagination }: FilterPaginationInboundDto = filterPaginationInboundDto;
     try {
       return await this.inboundModel
         .find({
@@ -44,20 +41,17 @@ export class InboundRepository {
         })
         .limit(pagination.perPage)
         .skip(pagination.perPage * pagination.page)
-        .exec();
+        .lean();
     } catch (error) {
       throw new BadRequestException('Bad request');
     }
   }
 
-  async updateInboundStatus(
-    id: string,
-    updateStatusInboundDto: UpdateStatusInboundDto,
-  ): Promise<InboundDocument> {
+  async updateInboundStatus(id: string, updateStatusInboundDto: UpdateStatusInboundDto): Promise<InboundDocument> {
     const statusChange: string = updateStatusInboundDto.status;
     try {
       const inbound = await this.inboundModel.findOneAndUpdate(
-        { _id: id, active: activeOption, status: Status.NEW },
+        { _id: id, active: activeOption, status: EStatus.NEW },
         { status: statusChange },
         { new: true },
       );
@@ -70,15 +64,12 @@ export class InboundRepository {
     }
   }
 
-  async updateInbound(
-    id: string,
-    updateInboundDto: UpdateInboundDto,
-  ): Promise<InboundDocument> {
+  async updateInbound(id: string, updateInboundDto: UpdateInboundDto): Promise<InboundDocument> {
     try {
       const { items }: UpdateInboundDto = updateInboundDto;
       await this.itemsRepository.isIdDtoMatchesIdDb(items);
       const inbound = await this.inboundModel.findOneAndUpdate(
-        { _id: id, active: activeOption, status: Status.NEW },
+        { _id: id, active: activeOption, status: EStatus.NEW },
         {
           items: items,
         },
@@ -98,7 +89,7 @@ export class InboundRepository {
   async softDelete(id: string): Promise<InboundDocument> {
     try {
       const inbound = await this.inboundModel.findOneAndUpdate(
-        { _id: id, status: Status.NEW, active: activeOption },
+        { _id: id, status: EStatus.NEW, active: activeOption },
         {
           active: false,
         },
