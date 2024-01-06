@@ -46,6 +46,7 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
       router.push(`/login?callbackUrl=${pathname}`);
     },
   });
+
   if (!mounted) {
     return null;
   }

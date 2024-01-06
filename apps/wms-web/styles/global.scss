@@ -54,3 +54,26 @@
   --width-menu: 208px;
   --width-menu-collapsed: 80px;
 }
+
+.app-content {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 16px;
+  overflow-y: auto;
+  flex-grow: 1;
+
+  &__core {
+    background: var(--color-bg-menu);
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 8px;
+    flex-grow: 1;
+  }
+  & > div[class*="ant-tabs"] {
+    height: 100%;
+    & > div[class*="ant-tabs-content-holder"] {
+      overflow-y: auto;
+    }
+  }
+}
