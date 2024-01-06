@@ -13,30 +13,23 @@ import { ItemsService } from './items.service';
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
-  @Post('create')
+  @Post()
   async create(@Body() createItemDto: CreateItemDto): Promise<ItemDocument> {
     return await this.itemsService.create(createItemDto);
   }
 
   @Post('search')
-  async findByOption(
-    @Body() filterPaginationItemDto: FilterPaginationItemDto,
-  ): Promise<MapItemsAndInventory[]> {
+  async findByOption(@Body() filterPaginationItemDto: FilterPaginationItemDto): Promise<MapItemsAndInventory[]> {
     return await this.itemsService.findByOption(filterPaginationItemDto);
   }
 
-  @Put('update/:id')
-  async updateItem(
-    @Param('id', new IsObjectIdPipe()) id: string,
-    @Body() updateItem: UpdateItemDto,
-  ) {
+  @Put(':id/update')
+  async updateItem(@Param('id', new IsObjectIdPipe()) id: string, @Body() updateItem: UpdateItemDto) {
     return await this.itemsService.updateItem(id, updateItem);
   }
 
   @Delete(':id')
-  async softDelete(
-    @Param('id', new IsObjectIdPipe()) id: string,
-  ): Promise<ItemDocument> {
+  async softDelete(@Param('id', new IsObjectIdPipe()) id: string): Promise<ItemDocument> {
     return await this.itemsService.softDelete(id);
   }
 }
