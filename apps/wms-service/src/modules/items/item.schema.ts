@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-import { E_PRODUCT_TYPE } from 'src/enums/product.type.enum';
-import { UOM } from 'src/enums/uom.enum';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument } from "mongoose";
+import { E_PRODUCT_TYPE } from "src/enums/product.type.enum";
+import { UOM } from "src/enums/uom.enum";
 
 export type ItemDocument = HydratedDocument<Item>;
 @Schema({
