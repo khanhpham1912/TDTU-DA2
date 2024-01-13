@@ -43,6 +43,9 @@ export class Item {
 
   @Prop(Date)
   expiryDate: Date;
+
+  @Prop(String)
+  supplier: string;
 }
 
 export const ItemSchema = SchemaFactory.createForClass(Item);

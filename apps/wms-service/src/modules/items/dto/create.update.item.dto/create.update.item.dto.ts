@@ -51,4 +51,8 @@ export class CreateUpdateItemDto {
   @IsDate()
   @ApiProperty()
   expiryDate: Date;
+
+  @IsString()
+  @ApiProperty()
+  supplier: string;
 }
