@@ -31,6 +31,18 @@ export class Item {
     type: Boolean,
   })
   active: boolean;
+
+  @Prop(Number)
+  grossWeight: number;
+
+  @Prop(Number)
+  netWeight: Number;
+
+  @Prop(Date)
+  productionDate: Date;
+
+  @Prop(Date)
+  expiryDate: Date;
 }
 
 export const ItemSchema = SchemaFactory.createForClass(Item);
