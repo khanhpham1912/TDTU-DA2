@@ -1,7 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
-import { E_PRODUCT_TYPE } from 'src/enums/product.type.enum';
-import { UOM } from 'src/enums/uom.enum';
+import { ApiProperty } from "@nestjs/swagger";
+import {
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from "class-validator";
+import { E_PRODUCT_TYPE } from "src/enums/product.type.enum";
+import { UOM } from "src/enums/uom.enum";
 
 export class CreateUpdateItemDto {
   @IsString()
@@ -28,4 +35,24 @@ export class CreateUpdateItemDto {
   @IsString()
   @ApiProperty()
   type: E_PRODUCT_TYPE;
+
+  @IsNumber()
+  @ApiProperty()
+  grossWeight: number;
+
+  @IsNumber()
+  @ApiProperty()
+  netWeight: Number;
+
+  @IsDate()
+  @ApiProperty()
+  productionDate: Date;
+
+  @IsDate()
+  @ApiProperty()
+  expiryDate: Date;
+
+  @IsString()
+  @ApiProperty()
+  supplier: string;
 }

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Status } from 'src/enums/status.enum';
+import { EStatus } from 'src/enums/status.enum';
 import getCode from 'src/utils/random.code.util';
 import { ItemQuantityInbound } from './item.quantity.inbound.schema';
 
@@ -12,23 +12,20 @@ export class Inbound {
   @Prop({
     default: `IB${getCode()}`,
     unique: true,
+    type: String,
   })
   code: string;
 
   @Prop({
-    default: Status.NEW,
-    enum: Status,
+    default: EStatus.NEW,
+    type: String,
   })
-  status: string;
+  status: EStatus;
 
-  @Prop({
-    default: [],
-  })
+  @Prop([{ type: ItemQuantityInbound }])
   items: ItemQuantityInbound[];
 
-  @Prop({
-    default: true,
-  })
+  @Prop(Boolean)
   active: boolean;
 }
 

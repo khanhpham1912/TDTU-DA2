@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Status } from 'src/enums/status.enum';
+import { EStatus } from 'src/enums/status.enum';
 import getCode from 'src/utils/random.code.util';
 import { ItemQuantityOutbound } from './item.quantity.outbound.schema';
 
@@ -16,10 +16,10 @@ export class Outbound {
   code: string;
 
   @Prop({
-    default: Status.NEW,
-    enum: Status,
+    default: EStatus.NEW,
+    type: String,
   })
-  status: string;
+  status: EStatus;
 
   @Prop({
     default: [],

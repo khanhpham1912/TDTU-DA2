@@ -1,4 +1,4 @@
-export enum Status {
+export enum EStatus {
   NEW = 'NEW',
   COMPLETED = 'COMPLETED',
   CANCELED = 'CANCELED',

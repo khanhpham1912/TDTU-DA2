@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Status } from 'src/enums/status.enum';
+import { EStatus } from 'src/enums/status.enum';
 
 export class FilterOutboundDto {
   @ApiProperty()
@@ -12,6 +12,6 @@ export class FilterOutboundDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsOptional()
-  @IsEnum(Status)
-  status: Status;
+  @IsEnum(EStatus)
+  status: EStatus;
 }

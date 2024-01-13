@@ -3,15 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ItemQuantity } from 'src/common/item.quantity';
 import activeOption from 'src/config/active.config';
-import { Status } from 'src/enums/status.enum';
+import { EStatus } from 'src/enums/status.enum';
 import { BadRequestException } from 'src/exceptions/bad.request.exception';
 import { MapItemsAndInventory } from 'src/types/map.items.and.inventory';
 import { ResponseAvailableInventoryType } from 'src/types/response.available.inventory.type';
 import { ResponseInventoryType } from 'src/types/response.inventory.type';
-import {
-  calculateListAvailableInventory,
-  calculateListInventory,
-} from 'src/utils/calculate.util';
+import { calculateListAvailableInventory, calculateListInventory } from 'src/utils/calculate.util';
 import { Inbound } from '../inbounds/schemas/inbound.schema';
 import { Item, ItemDocument } from '../items/item.schema';
 import { Outbound } from '../outbounds/schemas/outbound.schema';
@@ -35,11 +32,8 @@ export class ItemsRepository {
     }
   }
 
-  async findByOption(
-    filterPaginationItemDto: FilterPaginationItemDto,
-  ): Promise<MapItemsAndInventory[]> {
-    const { filter, pagination }: FilterPaginationItemDto =
-      filterPaginationItemDto;
+  async findByOption(filterPaginationItemDto: FilterPaginationItemDto): Promise<MapItemsAndInventory[]> {
+    const { filter, pagination }: FilterPaginationItemDto = filterPaginationItemDto;
     try {
       const promiseOne = this.itemModel
         .find({
@@ -53,31 +47,17 @@ export class ItemsRepository {
       const promiseTwo = this.getAllToCalculateInventory();
       const promiseThree = this.getAllToCalculateAvailableInventory();
 
-      const [items, inventory, availableInventory] = await Promise.all([
-        promiseOne,
-        promiseTwo,
-        promiseThree,
-      ]);
+      const [items, inventory, availableInventory] = await Promise.all([promiseOne, promiseTwo, promiseThree]);
 
       const listInventory: number[] = calculateListInventory(items, inventory);
-      const listAvailableInventory: number[] = calculateListAvailableInventory(
-        items,
-        availableInventory,
-      );
-      return this.mapItemInventoryAInventory(
-        items,
-        listInventory,
-        listAvailableInventory,
-      );
+      const listAvailableInventory: number[] = calculateListAvailableInventory(items, availableInventory);
+      return this.mapItemInventoryAInventory(items, listInventory, listAvailableInventory);
     } catch (error) {
       throw new BadRequestException('Bad request');
     }
   }
 
-  async updateItem(
-    id: string,
-    updateItemDto: UpdateItemDto,
-  ): Promise<ItemDocument> {
+  async updateItem(id: string, updateItemDto: UpdateItemDto): Promise<ItemDocument> {
     const { sku, name } = updateItemDto;
     try {
       const result = await this.itemModel.findOneAndUpdate(
@@ -120,19 +100,15 @@ export class ItemsRepository {
     try {
       const filter: object = {
         active: activeOption,
-        status: Status.COMPLETED,
+        status: EStatus.COMPLETED,
       };
       const inboundsCompleted = this.inboundModel.find(filter);
       const outboundsCompleted = this.outboundModel.find(filter);
       const outboundsNew = this.outboundModel.find({
         ...filter,
-        status: Status.NEW,
+        status: EStatus.NEW,
       });
-      return await Promise.all([
-        inboundsCompleted,
-        outboundsCompleted,
-        outboundsNew,
-      ]);
+      return await Promise.all([inboundsCompleted, outboundsCompleted, outboundsNew]);
     } catch (error) {
       throw new BadRequestException('Bad request');
     }
@@ -153,8 +129,7 @@ export class ItemsRepository {
         .in(IdDto)
         .exec();
 
-      if (IdDto.length !== IdDb.length)
-        throw new BadRequestException('Invalid item id');
+      if (IdDto.length !== IdDb.length) throw new BadRequestException('Invalid item id');
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -164,19 +139,15 @@ export class ItemsRepository {
     try {
       const filter: object = {
         active: activeOption,
-        status: Status.COMPLETED,
+        status: EStatus.COMPLETED,
       };
       const inboundsCompleted = this.inboundModel.find(filter);
       const outboundsCompleted = this.outboundModel.find(filter);
       const inboundsNew = this.inboundModel.find({
         ...filter,
-        status: Status.NEW,
+        status: EStatus.NEW,
       });
-      return await Promise.all([
-        inboundsCompleted,
-        outboundsCompleted,
-        inboundsNew,
-      ]);
+      return await Promise.all([inboundsCompleted, outboundsCompleted, inboundsNew]);
     } catch (error) {
       throw new BadRequestException('Bad request');
     }
@@ -207,8 +178,7 @@ export class ItemsRepository {
 
     orders.flat(2).map((order) => {
       order.items.map((item) => {
-        if (item.id === id)
-          throw new BadRequestException('This item has been ordered');
+        if (item.id === id) throw new BadRequestException('This item has been ordered');
       });
     });
   }
