@@ -46,6 +46,15 @@ export class Item {
 
   @Prop(String)
   supplier: string;
+
+  @Prop(Number)
+  length: number;
+
+  @Prop(Number)
+  width: number;
+
+  @Prop(Number)
+  height: number;
 }
 
 export const ItemSchema = SchemaFactory.createForClass(Item);

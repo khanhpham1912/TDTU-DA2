@@ -55,4 +55,16 @@ export class CreateUpdateItemDto {
   @IsString()
   @ApiProperty()
   supplier: string;
+
+  @IsNumber()
+  @ApiProperty()
+  length: number;
+
+  @IsNumber()
+  @ApiProperty()
+  width: number;
+
+  @IsNumber()
+  @ApiProperty()
+  height: number;
 }
