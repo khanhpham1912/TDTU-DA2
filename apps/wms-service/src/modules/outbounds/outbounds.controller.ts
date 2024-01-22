@@ -14,20 +14,14 @@ import { OutboundDocument } from './schemas/outbound.schema';
 export class OutboundsController {
   constructor(private readonly outboundsService: OutboundsService) {}
 
-  @Post('create')
-  async create(
-    @Body() createOutboundDto: CreateOutboundDto,
-  ): Promise<OutboundDocument> {
+  @Post()
+  async create(@Body() createOutboundDto: CreateOutboundDto): Promise<OutboundDocument> {
     return await this.outboundsService.create(createOutboundDto);
   }
 
   @Post('search')
-  async findByOption(
-    @Body() filterPaginationOutboundDto: FilterPaginationOutboundDto,
-  ): Promise<OutboundDocument[]> {
-    return await this.outboundsService.findByOption(
-      filterPaginationOutboundDto,
-    );
+  async findByOption(@Body() filterPaginationOutboundDto: FilterPaginationOutboundDto): Promise<OutboundDocument[]> {
+    return await this.outboundsService.findByOption(filterPaginationOutboundDto);
   }
 
   @Put(':id')
@@ -35,24 +29,16 @@ export class OutboundsController {
     @Param('id', new IsObjectIdPipe()) id: string,
     @Body() updateStatusOutboundDto: UpdateStatusOutboundDto,
   ): Promise<OutboundDocument> {
-    return await this.outboundsService.updateInboundStatus(
-      id,
-      updateStatusOutboundDto,
-    );
+    return await this.outboundsService.updateInboundStatus(id, updateStatusOutboundDto);
   }
 
-  @Put('update/:id')
-  async updateOutbound(
-    @Param('id', new IsObjectIdPipe()) id: string,
-    @Body() updateOutboundDto: UpdateOutboundDto,
-  ) {
+  @Put(':id/update')
+  async updateOutbound(@Param('id', new IsObjectIdPipe()) id: string, @Body() updateOutboundDto: UpdateOutboundDto) {
     return await this.outboundsService.updateOutbound(id, updateOutboundDto);
   }
 
   @Delete(':id')
-  async softDelete(
-    @Param('id', new IsObjectIdPipe()) id: string,
-  ): Promise<OutboundDocument> {
+  async softDelete(@Param('id', new IsObjectIdPipe()) id: string): Promise<OutboundDocument> {
     return await this.outboundsService.softDelete(id);
   }
 }

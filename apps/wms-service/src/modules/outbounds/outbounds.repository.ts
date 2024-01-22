@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import activeOption from 'src/config/active.config';
-import { Status } from 'src/enums/status.enum';
+import { EStatus } from 'src/enums/status.enum';
 import { BadRequestException } from 'src/exceptions/bad.request.exception';
 import { ResponseAvailableInventoryType } from 'src/types/response.available.inventory.type';
 import { isListAvailableInventoryPositive } from 'src/utils/calculate.util';
@@ -20,9 +20,7 @@ export class OutboundsRepository {
     @Inject(ItemsRepository) private readonly itemsRepository: ItemsRepository,
   ) {}
 
-  async create(
-    createOutboundDto: CreateOutboundDto,
-  ): Promise<OutboundDocument> {
+  async create(createOutboundDto: CreateOutboundDto): Promise<OutboundDocument> {
     const { items }: CreateOutboundDto = createOutboundDto;
     try {
       await this.itemsRepository.isIdDtoMatchesIdDb(items);
@@ -39,11 +37,8 @@ export class OutboundsRepository {
     }
   }
 
-  async findByOption(
-    filterPaginationOutboundDto: FilterPaginationOutboundDto,
-  ): Promise<OutboundDocument[]> {
-    const { filter, pagination }: FilterPaginationOutboundDto =
-      filterPaginationOutboundDto;
+  async findByOption(filterPaginationOutboundDto: FilterPaginationOutboundDto): Promise<OutboundDocument[]> {
+    const { filter, pagination }: FilterPaginationOutboundDto = filterPaginationOutboundDto;
     try {
       return await this.outboundModel
         .find({
@@ -52,20 +47,17 @@ export class OutboundsRepository {
         })
         .limit(pagination.perPage)
         .skip(pagination.perPage * pagination.page)
-        .exec();
+        .lean();
     } catch (error) {
       throw new BadRequestException('Bad request');
     }
   }
 
-  async updateInboundStatus(
-    id: string,
-    updateStatusOutboundDto: UpdateStatusOutboundDto,
-  ): Promise<OutboundDocument> {
+  async updateInboundStatus(id: string, updateStatusOutboundDto: UpdateStatusOutboundDto): Promise<OutboundDocument> {
     const statusChange: string = updateStatusOutboundDto.status;
     try {
       const outbound = await this.outboundModel.findOneAndUpdate(
-        { _id: id, active: activeOption, status: Status.NEW },
+        { _id: id, active: activeOption, status: EStatus.NEW },
         { status: statusChange },
         { new: true },
       );
@@ -78,15 +70,12 @@ export class OutboundsRepository {
     }
   }
 
-  async updateOutbound(
-    id: string,
-    updateOutboundDto: UpdateOutboundDto,
-  ): Promise<OutboundDocument> {
+  async updateOutbound(id: string, updateOutboundDto: UpdateOutboundDto): Promise<OutboundDocument> {
     try {
       const { items }: UpdateOutboundDto = updateOutboundDto;
       await this.itemsRepository.isIdDtoMatchesIdDb(items);
       const outbound = await this.outboundModel.findOneAndUpdate(
-        { _id: id, active: activeOption, status: Status.NEW },
+        { _id: id, active: activeOption, status: EStatus.NEW },
         {
           items: items,
         },
@@ -106,7 +95,7 @@ export class OutboundsRepository {
   async softDelete(id: string): Promise<OutboundDocument> {
     try {
       const outbound = await this.outboundModel.findOneAndUpdate(
-        { _id: id, status: Status.NEW, active: activeOption },
+        { _id: id, status: EStatus.NEW, active: activeOption },
         {
           active: false,
         },
