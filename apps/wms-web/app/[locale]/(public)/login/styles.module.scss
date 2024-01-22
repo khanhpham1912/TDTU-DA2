@@ -1,0 +1,39 @@
+.login-container {
+  flex: 1;
+  height: 100%;
+  max-height: calc(100vh - 48px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-bg-menu);
+}
+
+.login-content {
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+  max-width: 30rem;
+}
+
+.login-form {
+  padding: 2rem 4rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media only screen and (max-width: 430px) {
+  .login-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .login-form {
+    padding: 4rem 2rem 0;
+    gap: 16px;
+  }
+}
