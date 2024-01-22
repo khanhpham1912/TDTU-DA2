@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const path = require("path");
-const withNextIntl = require('next-intl/plugin')();
-
+const withNextIntl = require('next-intl/plugin')(
+  './i18n.js'
+);
 const nextConfig = {
   env: {
     API_URL: process.env.API_URL,

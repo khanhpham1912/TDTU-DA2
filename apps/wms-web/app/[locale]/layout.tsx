@@ -1,7 +1,7 @@
 import "@/styles/global.scss";
 import { Inter } from "next/font/google";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { NextIntlClientProvider } from "next-intl";
+import { NextIntlClientProvider, useMessages } from "next-intl";
 import { Providers } from "./providers";
 import { notFound } from "next/navigation";
 
@@ -16,21 +16,17 @@ const inter = Inter({
   display: "swap",
 });
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
   params: { locale },
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  let messages;
-  try {
-    messages = (await import(`@/locales/${locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
+  const messages = useMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${inter.variable}`}>
         <AntdRegistry>
           <NextIntlClientProvider locale={locale} messages={messages}>

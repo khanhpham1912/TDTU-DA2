@@ -9,13 +9,13 @@ type ContextProps = {
   breadcrumbs?: {
     items?: Breadcrumb[];
   };
-  setBreadcrumbs?: Function;
+  setBreadcrumbs?: any;
 
   selectedMenu?: string;
-  setSelectedMenu?: Function;
+  setSelectedMenu?: any;
 
   openedMenu?: string;
-  setOpenedMenu?: Function;
+  setOpenedMenu?: any;
 };
 
 const CommonContext = createContext<Partial<ContextProps>>({});

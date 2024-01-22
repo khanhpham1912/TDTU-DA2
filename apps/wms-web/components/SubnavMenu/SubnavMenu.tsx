@@ -13,7 +13,7 @@ import CommonContext from "@/contexts/CommonContext";
 
 // hooks
 import { useTranslations } from "next-intl";
-import { LogoIcon, WareflexIcon } from "@/icons";
+import { Logo } from "@/icons";
 
 const { Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -127,20 +127,6 @@ const SubNavMenu = (props: Props) => {
           article
         </span>
       ),
-      getItem(
-        <Link href="/setting-page">{t("Setting")}</Link>,
-        "SETTING",
-        <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
-          settings
-        </span>
-      ),
-      // getItem(
-      //   <Link href="/settings">{t("Setting")}</Link>,
-      //   "SETTING",
-      //   <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
-      //     settings
-      //   </span>
-      // ),
     ];
   }, [t]);
 
@@ -178,8 +164,7 @@ const SubNavMenu = (props: Props) => {
       }
     >
       <div className={styles["app-logo"]}>
-        <LogoIcon />
-        {!collapsed && <WareflexIcon />}
+        <Logo/>
       </div>
       <Menu
         mode={"inline"}

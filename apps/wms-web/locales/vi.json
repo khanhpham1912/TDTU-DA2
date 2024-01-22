@@ -1,5 +1,5 @@
 {
-  "Welcome back": "Welcome back",
+  "Welcome back": "Chào mừng trở lại",
   "WMS - Warehouse Management System": "WMS - Warehouse Management System",
   "Please enter username": "Please enter username",
   "Please enter password": "Please enter password",
@@ -16,5 +16,6 @@
   "Shipment": "Shipment",
   "Vehicle schedule": "Vehicle schedule",
   "Shipment report": "Shipment report",
-  "Setting": "Setting"
+  "Setting": "Setting",
+  "Login session has expired": "Login session has expired"
 }

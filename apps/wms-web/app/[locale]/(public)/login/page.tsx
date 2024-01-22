@@ -7,10 +7,9 @@ import { Form, Row, Col, Input, Button, Spin } from "antd";
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import BackGround from "@/icons/login/BackGround";
 
 // services
-import { getUserInfo, login } from "@/services/authenticate.service";
+import { login } from "@/services/authenticate.service";
 
 // hooks
 import { useCallback, useState } from "react";
@@ -65,11 +64,9 @@ const LoginPage = ({
     <div className={styles["login-container"]}>
       <div className={styles["login-content"]}>
         <div className={styles["login-form"]}>
-          <div className="d-flex column gap-8 align-center">
-            <span className="text-h2 text-500 color-character-primary">
-              {t("Welcome back")}
-            </span>
-            <span className="text-body color-neutral-700">
+          <div className="flex flex-col gap-3 items-center">
+            <span className="text-3xl font-medium">{t("Welcome back")}</span>
+            <span className="text-base text-gray-500">
               {t("WMS - Warehouse Management System")}
             </span>
           </div>
@@ -127,7 +124,7 @@ const LoginPage = ({
             </Form>
           </Spin>
         </div>
-        <BackGround />
+        {/* <BackGround /> */}
       </div>
     </div>
   );

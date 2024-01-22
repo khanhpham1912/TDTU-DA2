@@ -16,6 +16,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "i18next-scanner.config.js"
-  ],
+, "i18n.js"  ],
   "exclude": ["node_modules"]
 }
