@@ -6,6 +6,7 @@
       "dependsOn": ["^build"]
     },
     "lint": {},
-    "local": {}
+    "local": {},
+    "scani18n": {}
   }
 }

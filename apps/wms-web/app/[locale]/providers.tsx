@@ -36,7 +36,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ConfigProvider
       theme={{
-        algorithm: theme.defaultAlgorithm,
+        // algorithm: theme.defaultAlgorithm,
         ...themeConfig,
       }}
     >

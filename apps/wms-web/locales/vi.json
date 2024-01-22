@@ -1,0 +1,21 @@
+{
+  "Welcome back": "Chào mừng trở lại",
+  "WMS - Warehouse Management System": "WMS - Warehouse Management System",
+  "Please enter username": "Please enter username",
+  "Please enter password": "Please enter password",
+  "Login": "Login",
+  "Dashboard": "Dashboard",
+  "Data master": "Data master",
+  "Items": "Items",
+  "Driver": "Driver",
+  "Truck": "Truck",
+  "CRM": "CRM",
+  "Partner": "Partner",
+  "Operation": "Operation",
+  "Order": "Order",
+  "Shipment": "Shipment",
+  "Vehicle schedule": "Vehicle schedule",
+  "Shipment report": "Shipment report",
+  "Setting": "Setting",
+  "Login session has expired": "Login session has expired"
+}

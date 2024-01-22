@@ -1,8 +1,15 @@
 /** @type {import('next').NextConfig} */
-
+const path = require("path");
+const withNextIntl = require('next-intl/plugin')(
+  './i18n.js'
+);
 const nextConfig = {
   env: {
     API_URL: process.env.API_URL,
+  },
+  output: "standalone",
+  experimental: {
+    outputFileTracingRoot: path.join(__dirname, "../../"),
   },
   reactStrictMode: false,
   async redirects() {
@@ -15,4 +22,4 @@ const nextConfig = {
     ];
   },
 }
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

@@ -1,8 +1,8 @@
+@use "reset";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@use "base/reset";
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 
 :root {
   --color-primary: #1eb980;
@@ -53,4 +53,35 @@
 
   --width-menu: 208px;
   --width-menu-collapsed: 80px;
+}
+
+.app-content {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 16px;
+  overflow-y: auto;
+  flex-grow: 1;
+
+  &__core {
+    background: var(--color-bg-menu);
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 8px;
+    flex-grow: 1;
+  }
+  & > div[class*="ant-tabs"] {
+    height: 100%;
+    & > div[class*="ant-tabs-content-holder"] {
+      overflow-y: auto;
+    }
+  }
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 24,
+    "wght" 300,
+    "GRAD" 0,
+    "opsz" 0;
 }
