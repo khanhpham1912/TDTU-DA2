@@ -45,7 +45,7 @@ const LanguageSwitch = () => {
   return (
     <Dropdown menu={{ items }}>
       <div className="flex gap-2 cursor-pointer">
-        <GlobalOutlined style={{ fontSize: 20, color: "#fff" }} />
+        <GlobalOutlined style={{ fontSize: 20, color: "#8d97a6" }} />
       </div>
     </Dropdown>
   );

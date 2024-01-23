@@ -5,7 +5,7 @@
   justify-content: center;
   width: 100%;
   height: 70px;
-  color: var(--color-primary);
+  color: #fff;
   cursor: pointer;
 }
 
@@ -50,10 +50,12 @@
 
     .ant-menu-item-selected {
       background: #3d424c !important;
-      color: #01a38a !important;
+      color: #fff !important;
 
       &:hover {
-        color: #01a38a !important;
+        background: #3d424c !important;
+
+        // color: #01a38a !important;
       }
     }
 

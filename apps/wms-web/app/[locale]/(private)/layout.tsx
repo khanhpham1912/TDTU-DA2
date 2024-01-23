@@ -5,11 +5,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 // contexts
 import { usePathname, useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { validateJwtToken } from "@/utils/jwt.utility";
-import { pushNotify } from "@/utils/toast";
 import { useTranslations } from "next-intl";
-import SubnavMenu from "@/components/SubnavMenu";
+import { PrivateHeader, SubnavMenu } from "@/components";
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   const t = useTranslations();
@@ -60,11 +57,11 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
     <div className={styles["app-container"]}>
       <SubnavMenu
         collapsed={collapsed}
-        subNavMenuWidth={208}
+        subNavMenuWidth={238}
         handleChangeCollapsed={handleChangeCollapsed}
       />
       <main className={styles["app-main__outer"]}>
-        {/* <Header /> */}
+        <PrivateHeader />
         {children}
       </main>
     </div>

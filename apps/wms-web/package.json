@@ -23,6 +23,7 @@
     "antd": "^5.12.8",
     "autoprefixer": "^10.4.16",
     "axios": "^1.6.4",
+    "classnames": "^2.5.1",
     "i18next-scanner": "^4.4.0",
     "next": "^14.0.3",
     "next-intl": "^3.5.0",

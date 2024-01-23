@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useContext, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import styles from "./styles.module.scss";
 
 // components
@@ -13,7 +13,6 @@ import CommonContext from "@/contexts/CommonContext";
 
 // hooks
 import { useTranslations } from "next-intl";
-import { Logo } from "@/icons";
 
 const { Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -60,88 +59,33 @@ interface Props {
 const SubNavMenu = (props: Props) => {
   const { collapsed, subNavMenuWidth } = props;
   const t = useTranslations();
-  const { selectedMenu, openedMenu, setOpenedMenu } = useContext(CommonContext);
-
-  const renderMenuKeys = () => {
-    if (collapsed) return;
-    if (Array.isArray(openedMenu)) return openedMenu;
-    return [openedMenu as string];
-  };
+  const { selectedMenu } = useContext(CommonContext);
 
   const items: MenuItem[] = useMemo(() => {
     return [
       getItem(
-        <Link href="/dashboard">{t("Dashboard")}</Link>,
-        "DASHBOARD",
+        <Link href="/items">{t("Items")}</Link>,
+        "ITEMS",
         <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
-          dashboard
+          article
         </span>
       ),
-      getSubMenu(
-        <span>{t("Data master")}</span>,
-        "DATA_MASTER",
+      getItem(
+        <Link href="/inbound">{t("Inbound")}</Link>,
+        "INBOUND",
         <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
-          database
-        </span>,
-        [
-          getItem(<Link href="/data-master/items">{t("Items")}</Link>, "ITEM"),
-          getItem(
-            <Link href="/data-master/driver">{t("Driver")}</Link>,
-            "DRIVER"
-          ),
-          getItem(<Link href="/data-master/truck">{t("Truck")}</Link>, "TRUCK"),
-        ]
-      ),
-      getSubMenu(
-        <span>{t("CRM")}</span>,
-        "CRM",
-        <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
-          group
-        </span>,
-        [getItem(<Link href="/crm/partner">{t("Partner")}</Link>, "PARTNER")]
-      ),
-      getSubMenu(
-        <span>{t("Operation")}</span>,
-        "OPERATION",
-        <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
-          view_quilt
-        </span>,
-        [
-          getItem(<Link href="/operation/order">{t("Order")}</Link>, "ORDER"),
-          getItem(
-            <Link href="/operation/shipment">{t("Shipment")}</Link>,
-            "SHIPMENT"
-          ),
-          getItem(
-            <Link href="/operation/vehicle-schedule">
-              {t("Vehicle schedule")}
-            </Link>,
-            "VEHICLE_SCHEDULE"
-          ),
-        ]
+          article
+        </span>
       ),
       getItem(
-        <Link href="/shipment-report">{t("Shipment report")}</Link>,
-        "SHIPMENT_REPORT",
+        <Link href="/outbound">{t("Outbound")}</Link>,
+        "OUTBOUND",
         <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
           article
         </span>
       ),
     ];
   }, [t]);
-
-  const handleOpenChange = useCallback(
-    (openKeys: string[]) => {
-      const oldOpenedMenu = Array.isArray(openedMenu)
-        ? openedMenu
-        : [openedMenu];
-      const newOpenedMenu = openKeys.filter(
-        (item) => !oldOpenedMenu.includes(item)
-      );
-      setOpenedMenu(newOpenedMenu);
-    },
-    [openedMenu, setOpenedMenu]
-  );
 
   return (
     <Sider
@@ -164,17 +108,24 @@ const SubNavMenu = (props: Props) => {
       }
     >
       <div className={styles["app-logo"]}>
-        <Logo/>
+        {collapsed ? (
+          <span className="material-symbols-outlined text-5xl">warehouse</span>
+        ) : (
+          <>
+            <span className="material-symbols-outlined text-4xl">
+              warehouse
+            </span>
+            <span>WMS</span>
+          </>
+        )}
       </div>
       <Menu
         mode={"inline"}
         selectedKeys={
           Array.isArray(selectedMenu) ? selectedMenu : [selectedMenu as string]
         }
-        openKeys={renderMenuKeys()}
         style={{ height: "100%", borderRight: 0 }}
         items={items}
-        onOpenChange={handleOpenChange}
       />
     </Sider>
   );

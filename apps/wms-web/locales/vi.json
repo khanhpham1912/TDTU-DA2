@@ -17,5 +17,7 @@
   "Vehicle schedule": "Vehicle schedule",
   "Shipment report": "Shipment report",
   "Setting": "Setting",
-  "Login session has expired": "Login session has expired"
+  "Login session has expired": "Login session has expired",
+  "Inbound": "Inbound",
+  "Outbound": "Outbound"
 }

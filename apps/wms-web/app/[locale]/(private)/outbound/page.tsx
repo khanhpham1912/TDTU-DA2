@@ -7,7 +7,7 @@ export default function Items() {
   const t = useTranslations();
 
   useBreadcrumb({
-    selectedMenu: "ITEMS",
+    selectedMenu: "OUTBOUND",
   });
   return <></>;
 }
