@@ -1,9 +1,9 @@
 import "@/styles/global.scss";
+import React from "react";
 import { Inter } from "next/font/google";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 import { Providers } from "./providers";
-import { notFound } from "next/navigation";
 
 export const metadata = {
   title: "WMS",

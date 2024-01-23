@@ -13,7 +13,6 @@ axios.interceptors.request.use(
       config.headers["locale"] = locale;
     }
     const token = await localStorage.getItem("token");
-    const companyNo = await localStorage.getItem("companyNo");
     if (token) {
       config.headers["Authorization"] = token;
     }
@@ -26,7 +25,7 @@ function httpClient<T>(
   path: string,
   config?: AxiosRequestConfig & { internal?: boolean }
 ): Promise<T> {
-  const apiUrl = process.env.TMS_API_URL + path;
+  const apiUrl = process.env.API_URL + path;
 
   return new Promise((res, rej) =>
     axios({ url: apiUrl, ...config })

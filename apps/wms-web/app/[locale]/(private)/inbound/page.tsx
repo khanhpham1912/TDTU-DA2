@@ -7,7 +7,7 @@ export default function Items() {
   const t = useTranslations();
 
   useBreadcrumb({
-    selectedMenu: "ITEMS",
+    selectedMenu: "INBOUND",
   });
-  return <div className="app-content">items</div>;
+  return <></>;
 }
