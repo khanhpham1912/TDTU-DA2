@@ -14,16 +14,12 @@ import { login } from "@/services/authenticate.service";
 // hooks
 import { useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useLocalStorage } from "usehooks-ts";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
-import { useQuery } from "@tanstack/react-query";
 
 // utils
 import { pushNotify } from "@/utils/toast";
 
 // contexts
-import CommonContext from "@/contexts/CommonContext";
 
 const LoginPage = ({
   searchParams,
@@ -41,11 +37,12 @@ const LoginPage = ({
       setLoading(true);
       const values = await form.validateFields();
       const loginResponse = await login(values);
-      if (loginResponse?.success) {
-        setToken(loginResponse.token);
-        localStorage.setItem("token", loginResponse.token);
-        if (searchParams?.callback) {
-          router.push(searchParams?.callback as string);
+
+      if (loginResponse?.access_token) {
+        localStorage.setItem("userInfo", values?.username);
+        localStorage.setItem("token", loginResponse.access_token);
+        if (searchParams?.callbackUrl) {
+          router.push(decodeURIComponent(searchParams?.callbackUrl as string));
         } else {
           router.push("/items");
         }

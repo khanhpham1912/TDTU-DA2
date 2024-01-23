@@ -7,6 +7,8 @@ import { useLocalStorage } from "usehooks-ts";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { PrivateHeader, SubnavMenu } from "@/components";
+import { validateJwtToken } from "@/utils/jwt.utility";
+import { pushNotify } from "@/utils/toast";
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   const t = useTranslations();
@@ -25,35 +27,20 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
     setMounted(true);
   }, []);
 
-  // useEffect(() => {
-  //   validateJwtToken().then((isValidToken) => {
-  //     if (!isValidToken) {
-  //       pushNotify(t("Login session has expired"), { type: "warning" });
-  //       router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
-  //     }
-  //   });
-  // }, [pathname, router]);
-
-  // useQuery({
-  //   queryKey: ["valid-token"],
-  //   queryFn: validateJwtToken,
-  //   refetchOnWindowFocus: true,
-  //   onSuccess: (validToken) => {
-  //     if (!validToken) {
-  //       router.push(`/login?callbackUrl=${pathname}`);
-  //     }
-  //   },
-  //   onError: () => {
-  //     router.push(`/login?callbackUrl=${pathname}`);
-  //   },
-  // });
+  useEffect(() => {
+    validateJwtToken().then((isValidToken) => {
+      if (!isValidToken) {
+        pushNotify(t("Login session has expired"), { type: "warning" });
+        router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
+      }
+    });
+  }, [pathname, router]);
 
   if (!mounted) {
     return null;
   }
 
   return (
-    // <></>
     <div className={styles["app-container"]}>
       <SubnavMenu
         collapsed={collapsed}

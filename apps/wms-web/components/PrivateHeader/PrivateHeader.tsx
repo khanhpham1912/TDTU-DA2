@@ -11,15 +11,20 @@ import LanguageSwitch from "@/components/LanguageSwitch";
 
 // hooks
 import { useMemo } from "react";
-import { useReadLocalStorage } from "usehooks-ts";
 
 // interfaces
 import type { MenuProps } from "antd";
+import { useRouter } from "next/navigation";
 
 // contexts
 
 const Header = ({ style }: { style?: React.CSSProperties }) => {
-  const userInfoLocal: any = useReadLocalStorage("userInfo");
+  const { push } = useRouter();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    push("/login");
+  };
 
   const items: MenuProps["items"] = useMemo(() => {
     return [
@@ -34,7 +39,7 @@ const Header = ({ style }: { style?: React.CSSProperties }) => {
             />
 
             <div className={styles["user-info"]}>
-              <span>TODO: mail</span>
+              <span>{localStorage.getItem("userInfo")}</span>
             </div>
           </div>
         ),
@@ -50,7 +55,7 @@ const Header = ({ style }: { style?: React.CSSProperties }) => {
               styles["menu-item"],
               styles["menu-item-logout"]
             )}
-            onClick={() => {}}
+            onClick={handleLogout}
           >
             <span>{`Logout`}</span>
           </div>
@@ -63,9 +68,8 @@ const Header = ({ style }: { style?: React.CSSProperties }) => {
     <header className={styles["app-header"]} style={style}>
       <div className={styles["app-header__right"]}>
         <LanguageSwitch />
-
         <Dropdown menu={{ items }} trigger={["click"]}>
-          <a onClick={(e) => e.preventDefault()} className="pointer">
+          <a onClick={(e) => e.preventDefault()} className="cursor-pointer">
             <Avatar
               size={32}
               src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"

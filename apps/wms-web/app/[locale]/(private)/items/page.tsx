@@ -9,5 +9,5 @@ export default function Items() {
   useBreadcrumb({
     selectedMenu: "ITEMS",
   });
-  return <></>;
+  return <div className="app-content">items</div>;
 }
