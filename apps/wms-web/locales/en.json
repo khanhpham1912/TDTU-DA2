@@ -23,5 +23,13 @@
   "Please select": "Please select",
   "Search": "Search",
   "Add": "Add",
-  "Total": "Total"
+  "Total": "Total",
+  "UOM": "UOM",
+  "Product type": "Product type",
+  "Name": "Name",
+  "Weight": "Weight",
+  "Production date": "Production date",
+  "Expire date": "Expire date",
+  "Supplier": "Supplier",
+  "Remark": "Remark"
 }

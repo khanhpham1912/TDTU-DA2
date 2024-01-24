@@ -53,6 +53,7 @@ interface Props {
   extraFilterRight?: JSX.Element;
   extraFilterLeft?: JSX.Element;
   rowKey?: any;
+  dataSource?: any;
 }
 
 const PostTable = ({
@@ -68,17 +69,15 @@ const PostTable = ({
     columns,
     filterOptions,
     queryConfig,
-    // exportConfig,
-    // exportOptions,
     searchPlaceholder,
     showIndex,
     onClickAdd,
-    // onClickImport,
     addText,
     addIcon,
     hardcodeFilter,
     extraFilterRight,
     extraFilterLeft,
+    dataSource,
     ...rest
   } = props;
 
@@ -146,7 +145,7 @@ const PostTable = ({
         <Table
           pagination={false}
           columns={mergeColumns as any}
-          dataSource={tableQuery?.data?.data?.docs}
+          dataSource={dataSource ?? tableQuery?.data?.data?.docs}
           loading={tableQuery?.isFetching}
           rowKey="_id"
           scroll={{
