@@ -19,5 +19,9 @@
   "Setting": "Setting",
   "Login session has expired": "Login session has expired",
   "Inbound": "Inbound",
-  "Outbound": "Outbound"
+  "Outbound": "Outbound",
+  "Please select": "Please select",
+  "Search": "Search",
+  "Add": "Add",
+  "Total": "Total"
 }

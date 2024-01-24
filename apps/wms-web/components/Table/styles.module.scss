@@ -82,3 +82,15 @@
     transform: translate(0%, 0%) !important;
   }
 }
+
+.search {
+  width: 200px !important;
+  :global {
+    .ant-input-search-button {
+      border-left: none;
+    }
+    .anticon-search {
+      color: var(--color-neutral-400);
+    }
+  }
+}
