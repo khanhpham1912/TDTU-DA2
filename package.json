@@ -7,16 +7,16 @@
   },
   "devDependencies": {
     "@types/estree": "^1.0.1",
-    "eslint": "^8.45.0",
-    "eslint-config-custom": "*",
-    "eslint-plugin-prettier": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
+    "eslint": "^8.45.0",
+    "eslint-config-custom": "*",
     "eslint-config-prettier": "^8.8.0",
-    "rimraf": "^5.0.1",
-    "typescript": "5.1.6",
+    "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.1.0",
-    "turbo": "latest"
+    "rimraf": "^5.0.1",
+    "turbo": "latest",
+    "typescript": "5.1.6"
   },
   "packageManager": "pnpm@8.9.0",
   "engines": {
@@ -24,5 +24,9 @@
   },
   "workspaces": [
     "apps/*"
-  ]
+  ],
+  "dependencies": {
+    "flag": "^5.0.1",
+    "typeid-js": "^0.5.0"
+  }
 }
