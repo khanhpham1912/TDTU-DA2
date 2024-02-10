@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 
 // components
 import type { MenuProps } from "antd";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Tooltip } from "antd";
 import Link from "next/link";
 
 // icons
@@ -78,46 +78,25 @@ const SubNavMenu = (props: Props) => {
         </span>
       ),
       getItem(
-        <Link href="/outbound">{t("Outbound")}</Link>,
+        <Tooltip title={t("Outbound")} placement="right">
+          {" "}
+          <Link href="/outbound" />{" "}
+        </Tooltip>,
+
         "OUTBOUND",
+        // <Tooltip title={t("Outbound")} placement="right">
         <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
           article
         </span>
+        // </Tooltip>
       ),
     ];
   }, [t]);
 
   return (
-    <Sider
-      width={subNavMenuWidth}
-      className={styles["app-sidebar"]}
-      collapsible
-      collapsed={collapsed}
-      trigger={
-        collapsed ? (
-          <MenuUnfoldOutlined
-            className="pointer text-h5"
-            onClick={props.handleChangeCollapsed}
-          />
-        ) : (
-          <MenuFoldOutlined
-            className="pointer text-h5"
-            onClick={props.handleChangeCollapsed}
-          />
-        )
-      }
-    >
+    <Sider width={80} className={styles["app-sidebar"]}>
       <div className={styles["app-logo"]}>
-        {collapsed ? (
-          <span className="material-symbols-outlined text-5xl">warehouse</span>
-        ) : (
-          <>
-            <span className="material-symbols-outlined text-4xl">
-              warehouse
-            </span>
-            <span>WMS</span>
-          </>
-        )}
+        <span className="material-symbols-outlined text-5xl">warehouse</span>
       </div>
       <Menu
         mode={"inline"}

@@ -41,17 +41,17 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className={styles["app-container"]}>
+    // <div className={styles["app-container"]}>
+    <main className={styles["app-main__outer"]}>
       <SubnavMenu
-        collapsed={collapsed}
+        // collapsed={collapsed}
         subNavMenuWidth={238}
         handleChangeCollapsed={handleChangeCollapsed}
       />
-      <main className={styles["app-main__outer"]}>
-        <PrivateHeader />
-        {children}
-      </main>
-    </div>
+      {/* <PrivateHeader /> */}
+      {children}
+    </main>
+    // </div>
   );
 };
 
