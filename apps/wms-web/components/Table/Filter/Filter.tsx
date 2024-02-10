@@ -63,20 +63,22 @@ const Filter = ({ form, filterOptions, onSubmitFilter }: Props) => {
   return (
     <Form
       form={form}
-      layout="vertical"
+      layout="horizontal"
       onValuesChange={() => handleSubmitFilter()}
     >
-      <Row>
+      <div className="flex gap-2">
         {filterOptions?.map((filter, key) => {
           return (
-            <Col key={key} xs={24}>
-              <Form.Item name={filter.formName} label={filter.label}>
-                {getFilterItem(filter, t)}
-              </Form.Item>
-            </Col>
+            <Form.Item
+              style={{ marginBottom: "0px" }}
+              name={filter.formName}
+              label={filter.label}
+            >
+              {getFilterItem(filter, t)}
+            </Form.Item>
           );
         })}
-      </Row>
+      </div>
     </Form>
   );
 };

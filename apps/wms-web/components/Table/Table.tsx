@@ -2,15 +2,10 @@ import styles from "./styles.module.scss";
 
 // components
 import { Table, Pagination, Button, Input } from "antd";
-// import FilterTable from "../FilterTable";
-// import { ExportTable } from "../ExportTable";
-// import SettingTable from "../SettingTable";
-// import { EmptyList, NoResultFound, Search } from "@/components/common";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faRotateRight } from "@fortawesome/free-solid-svg-icons";
-// import { DocxIcon, FilterIcon, ReloadIcon } from "@/icons";
 
 // hooks
 import { useTranslations } from "next-intl";
@@ -21,9 +16,6 @@ import type { ColumnsType } from "antd/es/table";
 import Filter from "./Filter";
 import { FilterOption } from "./Filter/filter.config";
 import { SearchOutlined } from "@ant-design/icons";
-// import { FilterOption } from "@/models/filter.model";
-
-// libs
 
 interface Props {
   columns: ColumnsType;
@@ -31,12 +23,6 @@ interface Props {
     queryKey: any;
     queryFn: any;
   };
-  // exportConfig?: {
-  //   mutationFn: any;
-  //   headers: string[];
-  //   fileName: string;
-  // };
-  // exportOptions?: FilterOption[];
   searchPlaceholder?: string;
   scroll?: {
     x?: any;
@@ -45,7 +31,6 @@ interface Props {
   showIndex?: boolean;
   filterOptions?: FilterOption[];
   onClickAdd?: () => void;
-  // onClickImport?: () => void;
   addText?: string;
   addIcon?: React.ReactNode;
   title?: React.ReactNode;
@@ -93,9 +78,8 @@ const PostTable = ({
 
   return (
     <div className="flex flex-col gap-6 h-100">
-      <div className="d-flex gap-4 justify-space-between align-center">
-        <span className="color-neutral-900 text-600 text-h3">{title}</span>
-        <div className="flex gap-4 justify-between">
+      <div className="flex gap-1 justify-between items-center">
+        <div className="flex gap-1 justify-between items-center">
           <Input
             placeholder={searchPlaceholder ?? t("Search")}
             suffix={<SearchOutlined className="text-base" />}
@@ -116,30 +100,26 @@ const PostTable = ({
               className="cursor-pointer"
               onClick={() => tableQuery.refetch()}
             />
-            {/* <ReloadIcon
-              className="material-symbols-outlined color-neutral-500 text-h3 pointer"
-              onClick={() => tableQuery.refetch()}
-            /> */}
-            {onClickAdd && (
-              <Button
-                onClick={onClickAdd}
-                type="primary"
-                icon={
-                  addIcon || (
-                    <FontAwesomeIcon
-                      icon={faPlus}
-                      style={{ color: "#fff", fontSize: 14 }}
-                    />
-                  )
-                }
-              >
-                {addText || t("Add")}
-              </Button>
-            )}
 
             {extraFilterRight}
           </div>
         </div>
+        {onClickAdd && (
+          <Button
+            onClick={onClickAdd}
+            type="primary"
+            icon={
+              addIcon || (
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  style={{ color: "#fff", fontSize: 14 }}
+                />
+              )
+            }
+          >
+            {addText || t("Add")}
+          </Button>
+        )}
       </div>
       <div className={styles.table}>
         <Table
