@@ -328,6 +328,9 @@ importers:
       '@types/node-slack':
         specifier: ^0.0.34
         version: 0.0.34
+      base-models:
+        specifier: workspace:*
+        version: link:../base-models
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10

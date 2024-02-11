@@ -1,17 +1,18 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
-import { E_PRODUCT_TYPE } from "src/enums/product.type.enum";
-import { UOM } from "src/enums/uom.enum";
+import { BaseSchema } from "src/database";
+import { EProductType, UOM } from "wms-models/lib/items";
+import { ModelTokens } from "wms-models/common";
 
 export type ItemDocument = HydratedDocument<Item>;
+
 @Schema({
   timestamps: true,
+  collection: ModelTokens.Item,
+  autoIndex: true,
 })
-export class Item {
-  @Prop({
-    type: String,
-    unique: true,
-  })
+export class Item extends BaseSchema {
+  @Prop(Boolean)
   sku: string;
 
   @Prop(String)
@@ -24,12 +25,9 @@ export class Item {
   uom: UOM;
 
   @Prop(String)
-  type: E_PRODUCT_TYPE;
+  type: EProductType;
 
-  @Prop({
-    default: true,
-    type: Boolean,
-  })
+  @Prop(Boolean)
   active: boolean;
 
   @Prop(Number)

@@ -21,7 +21,9 @@
     "node-slack": "^0.0.7",
     "papaparse": "^5.4.1",
     "qs": "^6.11.2",
-    "typeid-js": "^0.3.0"
+    "typeid-js": "^0.3.0",
+    "base-models": "workspace:*"
+
   },
   "devDependencies": {
     "@types/qs": "^6.9.11"
