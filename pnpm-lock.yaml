@@ -352,6 +352,9 @@ importers:
       typeid-js:
         specifier: ^0.3.0
         version: 0.3.0
+      wms-utils:
+        specifier: workspace:*
+        version: link:../wms-utils
     devDependencies:
       '@types/qs':
         specifier: ^6.9.11

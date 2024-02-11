@@ -8,6 +8,7 @@ import { InboundsModule } from "./inbounds/inbounds.module";
 import { ItemsModule } from "./items/items.module";
 import { OutboundsModule as OutboundModule } from "./outbounds/outbounds.module";
 import { UsersModule } from "./users/users.module";
+import { SupplierModule } from "./supplier/module";
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UsersModule } from "./users/users.module";
     OutboundModule,
     AuthModule,
     UsersModule,
+    SupplierModule,
   ],
   providers: [
     {

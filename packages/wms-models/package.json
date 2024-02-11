@@ -22,7 +22,8 @@
     "papaparse": "^5.4.1",
     "qs": "^6.11.2",
     "typeid-js": "^0.3.0",
-    "base-models": "workspace:*"
+    "base-models": "workspace:*",
+    "wms-utils": "workspace:*"
 
   },
   "devDependencies": {
