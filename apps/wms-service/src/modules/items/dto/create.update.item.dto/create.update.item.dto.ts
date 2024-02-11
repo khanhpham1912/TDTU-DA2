@@ -19,6 +19,7 @@ export class CreateUpdateItemDto extends BaseDto implements Item {
   @IsOptional()
   @IsString()
   name?: string;
+
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()

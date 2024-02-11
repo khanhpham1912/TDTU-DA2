@@ -16,4 +16,7 @@ export class BaseDto implements BaseEntity {
 
   @IsSkip()
   __v: number;
+
+  @IsSkip()
+  deletedAt?: Date;
 }
