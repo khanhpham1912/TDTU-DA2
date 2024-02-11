@@ -12,13 +12,7 @@ export class BaseDto implements BaseEntity {
   createdAt?: Date;
 
   @IsSkip()
-  createdBy?: { _id: string; name: string };
-
-  @IsSkip()
   updatedAt?: Date;
-
-  @IsSkip()
-  updatedBy?: { _id: string; name: string };
 
   @IsSkip()
   __v: number;

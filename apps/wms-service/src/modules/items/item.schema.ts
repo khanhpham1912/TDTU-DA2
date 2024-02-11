@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 import { BaseSchema } from "src/database";
 import { EProductType, UOM } from "wms-models/lib/items";
-import { ModelTokens } from "wms-models/common";
+import { ModelTokens } from "wms-models/lib/common";
 
 export type ItemDocument = HydratedDocument<Item>;
 

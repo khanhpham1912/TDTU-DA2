@@ -1,7 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
-import { E_PRODUCT_TYPE } from 'src/enums/product.type.enum';
-import { UOM } from 'src/enums/uom.enum';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsOptional, IsString } from "class-validator";
+import { EProductType, UOM } from "wms-models/lib/items";
 
 export class FilterItemDto {
   @ApiProperty()
@@ -22,5 +21,5 @@ export class FilterItemDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  type: E_PRODUCT_TYPE;
+  type: EProductType;
 }

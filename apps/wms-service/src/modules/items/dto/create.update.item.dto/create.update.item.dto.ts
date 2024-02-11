@@ -1,70 +1,81 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 import {
   IsDate,
-  IsNotEmpty,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
-  MaxLength,
 } from "class-validator";
-import { E_PRODUCT_TYPE } from "src/enums/product.type.enum";
-import { UOM } from "src/enums/uom.enum";
+import { BaseDto } from "src/dto";
+import { EProductType, Item, UOM } from "wms-models/lib/items";
 
-export class CreateUpdateItemDto {
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(255)
+export class CreateUpdateItemDto extends BaseDto implements Item {
   @ApiProperty()
+  @IsString()
   sku: string;
 
-  @IsString()
+  @ApiPropertyOptional()
   @IsOptional()
-  @MaxLength(255)
-  @ApiProperty()
-  name: string;
-
   @IsString()
+  name?: string;
+  @ApiPropertyOptional()
   @IsOptional()
-  @ApiProperty()
-  description: string;
-
   @IsString()
-  @ApiProperty()
+  description?: string;
+
+  @ApiProperty({ enum: UOM })
+  @IsEnum(UOM)
   uom: UOM;
 
-  @IsString()
-  @ApiProperty()
-  type: E_PRODUCT_TYPE;
+  @ApiProperty({ enum: EProductType })
+  @IsEnum(EProductType)
+  type: EProductType;
 
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsNumber()
-  @ApiProperty()
-  grossWeight: number;
+  @Type(() => Number)
+  grossWeight?: number;
 
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsNumber()
-  @ApiProperty()
-  netWeight: Number;
+  @Type(() => Number)
+  netWeight?: number;
 
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsDate()
-  @ApiProperty()
-  productionDate: Date;
+  @Type(() => Date)
+  productionDate?: Date;
 
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsDate()
-  @ApiProperty()
-  expiryDate: Date;
+  @Type(() => Date)
+  expiryDate?: Date;
 
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
-  @ApiProperty()
-  supplier: string;
+  supplier?: string;
 
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsNumber()
-  @ApiProperty()
-  length: number;
+  @Type(() => Number)
+  length?: number;
 
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsNumber()
-  @ApiProperty()
-  width: number;
+  @Type(() => Number)
+  width?: number;
 
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsNumber()
-  @ApiProperty()
-  height: number;
+  @Type(() => Number)
+  height?: number;
 }
