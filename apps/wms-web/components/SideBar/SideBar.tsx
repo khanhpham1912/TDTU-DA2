@@ -72,7 +72,6 @@ export default function SideBar({
                     </button>
                   </div>
                 </Transition.Child>
-                {/* Sidebar component, swap this element with another sidebar if you like */}
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                   <div className="flex shrink-0 items-center justify-center pt-5 pb-3">
                     <FontAwesomeIcon
@@ -134,7 +133,6 @@ export default function SideBar({
       </Transition.Root>
 
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-56 lg:flex-col">
-        {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
           <div className="flex shrink-0 items-center justify-center pt-5 pb-3">
             <FontAwesomeIcon

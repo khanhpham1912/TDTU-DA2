@@ -1,3 +1,5 @@
+import { E_PRODUCT_TYPE, E_UOM } from "@/enums";
+import { getEnumValues } from "@/utils/enum.utility";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { useBoolean } from "usehooks-ts";
@@ -12,7 +14,12 @@ export default function useItemManagement() {
         label: t("UOM"),
         filterType: "Select",
         selectConfig: {
-          options: [],
+          options: getEnumValues(E_UOM).map((item) => {
+            return {
+              value: item,
+              label: t(item as any),
+            };
+          })
         },
       },
 
@@ -21,7 +28,12 @@ export default function useItemManagement() {
         label: `${t("Product type")}`,
         filterType: "Select",
         selectConfig: {
-          options: [],
+          options: getEnumValues(E_PRODUCT_TYPE).map((item) => {
+            return {
+              value: item,
+              label: t(item as any),
+            };
+          })
         },
       },
     ];

@@ -1,4 +1,4 @@
-export enum UOM {
+export enum E_UOM {
   BAG = 'BAG',
   BUCKET = 'BUCKET',
   BUNDLE = 'BUNDLE',

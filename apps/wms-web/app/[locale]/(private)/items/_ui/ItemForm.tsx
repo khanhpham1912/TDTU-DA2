@@ -1,33 +1,51 @@
+import CommonContext from "@/contexts/CommonContext";
 import {
   Button,
   Col,
   DatePicker,
+  DatePickerProps,
   Drawer,
   Form,
   FormInstance,
   Input,
+  InputNumber,
   Row,
   Select,
   Space,
 } from "antd";
 import { useTranslations } from "next-intl";
+import { useContext } from "react";
+import styles from "./styles.module.scss";
+import { getEnumValues } from "@/utils/enum.utility";
+import { E_OUTBOUND_METHOD, E_PRODUCT_TYPE, E_UOM } from "@/enums";
+import dayjs from "dayjs";
 
 export default function ItemForm({
-    title,
+  title,
   form,
   open,
   onClose,
   onSubmit,
 }: {
-    title?: string,
+  title?: string;
   form: FormInstance;
   open: boolean;
   onClose: () => void;
   onSubmit: () => void;
 }) {
   const t = useTranslations();
+  const { modal } = useContext(CommonContext);
+
+  const disabledBefore: DatePickerProps["disabledDate"] = (current) => {
+    return current < dayjs().startOf("day");
+  };
+
+  const disabledAfter: DatePickerProps["disabledDate"] = (current) => {
+    return current > dayjs().endOf("day");
+  };
   return (
     <Drawer
+      destroyOnClose
       title={title ?? t("Create a new item")}
       width={720}
       onClose={onClose}
@@ -46,103 +64,104 @@ export default function ItemForm({
         </Space>
       }
     >
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" className={styles["item-form"]}>
         <Row gutter={16}>
-          <Col lg={12} xs={24}>
+          <Col md={12} xs={24}>
             <Form.Item
               name="name"
-              label="Name"
-              rules={[{ required: true, message: "Please enter user name" }]}
+              label={t("Item name")}
+              rules={[{ required: true, message: t("Please enter item name") }]}
             >
-              <Input placeholder="Please enter user name" />
+              <Input placeholder={t("Enter")} />
             </Form.Item>
           </Col>
-          <Col lg={12} xs={24}>
+          <Col md={12} xs={24}>
             <Form.Item
-              name="url"
-              label="Url"
-              rules={[{ required: true, message: "Please enter url" }]}
+              name="sku"
+              label="SKU"
+              rules={[{ required: true, message: t("Please enter sku") }]}
             >
-              <Input
-                style={{ width: "100%" }}
-                addonBefore="http://"
-                addonAfter=".com"
-                placeholder="Please enter url"
+              <Input placeholder={t("Enter")} />
+            </Form.Item>
+          </Col>
+          <Col md={12} xs={24}>
+            <Form.Item
+              name="uom"
+              label="UOM"
+              rules={[{ required: true, message: t("Please select uom") }]}
+            >
+              <Select
+                placeholder={t("Select")}
+                options={getEnumValues(E_UOM).map((item) => {
+                  return {
+                    value: item,
+                    label: t(item as any),
+                  };
+                })}
               />
             </Form.Item>
           </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col lg={12} xs={24}>
-            <Form.Item
-              name="owner"
-              label="Owner"
-              rules={[{ required: true, message: "Please select an owner" }]}
-            >
-              <Select placeholder="Please select an owner">
-                <Select.Option value="xiao">Xiaoxiao Fu</Select.Option>
-                <Select.Option value="mao">Maomao Zhou</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col lg={12} xs={24}>
+          <Col md={12} xs={24}>
             <Form.Item
               name="type"
-              label="Type"
-              rules={[{ required: true, message: "Please choose the type" }]}
-            >
-              <Select placeholder="Please choose the type">
-                <Select.Option value="private">Private</Select.Option>
-                <Select.Option value="public">Public</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col lg={12} xs={24}>
-            <Form.Item
-              name="approver"
-              label="Approver"
+              label={t("Product type")}
               rules={[
-                { required: true, message: "Please choose the approver" },
+                { required: true, message: t("Please select product type") },
               ]}
             >
-              <Select placeholder="Please choose the approver">
-                <Select.Option value="private">Private</Select.Option>
-                <Select.Option value="private">Private</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col lg={12} xs={24}>
-            <Form.Item
-              name="dateTime"
-              label="DateTime"
-              rules={[
-                { required: true, message: "Please choose the dateTime" },
-              ]}
-            >
-              <DatePicker.RangePicker
-                style={{ width: "100%" }}
-                getPopupContainer={(trigger) => trigger.parentElement!}
+              <Select
+                placeholder={t("Select")}
+                options={getEnumValues(E_PRODUCT_TYPE).map((item) => {
+                  return {
+                    value: item,
+                    label: t(item as any),
+                  };
+                })}
               />
             </Form.Item>
           </Col>
-        </Row>
-        <Row gutter={16}>
+          <Col md={12} xs={24}>
+            <Form.Item name="outboundMethod" label="Outbound method">
+              <Select
+                placeholder={t("Select")}
+                options={getEnumValues(E_OUTBOUND_METHOD).map((item) => {
+                  return {
+                    value: item,
+                    label: item,
+                  };
+                })}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={12} xs={24}>
+            <Form.Item name="grossWeight" label={t("Weight")}>
+              <InputNumber placeholder={t("Enter")} min={0} />
+            </Form.Item>
+          </Col>
+
+          <Col md={12} xs={24}>
+            <Form.Item name="productionDate" label={t("Production date")}>
+              <DatePicker
+                placeholder={t("Select")}
+                disabledDate={disabledAfter}
+              />
+            </Form.Item>
+          </Col>
+          <Col md={12} xs={24}>
+            <Form.Item name="expiryDate" label={t("Expiry date")}>
+              <DatePicker
+                placeholder={t("Select")}
+                disabledDate={disabledBefore}
+              />
+            </Form.Item>
+          </Col>
           <Col xs={24}>
-            <Form.Item
-              name="description"
-              label="Description"
-              rules={[
-                {
-                  required: true,
-                  message: "please enter url description",
-                },
-              ]}
-            >
+            <Form.Item name="description" label="Description">
               <Input.TextArea
                 rows={4}
-                placeholder="please enter url description"
+                placeholder={t("Please enter item description")}
+                maxLength={200}
+                showCount
               />
             </Form.Item>
           </Col>

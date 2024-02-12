@@ -42,5 +42,13 @@
   "Cancel": "Cancel",
   "Submit": "Submit",
   "Create a new item": "Create a new item",
-  "Settings": "Settings"
+  "Settings": "Settings",
+  "Item name": "Item name",
+  "Please enter item name": "Please enter item name",
+  "Enter": "Enter",
+  "Please enter sku": "Please enter sku",
+  "Please select uom": "Please select uom",
+  "Please select product type": "Please select product type",
+  "Expiry date": "Expiry date",
+  "Please enter item description": "Please enter item description"
 }

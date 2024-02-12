@@ -4,7 +4,7 @@ import { Table } from "@/components";
 import { useBreadcrumb } from "@/hooks";
 import { getItems } from "@/services/items.service";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useBoolean } from "usehooks-ts";
 import { useItemForm, useItemManagement } from "./_logic";
 import { ItemForm } from "./_ui";
@@ -14,6 +14,8 @@ export default function Items() {
 
   const {columns, filterOptions} = useItemManagement();
   const {itemForm, showItemForm, openItemForm, handleCloseItemForm, handleSubmitItemForm} = useItemForm()
+
+
   return (
     <div className="app-content">
       <Table

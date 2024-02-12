@@ -5,7 +5,7 @@ import themeConfig from "@/theme/themeConfig";
 
 // contexts
 import { ToastContainer } from "react-toastify";
-import { ConfigProvider, theme } from "antd";
+import { ConfigProvider, Modal, theme } from "antd";
 import CommonContext from "@/contexts/CommonContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -15,23 +15,7 @@ import { useMemo, useState } from "react";
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [breadcrumbs, setBreadcrumbs] = useState({
-    items: [],
-  });
-  const [selectedMenu, setSelectedMenu] = useState("");
-  const [openedMenu, setOpenedMenu] = useState("");
-
-  const contextValue = useMemo(
-    () => ({
-      breadcrumbs,
-      setBreadcrumbs,
-      selectedMenu,
-      setSelectedMenu,
-      openedMenu,
-      setOpenedMenu,
-    }),
-    [breadcrumbs, openedMenu, selectedMenu]
-  );
+  const [modal, contextHolder] = Modal.useModal();
 
   return (
     <ConfigProvider
@@ -41,7 +25,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
       }}
     >
       <QueryClientProvider client={queryClient}>
-        <CommonContext.Provider value={contextValue}>
+        <CommonContext.Provider value={{ modal }}>
+          {contextHolder}
           <ToastContainer />
           {children}
         </CommonContext.Provider>

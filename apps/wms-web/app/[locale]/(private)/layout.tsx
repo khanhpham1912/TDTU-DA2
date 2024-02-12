@@ -6,7 +6,7 @@ import { useLocalStorage } from "usehooks-ts";
 // contexts
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { PrivateHeader, SideBar, SubnavMenu } from "@/components";
+import { PrivateHeader, SideBar } from "@/components";
 import { validateJwtToken } from "@/utils/jwt.utility";
 import { pushNotify } from "@/utils/toast";
 
@@ -35,11 +35,6 @@ import { Logo } from "@/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWarehouse } from "@fortawesome/free-solid-svg-icons";
 
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   const t = useTranslations();

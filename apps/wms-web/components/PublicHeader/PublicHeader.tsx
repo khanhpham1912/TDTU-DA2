@@ -6,9 +6,14 @@ import styles from "./styles.module.scss";
 import LanguageSwitch from "@/components/LanguageSwitch";
 import classNames from "classnames";
 
-const PublicHeader = () => {
+export default function PublicHeader() {
   return (
-    <header className={classNames(styles["app-header"], "border-b border-gray-200 shadow-sm")}>
+    <header
+      className={classNames(
+        styles["app-header"],
+        "border-b border-gray-200 shadow-sm"
+      )}
+    >
       <div className={styles["app-header__left"]}>
         <Logo />
       </div>
@@ -17,5 +22,4 @@ const PublicHeader = () => {
       </div>
     </header>
   );
-};
-export default PublicHeader;
+}
