@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsObject, IsString, ValidateNested } from "class-validator";
 import { BaseDto } from "src/dto";
+import { IsSkip } from "src/utils/dto.utility";
 import {
   BankInfo,
   Supplier,
@@ -60,6 +61,9 @@ class BankInfoDto implements BankInfo {
 }
 
 export class SupplierDto extends BaseDto implements Supplier {
+  @IsSkip()
+  no: string;
+
   @ApiProperty()
   @IsObject()
   @ValidateNested()

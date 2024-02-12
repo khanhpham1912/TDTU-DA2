@@ -4,22 +4,19 @@ import { APP_GUARD } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
 import { AuthGuard } from "./auth/auth.guard";
 import { AuthModule } from "./auth/auth.module";
-import { InboundsModule } from "./inbounds/inbounds.module";
-import { ItemsModule } from "./items/items.module";
-import { OutboundsModule as OutboundModule } from "./outbounds/outbounds.module";
+
 import { UsersModule } from "./users/users.module";
 import { SupplierModule } from "./supplier/module";
+import { CounterModule } from "./counter/counter.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.URI),
-    ItemsModule,
-    InboundsModule,
-    OutboundModule,
     AuthModule,
     UsersModule,
     SupplierModule,
+    CounterModule,
   ],
   providers: [
     {

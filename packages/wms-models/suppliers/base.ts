@@ -21,6 +21,7 @@ export interface BankInfo {
 }
 
 export interface Supplier extends BaseEntity {
+  no: string;
   general: SupplierGeneral;
   contact: SupplierContact;
   bankInfo: BankInfo

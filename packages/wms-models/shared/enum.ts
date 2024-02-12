@@ -1,5 +1,6 @@
 export enum EStatus {
   NEW = 'NEW',
+  INPROGRESS = 'INPROGRESS',
   COMPLETED = 'COMPLETED',
   CANCELED = 'CANCELED',
 }

@@ -63,6 +63,9 @@ export const SupplierContactSchema = SchemaFactory.createForClass(
   autoIndex: true,
 })
 export class SupplierDocument extends BaseSchema implements Supplier {
+  @Prop(String)
+  no: string;
+
   @Prop({ type: bankInfoSchema })
   bankInfo: BankInfoDocument;
 

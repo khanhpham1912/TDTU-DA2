@@ -27,6 +27,8 @@
   ],
   "dependencies": {
     "flag": "^5.0.1",
+    "luxon": "^3.4.4",
+    "numeral": "^2.0.6",
     "typeid-js": "^0.5.0"
   }
 }

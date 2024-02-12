@@ -27,7 +27,7 @@ export class SupplierController {
 
   @Post()
   async create(@Body() supplier: SupplierDto): Promise<IResponse<Supplier>> {
-    const result: Supplier = await this.writeRepo.create(supplier);
+    const result: Supplier = await this.writeRepo.createSupplier(supplier);
     return resOk(ERROR_CODE.CreateSuccess["Success"], result);
   }
 

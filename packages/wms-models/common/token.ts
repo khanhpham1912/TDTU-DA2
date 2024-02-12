@@ -3,4 +3,5 @@ export enum ModelTokens {
   InBound = 'InBounds',
   OutBound = 'OutBounds',
   Supplier = 'Suppliers',
+  Counter = 'Counters',
 }

@@ -18,8 +18,5 @@ export interface WMSEntity {
 export interface RefEntity {
   _id: string;
   no: string;
-}
-
-export interface RefPoint extends RefEntity {
-  name: string;
+  name?: string;
 }

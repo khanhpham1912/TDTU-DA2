@@ -4,6 +4,7 @@ import { SupplierReadRepository, SupplierWriteRepository } from "./repository";
 import { ModelTokens } from "wms-models/lib/common";
 import { supplierSchema } from "./schema";
 import { SupplierController } from "./controller";
+import { CounterModule } from "../counter/counter.module";
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { SupplierController } from "./controller";
         schema: supplierSchema,
       },
     ]),
+    CounterModule,
   ],
   controllers: [SupplierController],
   providers: [SupplierReadRepository, SupplierWriteRepository],
