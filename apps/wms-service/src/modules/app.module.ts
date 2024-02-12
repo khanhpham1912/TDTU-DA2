@@ -8,6 +8,7 @@ import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
 import { SupplierModule } from "./supplier/module";
 import { CounterModule } from "./counter/counter.module";
+import { ItemModule } from "./item/module";
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CounterModule } from "./counter/counter.module";
     UsersModule,
     SupplierModule,
     CounterModule,
+    ItemModule,
   ],
   providers: [
     {

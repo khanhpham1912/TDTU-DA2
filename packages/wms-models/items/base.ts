@@ -1,6 +1,5 @@
-import { BaseEntity } from "base-models";
+import { BaseEntity, RefEntity } from "base-models";
 import { EProductType, UOM } from "./enum";
-import { RefEntity } from "../shared";
 
 
 export interface Dimension {
@@ -21,5 +20,5 @@ export interface Item extends BaseEntity {
   productionDate?: Date;
   expiryDate?: Date;
   supplier?: RefEntity;
-  dimensions?: Dimension;
+  dimension?: Dimension;
 }

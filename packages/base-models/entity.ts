@@ -3,7 +3,6 @@ export interface RefEntity {
   _id: string;
   no: string;
   name?: string;
-  phone?: string;
 }
 
 export interface BaseEntity {

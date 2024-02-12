@@ -14,9 +14,3 @@ export interface WMSEntity {
     name: string;
   };
 }
-
-export interface RefEntity {
-  _id: string;
-  no: string;
-  name?: string;
-}
