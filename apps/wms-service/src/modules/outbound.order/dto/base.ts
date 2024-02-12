@@ -12,10 +12,10 @@ import {
 import { BaseDto } from "src/dto";
 import { RefEntityDto } from "src/dto/entity.dto";
 import {
-  InboundOrder,
-  InboundOrderItem,
+  OutboundOrder,
+  OutboundOrderItem,
   Shipper,
-} from "wms-models/lib/inbound";
+} from "wms-models/lib/outbound.order";
 import { UOM, EProductType, Dimension } from "wms-models/lib/items";
 import { EStatus } from "wms-models/lib/shared";
 
@@ -53,7 +53,7 @@ export class ShipperDto implements Shipper {
   shipperLicense?: string;
 }
 
-export class InboundOrderItemDto implements InboundOrderItem {
+export class OutboundOrderItemDto implements OutboundOrderItem {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
@@ -128,7 +128,7 @@ export class InboundOrderItemDto implements InboundOrderItem {
   dimension?: DimensionDto;
 }
 
-export class InboundOrderDto extends BaseDto implements InboundOrder {
+export class OutboundOrderDto extends BaseDto implements OutboundOrder {
   @ApiProperty()
   @IsString()
   no: string;
@@ -139,10 +139,10 @@ export class InboundOrderDto extends BaseDto implements InboundOrder {
   @Type(() => ShipperDto)
   shipper: ShipperDto;
 
-  @ApiProperty({ type: InboundOrderItemDto, isArray: true })
+  @ApiProperty({ type: OutboundOrderItemDto, isArray: true })
   @ValidateNested({ each: true })
-  @Type(() => InboundOrderItemDto)
-  items: InboundOrderItemDto[];
+  @Type(() => OutboundOrderItemDto)
+  items: OutboundOrderItemDto[];
 
   @ApiProperty()
   @IsNumber()
