@@ -11,12 +11,13 @@ import ObjectUtility from "@/utils/object.utility";
 // contexts
 
 const DEFAULT_PAGING = {
-  currentPage: 1,
-  pageSize: 20,
+  page: 1,
+  perPage: 20,
 };
 
 // models
 import { Form } from "antd";
+import { useTranslations } from "next-intl";
 
 interface Props {
   queryConfig: {
@@ -30,19 +31,20 @@ interface Props {
 
 const usePostTable = (props: Props) => {
   const { queryConfig, columns, showIndex, hardcodeFilter } = props;
+  const t = useTranslations();
   const queryClient = useQueryClient();
   const [filterForm] = Form.useForm();
 
   const [filterParams, setFilterParams] = useState<{
     filter: any;
-    paging: {
-      currentPage: number;
-      pageSize: number;
+    pagination: {
+      page: number;
+      perPage: number;
     };
     // search: string;
   }>({
     filter: { ...hardcodeFilter },
-    paging: DEFAULT_PAGING,
+    pagination: DEFAULT_PAGING,
     // search: "",
   });
 
@@ -68,20 +70,20 @@ const usePostTable = (props: Props) => {
     // enabled: isReady,
     retry: false,
     onSuccess: (response) => {
-      const pagination = response?.data?.paging;
-      if (pagination?.currentPage > pagination?.pageTotal) {
+      const pagination = response?.data?.pagination;
+      if (pagination?.page > pagination?.pageTotal) {
         const _filterParams = JSON.parse(JSON.stringify(filterParams));
-        _filterParams.paging.currentPage = pagination?.pageTotal;
+        _filterParams.pagination.page = pagination?.pageTotal;
         setFilterParams(_filterParams);
       }
     },
   });
 
-  const handleChangePagination = (currentPage: number, pageSize: number) => {
+  const handleChangePagination = (page: number, perPage: number) => {
     const _filterParams = JSON.parse(JSON.stringify(filterParams));
-    _filterParams.paging = {
-      currentPage,
-      pageSize,
+    _filterParams.pagination = {
+      page,
+      perPage,
     };
     setFilterParams(_filterParams);
   };
@@ -96,7 +98,7 @@ const usePostTable = (props: Props) => {
           ...filter,
         };
 
-        _filterParams.paging = DEFAULT_PAGING;
+        _filterParams.pagination = DEFAULT_PAGING;
         setFilterParams(_filterParams);
       } catch (error) {
         console.error(error);
@@ -111,7 +113,7 @@ const usePostTable = (props: Props) => {
       queryClient.cancelQueries({ queryKey: [queryConfig.queryKey] });
       const _filterParams = JSON.parse(JSON.stringify(filterParams));
       _filterParams.search = value;
-      _filterParams.paging = DEFAULT_PAGING;
+      _filterParams.pagination = DEFAULT_PAGING;
       setFilterParams(_filterParams);
     },
     [filterParams]
@@ -121,10 +123,11 @@ const usePostTable = (props: Props) => {
     if (showIndex) {
       return [
         {
-          title: "#",
+          title: t("No"),
           dataIndex: "index",
-          width: "60px",
-          align: "right",
+          width: 50,
+          fixed: "left",
+          align: "center",
           render: (_: any, __: any, index: number) => index + 1,
         },
         ...columns,

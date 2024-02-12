@@ -22,9 +22,9 @@ const getFilterItem = (filter: FilterOption, t: any) => {
       return (
         <Select
           allowClear
-          placeholder={t("Please select")}
+          placeholder={t("Select")}
           {...filter.selectConfig}
-          style={{ width: "100%" }}
+          style={{ width: "170px" }}
         />
       );
     default:

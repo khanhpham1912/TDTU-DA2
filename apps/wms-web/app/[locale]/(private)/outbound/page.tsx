@@ -74,6 +74,8 @@ export default function Items() {
           queryFn: () => {},
         }}
         onClickAdd={() => {}}
+        addText={t("Create outbound")}
+
       />
     </div>
   );}

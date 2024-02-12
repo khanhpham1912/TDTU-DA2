@@ -1,21 +1,24 @@
-"use client";
-
-import { Table } from "@/components";
-import { useBreadcrumb } from "@/hooks";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
+import { useBoolean } from "usehooks-ts";
 
-export default function Items() {
+export default function useItemManagement() {
   const t = useTranslations();
 
-  useBreadcrumb({
-    selectedMenu: "INBOUND",
-  });
   const filterOptions: any = useMemo(() => {
     const _filterOptions: any[] = [
       {
-        formName: "status",
-        label: t("Status"),
+        formName: "uom",
+        label: t("UOM"),
+        filterType: "Select",
+        selectConfig: {
+          options: [],
+        },
+      },
+
+      {
+        formName: "type",
+        label: `${t("Product type")}`,
         filterType: "Select",
         selectConfig: {
           options: [],
@@ -24,9 +27,12 @@ export default function Items() {
     ];
     return _filterOptions;
   }, [t]);
-  const columns = [
+
+  const columns: any = [
     {
       title: t("Name"),
+      width: 150,
+      fixed: "left",
       render: (record: any) => (
         <div className="flex flex-col">
           <span className=" text-blue-500">{record?.name}</span>
@@ -36,14 +42,18 @@ export default function Items() {
     },
     {
       title: t("Weight"),
+      with: 70,
       render: (record: any) => <span>{record?.grossWeight}</span>,
     },
     {
       title: t("Production date"),
+      width: 200,
       render: (record: any) => <span>{record?.productionDate}</span>,
     },
     {
       title: t("Expire date"),
+      width: 200,
+
       render: (record: any) => <span>{record?.expiryDate}</span>,
     },
     {
@@ -52,30 +62,22 @@ export default function Items() {
     },
     {
       title: t("Product type"),
+      width: 200,
+
       render: (record: any) => <span>{record?.type}</span>,
     },
     {
       title: t("UOM"),
+      width: 200,
+
       render: (record: any) => <span>{record?.uom}</span>,
     },
     {
       title: t("Remark"),
+      width: 200,
+
       render: (record: any) => <span>{record?.description}</span>,
     },
   ];
-  return (
-    <div className="app-content">
-      <Table
-        showIndex
-        columns={columns}
-        filterOptions={filterOptions}
-        queryConfig={{
-          queryKey: ["inbound-manager"],
-          queryFn: () => {},
-        }}
-        onClickAdd={() => {}}
-        addText={t("Create inbound")}
-
-      />
-    </div>
-  );}
+  return {columns, filterOptions}
+}

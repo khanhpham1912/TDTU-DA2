@@ -5,73 +5,15 @@ import { useBreadcrumb } from "@/hooks";
 import { getItems } from "@/services/items.service";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
+import { useBoolean } from "usehooks-ts";
+import { useItemForm, useItemManagement } from "./_logic";
+import { ItemForm } from "./_ui";
 
 export default function Items() {
   const t = useTranslations();
-  useBreadcrumb({
-    selectedMenu: "ITEMS",
-  });
-  const filterOptions: any = useMemo(() => {
-    const _filterOptions: any[] = [
-      {
-        formName: "uom",
-        label: t("UOM"),
-        filterType: "Select",
-        selectConfig: {
-          options: [],
-        },
-      },
 
-      {
-        formName: "type",
-        label: `${t("Product type")}`,
-        filterType: "Select",
-        selectConfig: {
-          options: [],
-        },
-      },
-    ];
-    return _filterOptions;
-  }, [t]);
-  const columns = [
-    {
-      title: t("Name"),
-      render: (record: any) => (
-        <div className="flex flex-col">
-          <span className=" text-blue-500">{record?.name}</span>
-          <span className=" text-gray-500">{record?.sku}</span>
-        </div>
-      ),
-    },
-    {
-      title: t("Weight"),
-      render: (record: any) => <span>{record?.grossWeight}</span>,
-    },
-    {
-      title: t("Production date"),
-      render: (record: any) => <span>{record?.productionDate}</span>,
-    },
-    {
-      title: t("Expire date"),
-      render: (record: any) => <span>{record?.expiryDate}</span>,
-    },
-    {
-      title: t("Supplier"),
-      render: (record: any) => <span>{record?.supplier}</span>,
-    },
-    {
-      title: t("Product type"),
-      render: (record: any) => <span>{record?.type}</span>,
-    },
-    {
-      title: t("UOM"),
-      render: (record: any) => <span>{record?.uom}</span>,
-    },
-    {
-      title: t("Remark"),
-      render: (record: any) => <span>{record?.description}</span>,
-    },
-  ];
+  const {columns, filterOptions} = useItemManagement();
+  const {itemForm, showItemForm, openItemForm, handleCloseItemForm, handleSubmitItemForm} = useItemForm()
   return (
     <div className="app-content">
       <Table
@@ -141,11 +83,13 @@ export default function Items() {
           },
         ]}
         queryConfig={{
-          queryKey: ["items-manager"],
+          queryKey: ["items-management"],
           queryFn: getItems,
         }}
-        onClickAdd={() => {}}
+        onClickAdd={openItemForm}
+        addText={t("Create item")}
       />
+      <ItemForm form={itemForm} open={showItemForm} onClose={handleCloseItemForm} onSubmit={handleSubmitItemForm}/>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 
 // components
-import { Table, Pagination, Button, Input } from "antd";
+import { Table, Pagination, Button, Input, Tooltip } from "antd";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,9 +16,10 @@ import type { ColumnsType } from "antd/es/table";
 import Filter from "./Filter";
 import { FilterOption } from "./Filter/filter.config";
 import { SearchOutlined } from "@ant-design/icons";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 interface Props {
-  columns: ColumnsType;
+  columns: ColumnsType<any>;
   queryConfig: {
     queryKey: any;
     queryFn: any;
@@ -43,8 +44,8 @@ interface Props {
 
 const PostTable = ({
   scroll = {
-    x: 600,
-    y: "calc(100vh - 15.5rem)",
+    x: 1500,
+    y: "calc(100vh - 16.5rem)",
   },
   title,
   ...props
@@ -79,14 +80,14 @@ const PostTable = ({
   return (
     <div className="flex flex-col gap-6 h-100">
       <div className="flex gap-1 justify-between items-center">
-        <div className="flex gap-1 justify-between items-center">
+        <div className="flex gap-3 justify-between items-center flex-wrap">
           <Input
             placeholder={searchPlaceholder ?? t("Search")}
             suffix={<SearchOutlined className="text-base" />}
             onChange={(e) => handleSearch(e.target.value)}
             className={styles.search}
           />
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 flex-wrap">
             {extraFilterLeft}
 
             <Filter
@@ -94,12 +95,18 @@ const PostTable = ({
               form={filterForm}
               filterOptions={filterOptions ?? []}
             />
-            <FontAwesomeIcon
+            <Tooltip title={t("Reload")}>
+              <ArrowPathIcon
+                className="text-[#8d97a6] cursor-pointer h-5 w-5"
+                onClick={() => tableQuery.refetch()}
+              />
+            </Tooltip>
+            {/* <FontAwesomeIcon
               icon={faRotateRight}
               style={{ color: "#8d97a6", fontSize: "20px" }}
               className="cursor-pointer"
               onClick={() => tableQuery.refetch()}
-            />
+            /> */}
 
             {extraFilterRight}
           </div>
@@ -145,7 +152,7 @@ const PostTable = ({
           pageSizeOptions={[10, 20, 50]}
           onChange={handleChangePagination}
           showTotal={(total) => <div>{`${t("Total")} ${total}`} </div>}
-          hideOnSinglePage
+          // hideOnSinglePage
           className="pr-16"
         />
       </div>

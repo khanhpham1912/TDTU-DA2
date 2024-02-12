@@ -32,5 +32,15 @@
   "Expire date": "Expire date",
   "Supplier": "Supplier",
   "Remark": "Remark",
-  "Status": "Status"
+  "Status": "Status",
+  "No": "No",
+  "Select": "Select",
+  "Reload": "Reload",
+  "Create inbound": "Create inbound",
+  "Create item": "Create item",
+  "Create outbound": "Create outbound",
+  "Cancel": "Cancel",
+  "Submit": "Submit",
+  "Create a new item": "Create a new item",
+  "Settings": "Settings"
 }
