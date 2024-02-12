@@ -8,6 +8,7 @@ import {
   Shipper,
 } from "wms-models/lib/inbound";
 import { UOM, EProductType, Dimension } from "wms-models/lib/items";
+import { EStatus } from "wms-models/lib/shared";
 
 @Schema({ _id: false })
 class ShipperDocument implements Shipper {
@@ -112,6 +113,9 @@ export class InboundOrderDocument extends BaseSchema implements InboundOrder {
 
   @Prop(String)
   remark?: string;
+
+  @Prop(String)
+  status: EStatus;
 }
 
 export const InboundOrderSchema =

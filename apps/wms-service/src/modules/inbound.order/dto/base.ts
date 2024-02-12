@@ -11,12 +11,14 @@ import {
 } from "class-validator";
 import { BaseDto } from "src/dto";
 import { RefEntityDto } from "src/dto/entity.dto";
+import { IsSkip } from "src/utils/dto.utility";
 import {
   InboundOrder,
   InboundOrderItem,
   Shipper,
 } from "wms-models/lib/inbound";
 import { UOM, EProductType, Dimension } from "wms-models/lib/items";
+import { EStatus } from "wms-models/lib/shared";
 
 export class DimensionDto implements Dimension {
   @ApiPropertyOptional()
@@ -167,4 +169,7 @@ export class InboundOrderDto extends BaseDto implements InboundOrder {
   @IsOptional()
   @IsString()
   remark?: string;
+
+  @IsSkip()
+  status: EStatus;
 }

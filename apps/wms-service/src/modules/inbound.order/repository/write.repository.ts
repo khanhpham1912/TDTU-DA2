@@ -6,6 +6,7 @@ import { CounterService } from "src/modules/counter/counter.service";
 import { InboundOrder } from "wms-models/lib/inbound";
 import { InboundOrderDto } from "../dto";
 import { CounterFormat, CounterPrefix } from "src/common";
+import { EStatus } from "wms-models/lib/shared";
 
 export class InboundOrderWriteRepository extends BaseWriteRepository<InboundOrder> {
   constructor(
@@ -23,6 +24,8 @@ export class InboundOrderWriteRepository extends BaseWriteRepository<InboundOrde
       CounterPrefix.InboundRequest,
       CounterFormat.InboundRequest
     );
+
+    inboundOrder.status = EStatus.NEW;
 
     return await this.create(inboundOrder);
   }

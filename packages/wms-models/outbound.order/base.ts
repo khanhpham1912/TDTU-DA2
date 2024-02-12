@@ -1,7 +1,7 @@
 import { BaseEntity } from "base-models";
 import { EStatus, OrderItem } from "../shared";
 
-export interface InboundOrderItem extends OrderItem {
+export interface OutboundOrderItem extends OrderItem {
   batchNo?: string;
 }
 
@@ -11,10 +11,10 @@ export interface Shipper {
   shipperLicense?: string;
 }
 
-export interface InboundOrder extends BaseEntity {
+export interface OutboundOrder extends BaseEntity {
   no: string;
   shipper: Shipper;
-  items: InboundOrderItem[];
+  items: OutboundOrderItem[];
   totalNetWeight: number;
   totalGrossWeight: number;
   totalVolume: number;
