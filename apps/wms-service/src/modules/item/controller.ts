@@ -38,7 +38,7 @@ export class ItemController {
     @Body() Item: ItemDto
   ): Promise<IResponse<Item>> {
     const result: Item = await this.writeRepo.update({ _id: id }, Item);
-    return resOk(ERROR_CODE.CreateSuccess["Success"], result);
+    return resOk(ERROR_CODE.UpdateSuccess["Success"], result);
   }
 
   @Delete(":id")

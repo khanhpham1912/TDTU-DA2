@@ -37,7 +37,7 @@ export class SupplierController {
     @Body() supplier: SupplierDto
   ): Promise<IResponse<Supplier>> {
     const result: Supplier = await this.writeRepo.update({ _id: id }, supplier);
-    return resOk(ERROR_CODE.CreateSuccess["Success"], result);
+    return resOk(ERROR_CODE.UpdateSuccess["Success"], result);
   }
 
   @Delete(":id")
