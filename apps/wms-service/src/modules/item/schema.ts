@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { BaseSchema } from "src/database";
 import { RefEntityDocument, RefEntitySchema } from "src/schema/refEntity";
+import { ModelTokens } from "wms-models/lib/common";
 import { Dimension, EProductType, Item, UOM } from "wms-models/lib/items";
 
 @Schema({ _id: false })
@@ -16,7 +17,11 @@ class DimensionDocument implements Dimension {
 }
 const DimensionSchema = SchemaFactory.createForClass(DimensionDocument);
 
-@Schema()
+@Schema({
+  collection: ModelTokens.Item,
+  autoIndex: true,
+  timestamps: true,
+})
 export class ItemDocument extends BaseSchema implements Item {
   @Prop(String)
   _id: string;
@@ -56,6 +61,9 @@ export class ItemDocument extends BaseSchema implements Item {
 
   @Prop({ type: DimensionSchema })
   dimension?: DimensionDocument;
+
+  @Prop(Number)
+  unitValue?: number;
 }
 
 export const ItemSchema = SchemaFactory.createForClass(ItemDocument);

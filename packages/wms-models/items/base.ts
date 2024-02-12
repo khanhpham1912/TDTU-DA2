@@ -18,7 +18,9 @@ export interface Item extends BaseEntity {
   grossWeight?: number;
   netWeight?: number;
   productionDate?: Date;
+  unitValue?: number;
   expiryDate?: Date;
   supplier?: RefEntity;
   dimension?: Dimension;
+
 }
