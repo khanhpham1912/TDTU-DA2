@@ -14,3 +14,9 @@ export interface WMSEntity {
     name: string;
   };
 }
+
+export enum EEntity {
+  Inbound = 'Inbound',
+  Outbound = 'Outbound',
+  Item = 'Item',
+}

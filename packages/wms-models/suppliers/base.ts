@@ -1,4 +1,5 @@
 import { BaseEntity } from "base-models";
+import { RefCustomFieldMapping } from "../custom.field.mapping";
 
 export interface SupplierGeneral {
   tax: string;
@@ -25,4 +26,6 @@ export interface Supplier extends BaseEntity {
   general: SupplierGeneral;
   contact: SupplierContact;
   bankInfo: BankInfo
+  customFieldMapping?: RefCustomFieldMapping;
+
 }

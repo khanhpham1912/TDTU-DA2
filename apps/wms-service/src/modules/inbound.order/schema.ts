@@ -1,7 +1,9 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { SchemaTypes } from "mongoose";
 import { BaseSchema } from "src/database";
 import { RefEntityDocument, RefEntitySchema } from "src/schema/refEntity";
 import { ModelTokens } from "wms-models/lib/common";
+import { RefCustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 import {
   InboundOrder,
   InboundOrderItem,
@@ -122,6 +124,9 @@ export class InboundOrderDocument extends BaseSchema implements InboundOrder {
 
   @Prop(String)
   status: EStatus;
+
+  @Prop({ type: SchemaTypes.Mixed })
+  customFieldMapping?: RefCustomFieldMapping;
 }
 
 export const InboundOrderSchema =

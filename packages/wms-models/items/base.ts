@@ -1,5 +1,6 @@
 import { BaseEntity, RefEntity } from "base-models";
 import { EProductType, UOM } from "./enum";
+import { RefCustomFieldMapping } from "../custom.field.mapping";
 
 
 export interface Dimension {
@@ -22,5 +23,6 @@ export interface Item extends BaseEntity {
   expiryDate?: Date;
   supplier?: RefEntity;
   dimension?: Dimension;
+  customFieldMapping?: RefCustomFieldMapping;
 
 }
