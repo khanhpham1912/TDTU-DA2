@@ -1,7 +1,9 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { SchemaTypes } from "mongoose";
 import { BaseSchema } from "src/database";
 import { RefEntityDocument, RefEntitySchema } from "src/schema/refEntity";
 import { ModelTokens } from "wms-models/lib/common";
+import { RefCustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 import { Dimension, EProductType, Item, UOM } from "wms-models/lib/items";
 
 @Schema({ _id: false })
@@ -64,6 +66,9 @@ export class ItemDocument extends BaseSchema implements Item {
 
   @Prop(Number)
   unitValue?: number;
+
+  @Prop({ type: SchemaTypes.Mixed })
+  customFieldMapping?: RefCustomFieldMapping;
 }
 
 export const ItemSchema = SchemaFactory.createForClass(ItemDocument);

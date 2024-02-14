@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { SchemaTypes } from "mongoose";
 import { BaseSchema } from "src/database";
 import { ModelTokens } from "wms-models/lib/common";
+import { RefCustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 import {
   BankInfo,
   Supplier,
@@ -74,6 +76,9 @@ export class SupplierDocument extends BaseSchema implements Supplier {
 
   @Prop({ type: SupplierContactSchema })
   contact: SupplierContactDocument;
+
+  @Prop({ type: SchemaTypes.Mixed })
+  customFieldMapping?: RefCustomFieldMapping;
 }
 
 export const supplierSchema = SchemaFactory.createForClass(SupplierDocument);

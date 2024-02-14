@@ -1,5 +1,6 @@
 import { BaseEntity } from "base-models";
 import { EStatus, OrderItem } from "../shared";
+import { RefCustomFieldMapping } from "../custom.field.mapping";
 
 export interface InboundOrderItem extends OrderItem {
   batchNo?: string;
@@ -20,5 +21,7 @@ export interface InboundOrder extends BaseEntity {
   totalVolume: number;
   totalValue: number;
   remark?: string;
-  status: EStatus
+  status: EStatus;
+  customFieldMapping?: RefCustomFieldMapping;
+
 }

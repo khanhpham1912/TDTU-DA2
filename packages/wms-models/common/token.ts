@@ -4,4 +4,6 @@ export enum ModelTokens {
   OutBound = 'OutBounds',
   Supplier = 'Suppliers',
   Counter = 'Counters',
+  CustomFieldMapping = 'CustomFieldMappings',
+  CustomField = 'CustomFields',
 }
