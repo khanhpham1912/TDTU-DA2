@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
 import { ModelTokens } from "wms-models/lib/common";
 import { CustomFieldMappingSchema } from "./schema";
 import { CustomFieldMappingController } from "./controller";
@@ -18,12 +18,16 @@ import { MongooseModule } from "@nestjs/mongoose";
       },
     ]),
     CustomFieldModule,
+    forwardRef(() => CustomFieldModule),
   ],
   controllers: [CustomFieldMappingController],
   providers: [
     CustomFieldMappingReadRepository,
     CustomFieldMappingWriteRepository,
   ],
-  exports: [],
+  exports: [
+    CustomFieldMappingReadRepository,
+    CustomFieldMappingWriteRepository,
+  ],
 })
 export class CustomFieldMappingModule {}
