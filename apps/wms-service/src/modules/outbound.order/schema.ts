@@ -79,6 +79,12 @@ class OutboundOrderItemDocument implements OutboundOrderItem {
 
   @Prop({ type: DimensionSchema })
   dimension?: DimensionDocument;
+
+  @Prop(Number)
+  itemCount: number;
+
+  @Prop(String)
+  barcode: string;
 }
 const OutboundOrderItemSchema = SchemaFactory.createForClass(
   OutboundOrderItemDocument

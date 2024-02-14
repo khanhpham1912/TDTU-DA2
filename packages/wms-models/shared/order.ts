@@ -15,4 +15,7 @@ export interface OrderItem{
   expiryDate?: Date;
   supplier?: RefEntity;
   dimension?: Dimension;
+  itemCount: number;
+  barcode: string;
+
 }

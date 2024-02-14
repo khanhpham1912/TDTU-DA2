@@ -21,6 +21,6 @@ import { CounterModule } from "../counter/counter.module";
   ],
   controllers: [OutboundOrderController],
   providers: [OutboundOrderReadRepository, OutboundOrderWriteRepository],
-  exports: [],
+  exports: [OutboundOrderReadRepository],
 })
 export class OutboundOrderModule {}

@@ -126,6 +126,15 @@ export class InboundOrderItemDto implements InboundOrderItem {
   @ValidateNested()
   @Type(() => DimensionDto)
   dimension?: DimensionDto;
+
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  itemCount: number;
+
+  @ApiProperty()
+  @IsString()
+  barcode: string;
 }
 
 export class InboundOrderDto extends BaseDto implements InboundOrder {

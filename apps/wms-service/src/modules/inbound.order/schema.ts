@@ -79,6 +79,12 @@ class InboundOrderItemDocument implements InboundOrderItem {
 
   @Prop({ type: DimensionSchema })
   dimension?: DimensionDocument;
+
+  @Prop(Number)
+  itemCount: number;
+
+  @Prop(String)
+  barcode: string;
 }
 const InboundOrderItemSchema = SchemaFactory.createForClass(
   InboundOrderItemDocument
