@@ -9,6 +9,9 @@ import { UsersModule } from "./users/users.module";
 import { SupplierModule } from "./supplier/module";
 import { CounterModule } from "./counter/counter.module";
 import { ItemModule } from "./item/module";
+import { InboundOrderModule } from "./inbound.order/module";
+import { OutboundOrderModule } from "./outbound.order/module";
+import { InventoryModule } from "./inventory/module";
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { ItemModule } from "./item/module";
     SupplierModule,
     CounterModule,
     ItemModule,
+    InboundOrderModule,
+    OutboundOrderModule,
+    InventoryModule,
   ],
   providers: [
     {
