@@ -6,16 +6,8 @@ export interface Breadcrumb {
 }
 
 type ContextProps = {
-  breadcrumbs?: {
-    items?: Breadcrumb[];
-  };
-  setBreadcrumbs?: Function;
-
   selectedMenu?: string;
-  setSelectedMenu?: Function;
-
-  openedMenu?: string;
-  setOpenedMenu?: Function;
+  setSelectedMenu?: any;
 };
 
 const CommonContext = createContext<Partial<ContextProps>>({});

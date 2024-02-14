@@ -5,10 +5,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 // contexts
 import { usePathname, useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
+import { PrivateHeader, SubnavMenu } from "@/components";
 import { validateJwtToken } from "@/utils/jwt.utility";
+import { pushNotify } from "@/utils/toast";
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
+  const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
@@ -27,38 +30,25 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     validateJwtToken().then((isValidToken) => {
       if (!isValidToken) {
-        // pushNotify("Login session has expired", { type: "warning" });
-        router.push(`/login?callbackUrl=${pathname}`);
+        pushNotify(t("Login session has expired"), { type: "warning" });
+        router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
       }
     });
   }, [pathname, router]);
 
-  useQuery({
-    queryKey: ["valid-token"],
-    queryFn: validateJwtToken,
-    refetchOnWindowFocus: true,
-    onSuccess: (validToken) => {
-      if (!validToken) {
-        router.push(`/login?callbackUrl=${pathname}`);
-      }
-    },
-    onError: () => {
-      router.push(`/login?callbackUrl=${pathname}`);
-    },
-  });
   if (!mounted) {
     return null;
   }
 
   return (
     <div className={styles["app-container"]}>
-      {/* <SubnavMenu
-          collapsed={collapsed}
-          subNavMenuWidth={208}
-          handleChangeCollapsed={handleChangeCollapsed}
-        /> */}
+      <SubnavMenu
+        collapsed={collapsed}
+        subNavMenuWidth={238}
+        handleChangeCollapsed={handleChangeCollapsed}
+      />
       <main className={styles["app-main__outer"]}>
-        {/* <Header /> */}
+        <PrivateHeader />
         {children}
       </main>
     </div>

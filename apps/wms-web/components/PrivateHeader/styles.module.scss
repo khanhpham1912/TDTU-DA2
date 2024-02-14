@@ -1,0 +1,58 @@
+.app-header {
+  height: 48px;
+  min-height: 48px;
+  transition: all 0.2s;
+  background: var(--color-bg-menu);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0px 16px;
+  box-shadow: 0px -1px 0px 0px #e8edf2 inset;
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+}
+
+.user {
+  &-avatar {
+    padding: 4px;
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+  }
+  &-info {
+    display: flex;
+    flex-direction: column;
+
+    & > span {
+      &:last-child {
+        color: var(--color-neutral-800);
+      }
+    }
+  }
+}
+
+.menu-item {
+  padding: 4px 8px;
+  width: 275px;
+  cursor: pointer;
+  & > a {
+    color: #000;
+  }
+
+  &-logout {
+    color: var(--color-danger) !important;
+  }
+}

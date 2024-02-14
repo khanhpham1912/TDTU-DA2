@@ -4,11 +4,18 @@ axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
 
 axios.interceptors.request.use(
   async (config) => {
+    if (typeof window !== "undefined") {
+      let locale = "vi";
+      const currentUrl = window.location.href;
+      if (currentUrl?.includes("/en")) {
+        locale = "en";
+      }
+      config.headers["locale"] = locale;
+    }
     const token = await localStorage.getItem("token");
     if (token) {
       config.headers["Authorization"] = token;
     }
-
     return config;
   },
   (error) => Promise.reject(error)
