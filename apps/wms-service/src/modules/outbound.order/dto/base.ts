@@ -18,6 +18,7 @@ import {
 } from "wms-models/lib/outbound.order";
 import { UOM, EProductType, Dimension } from "wms-models/lib/items";
 import { EStatus } from "wms-models/lib/shared";
+import { RefCustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 
 export class DimensionDto implements Dimension {
   @ApiPropertyOptional()
@@ -181,4 +182,9 @@ export class OutboundOrderDto extends BaseDto implements OutboundOrder {
   @ApiProperty({ enum: EStatus })
   @IsEnum(EStatus)
   status: EStatus;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsObject()
+  customFieldMapping?: RefCustomFieldMapping;
 }

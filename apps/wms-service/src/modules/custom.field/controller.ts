@@ -22,13 +22,15 @@ import {
   CustomFieldWriteRepository,
 } from "./repository";
 import { ItemDeletedResponse } from "src/database";
-import { ApiOperation } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { PaginateResponse } from "wms-utils/lib/paging";
 import { CustomFieldService } from "./service";
 import { IResponse, resOk } from "wms-utils/lib/apis";
 
 @Injectable()
 @Controller("custom-fields")
+@ApiTags("Custom Field")
+@ApiBearerAuth()
 export class CustomFieldController {
   constructor(
     private readonly customFieldReadRepository: CustomFieldReadRepository,
