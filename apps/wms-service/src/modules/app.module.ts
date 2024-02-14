@@ -12,6 +12,8 @@ import { ItemModule } from "./item/module";
 import { InboundOrderModule } from "./inbound.order/module";
 import { OutboundOrderModule } from "./outbound.order/module";
 import { InventoryModule } from "./inventory/module";
+import { CustomFieldModule } from "./custom.field/module";
+import { CustomFieldMappingModule } from "./custom.field.mapping/module";
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { InventoryModule } from "./inventory/module";
     InboundOrderModule,
     OutboundOrderModule,
     InventoryModule,
+    CustomFieldModule,
+    CustomFieldMappingModule,
   ],
   providers: [
     {

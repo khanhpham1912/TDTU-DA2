@@ -12,6 +12,7 @@ import {
 import { BaseDto } from "src/dto";
 import { RefEntityDto } from "src/dto/entity.dto";
 import { IsSkip } from "src/utils/dto.utility";
+import { RefCustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 import { Dimension, EProductType, Item, UOM } from "wms-models/lib/items";
 
 class DimensionDto implements Dimension {
@@ -103,4 +104,9 @@ export class ItemDto extends BaseDto implements Item {
   @IsNumber()
   @Type(() => Number)
   unitValue?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsObject()
+  customFieldMapping?: RefCustomFieldMapping;
 }

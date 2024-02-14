@@ -11,6 +11,7 @@ import {
 } from "class-validator";
 import { BaseDto } from "src/dto";
 import { RefEntityDto } from "src/dto/entity.dto";
+import { RefCustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 import {
   InboundOrder,
   InboundOrderItem,
@@ -181,4 +182,9 @@ export class InboundOrderDto extends BaseDto implements InboundOrder {
   @ApiProperty({ enum: EStatus })
   @IsEnum(EStatus)
   status: EStatus;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsObject()
+  customFieldMapping?: RefCustomFieldMapping;
 }

@@ -16,7 +16,7 @@ import {
   UpdateCustomFieldMappingDto,
 } from "./dto";
 import { ERROR_CODE } from "wms-utils/lib/error";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ItemDeletedResponse } from "src/database";
 import {
   CustomFieldMappingReadRepository,
@@ -28,6 +28,7 @@ import { IResponse, resOk } from "wms-utils/lib/apis";
 @Injectable()
 @ApiTags("Custom Field Mapping")
 @Controller("custom-field-mapping")
+@ApiBearerAuth()
 export class CustomFieldMappingController {
   constructor(
     private readonly writeRepo: CustomFieldMappingWriteRepository,

@@ -1,8 +1,14 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsObject, IsString, ValidateNested } from "class-validator";
+import {
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from "class-validator";
 import { BaseDto } from "src/dto";
 import { IsSkip } from "src/utils/dto.utility";
+import { RefCustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 import {
   BankInfo,
   Supplier,
@@ -81,4 +87,9 @@ export class SupplierDto extends BaseDto implements Supplier {
   @ValidateNested()
   @Type(() => BankInfoDto)
   bankInfo: BankInfoDto;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsObject()
+  customFieldMapping?: RefCustomFieldMapping;
 }
