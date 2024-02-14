@@ -1,0 +1,22 @@
+{
+  "name": "base-models",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "rimraf": "./node_modules/rimraf/bin.js",
+    "clean": "rimraf lib/",
+    "build": "tsc",
+    "postinstall": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
+  }
+}
