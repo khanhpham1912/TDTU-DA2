@@ -15,7 +15,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
 
-  const origin = process.env.CLIENT_ORIGINS.split(",").map((v: string) =>
+  const origin = process.env.CLIENT_ORIGINS?.split(",").map((v: string) =>
     v.trim()
   );
 
