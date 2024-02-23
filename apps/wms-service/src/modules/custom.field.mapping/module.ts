@@ -17,7 +17,6 @@ import { MongooseModule } from "@nestjs/mongoose";
         schema: CustomFieldMappingSchema,
       },
     ]),
-    CustomFieldModule,
     forwardRef(() => CustomFieldModule),
   ],
   controllers: [CustomFieldMappingController],

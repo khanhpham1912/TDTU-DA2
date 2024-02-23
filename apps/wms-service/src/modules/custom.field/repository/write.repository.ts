@@ -6,7 +6,6 @@ import { CustomField } from "wms-models/lib/custom.field";
 import { CustomFieldDto, UpdateCustomFieldDto } from "../dto";
 import { ValidationError } from "wms-utils/lib/error";
 import { ECustomFieldType, ExtraData } from "wms-models/lib/shared";
-import { ModuleRef } from "@nestjs/core";
 import { CustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 import {
   CustomFieldMappingReadRepository,
@@ -14,12 +13,19 @@ import {
 } from "src/modules/custom.field.mapping/repository";
 import { CustomFieldReadRepository } from "./read.repository";
 import { mergeObj } from "wms-utils/lib/db";
+import { Inject, forwardRef } from "@nestjs/common";
 
 export class CustomFieldWriteRepository extends BaseWriteRepository<CustomField> {
   constructor(
     @InjectModel(ModelTokens.CustomField) readonly model: Model<CustomField>,
-    private readonly moduleRef: ModuleRef,
-    private readonly readRepo: CustomFieldReadRepository
+
+    private readonly readRepo: CustomFieldReadRepository,
+
+    @Inject(forwardRef(() => CustomFieldMappingReadRepository))
+    private readonly customFieldMappingReadRepository: CustomFieldMappingReadRepository,
+
+    @Inject(forwardRef(() => CustomFieldMappingWriteRepository))
+    private readonly customFieldMappingWriteRepository: CustomFieldMappingWriteRepository
   ) {
     super(model);
   }
@@ -119,21 +125,17 @@ export class CustomFieldWriteRepository extends BaseWriteRepository<CustomField>
   async deleteCustomFieldMappingsByCustomField(match: {
     customFieldId: string;
   }): Promise<CustomFieldMapping[]> {
-    const [customFieldMappingReadRepository, customFieldMappingWrite] =
-      await Promise.all([
-        this.moduleRef.resolve(CustomFieldMappingReadRepository),
-        this.moduleRef.resolve(CustomFieldMappingWriteRepository),
-      ]);
-
     const customFieldMappings: CustomFieldMapping[] =
-      await customFieldMappingReadRepository.find({
+      await this.customFieldMappingReadRepository.find({
         "customField._id": match.customFieldId,
       });
 
     if (!customFieldMappings) return;
 
     for (const customFieldMapping of customFieldMappings) {
-      await customFieldMappingWrite.deleteCFM(customFieldMapping._id);
+      await this.customFieldMappingWriteRepository.deleteCFM(
+        customFieldMapping._id
+      );
     }
 
     return;
@@ -143,16 +145,8 @@ export class CustomFieldWriteRepository extends BaseWriteRepository<CustomField>
     customFieldId: string;
     extraData: ExtraData;
   }): Promise<CustomFieldMapping[]> {
-    const [
-      customFieldMappingReadRepository,
-      customFieldMappingWriteRepository,
-    ] = await Promise.all([
-      this.moduleRef.resolve(CustomFieldMappingReadRepository),
-      this.moduleRef.resolve(CustomFieldMappingWriteRepository),
-    ]);
-
     const customFieldMappings: CustomFieldMapping[] =
-      await customFieldMappingReadRepository.find({
+      await this.customFieldMappingReadRepository.find({
         "customField._id": match.customFieldId,
       });
 
@@ -165,7 +159,7 @@ export class CustomFieldWriteRepository extends BaseWriteRepository<CustomField>
     );
 
     const result: CustomFieldMapping[] =
-      await customFieldMappingWriteRepository.updateMany(
+      await this.customFieldMappingWriteRepository.updateMany(
         {
           ids: customFieldMappingIds,
         },

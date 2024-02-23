@@ -10,18 +10,19 @@ import {
 } from "../dto";
 import { CustomField } from "wms-models/lib/custom.field";
 import { NotFoundError } from "wms-utils/lib/error";
-import { ModuleRef } from "@nestjs/core";
 import { CustomFieldService } from "src/modules/custom.field/service";
 import { CustomFieldMappingReadRepository } from "./read.repository";
 import { mergeObj } from "wms-utils/lib/db";
+import { Inject, forwardRef } from "@nestjs/common";
 
 export class CustomFieldMappingWriteRepository extends BaseWriteRepository<CustomFieldMapping> {
   constructor(
     @InjectModel(ModelTokens.CustomFieldMapping)
     readonly model: Model<CustomFieldMapping>,
-    private readonly moduleRef: ModuleRef,
-    private readonly readRepo: CustomFieldMappingReadRepository,
-    private readonly writeRepo: CustomFieldMappingWriteRepository
+    @Inject(forwardRef(() => CustomFieldService))
+    private readonly customFieldService: CustomFieldService,
+
+    private readonly readRepo: CustomFieldMappingReadRepository
   ) {
     super(model);
   }
@@ -31,11 +32,9 @@ export class CustomFieldMappingWriteRepository extends BaseWriteRepository<Custo
   ): Promise<CustomFieldMapping> {
     let request: Partial<CustomFieldMapping> = createCustomFieldMapping;
 
-    const customFieldService = await this.moduleRef.resolve(CustomFieldService);
-
     // Case: not found custom field
     const customFieldId: string = request.customField?._id;
-    const customField: CustomField = await customFieldService.findOne({
+    const customField: CustomField = await this.customFieldService.findOne({
       _id: customFieldId,
     });
     if (!customField) throw new NotFoundError();
@@ -81,7 +80,7 @@ export class CustomFieldMappingWriteRepository extends BaseWriteRepository<Custo
     });
 
     if (!oldField) {
-      const customFieldMapping: CustomFieldMapping = await this.writeRepo.save(
+      const customFieldMapping: CustomFieldMapping = await this.save(
         {
           ...item,
           isHead: true,
@@ -92,12 +91,9 @@ export class CustomFieldMappingWriteRepository extends BaseWriteRepository<Custo
       return customFieldMapping;
     }
 
-    await this.writeRepo.update({ _id: oldField._id }, { next: request._id });
+    await this.update({ _id: oldField._id }, { next: request._id });
 
-    const customFieldMapping: CustomFieldMapping = await this.writeRepo.save(
-      item,
-      extra
-    );
+    const customFieldMapping: CustomFieldMapping = await this.save(item, extra);
 
     return customFieldMapping;
   }
