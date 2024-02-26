@@ -60,4 +60,13 @@ export class ItemReadRepository extends BaseReadRepository<Item> {
       selects: query.selects,
     });
   }
+
+  public async checkSKU(sku: string): Promise<boolean> {
+    const result: Item = await this.findOne({
+      sku,
+    });
+
+    if (result) return false;
+    return true;
+  }
 }

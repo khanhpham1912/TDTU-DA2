@@ -60,4 +60,10 @@ export class ItemController {
     const result: PaginateResponse<Item> = await this.readRepo.list(body);
     return resOk(ERROR_CODE.ListSuccess["Success"], result);
   }
+
+  @Get(":sku/check-sku")
+  async checkSKU(@Param("sku") sku: string): Promise<IResponse<boolean>> {
+    const result: boolean = await this.readRepo.checkSKU(sku);
+    return resOk(ERROR_CODE.ListSuccess["Success"], result);
+  }
 }
