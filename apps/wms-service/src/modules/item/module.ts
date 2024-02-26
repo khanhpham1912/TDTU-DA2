@@ -6,6 +6,8 @@ import { CounterModule } from "../counter/counter.module";
 import { ItemReadRepository, ItemWriteRepository } from "./repository";
 import { ItemSchema } from "./schema";
 import { ItemController } from "./controller";
+import { InboundOrderModule } from "../inbound.order/module";
+import { OutboundOrderModule } from "../outbound.order/module";
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { ItemController } from "./controller";
       },
     ]),
     CounterModule,
+    InboundOrderModule,
+    OutboundOrderModule,
   ],
   controllers: [ItemController],
   providers: [ItemReadRepository, ItemWriteRepository],
