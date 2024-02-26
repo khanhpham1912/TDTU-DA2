@@ -1,0 +1,16 @@
+.transporter {
+  width: 100% !important;
+  border-radius: 8px;
+}
+
+.table-wrapper {
+  min-height: 200px;
+  height: calc(100vh - 30rem);
+  max-height: 500px;
+
+  :global {
+    td {
+      vertical-align: middle;
+    }
+  }
+}

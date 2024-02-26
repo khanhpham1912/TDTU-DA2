@@ -122,5 +122,21 @@
   "To": "To",
   "Select time": "Select time",
   "Create successfully": "Create successfully",
-  "Update item": "Update item"
+  "Update item": "Update item",
+  "Delete inbound order": "Delete inbound order",
+  "Inbound order": "Inbound order",
+  "Shipper": "Shipper",
+  "Total weight": "Total weight",
+  "Total value": "Total value",
+  "Item": "Item",
+  "Quantity": "Quantity",
+  "Unit value (VND)": "Unit value (VND)",
+  "Total value (VND)": "Total value (VND)",
+  "Total values = Quantity * Unit Value": "Total values = Quantity * Unit Value",
+  "Add at least 1 item": "Add at least 1 item",
+  "Total count": "Total count",
+  "Total gross weight (kg)": "Total gross weight (kg)",
+  "Total unit value (VND)": "Total unit value (VND)",
+  "General": "General",
+  "TRANSPORTER": "TRANSPORTER"
 }

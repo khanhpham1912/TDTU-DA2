@@ -1,0 +1,36 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-bottom: 1px solid #e8edf2;
+
+  &:hover {
+    background: #dce0e5;
+  }
+}
+
+.table-wrapper {
+  min-height: 200px;
+  height: calc(100vh - 30rem);
+  max-height: 500px;
+
+  :global {
+    td {
+      vertical-align: middle;
+    }
+  }
+}
+
+.items-form {
+  padding: 16px 24px;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+  border: 1px solid var(--color-neutral-100);
+  justify-content: space-between;
+}

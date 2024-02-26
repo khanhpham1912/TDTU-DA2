@@ -1,2 +1,2 @@
-export { default as useItemForm } from './useItemForm';
-export { default as useItemManagement } from './useItemManagement';
+export { default as useItemForm } from "./useItemForm";
+export { default as useInboundManagement } from "./useInboundManagement";

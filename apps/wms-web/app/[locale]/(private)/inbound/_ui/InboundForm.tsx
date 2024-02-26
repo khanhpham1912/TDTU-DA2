@@ -15,7 +15,6 @@ import styles from "./styles.module.scss";
 import { getEnumValues } from "@/utils/enum.utility";
 import { E_PRODUCT_TYPE, E_UOM } from "@/enums";
 import { Item } from "wms-models/lib/items";
-import DimensionForm from "./DimensionForm";
 import { number } from "@/configs/number.config";
 import { disabledAfter, disabledBefore } from "@/configs/date.config";
 import { DatePicker } from "@/components/DatePicker";
@@ -158,9 +157,6 @@ export default function ItemForm({
             <Form.Item name="unitValue" label={t("Unit value")}>
               <InputNumber min={0} placeholder={t("Enter")} {...number} />
             </Form.Item>
-          </Col>
-          <Col md={12} xs={24}>
-            <DimensionForm />
           </Col>
           <Col xs={24}>
             <Form.Item name="description" label="Description">

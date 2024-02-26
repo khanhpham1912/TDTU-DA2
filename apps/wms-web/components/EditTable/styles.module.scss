@@ -1,0 +1,118 @@
+.table-wrapper {
+  max-height: 350px;
+  min-height: 350px;
+  background: var(--color-bg-menu);
+  overflow-x: hidden;
+  &:hover {
+    overflow-x: auto;
+  }
+
+  &--error {
+    border: 1px solid var(--color-danger);
+  }
+}
+
+.table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+
+  & > thead {
+    & > tr {
+      & > th {
+        vertical-align: middle;
+        text-align: left;
+        position: sticky;
+        top: 0;
+        color: var(--color-neutral-500);
+        z-index: 2;
+        height: 44px;
+        max-height: 44px;
+        padding: 0px 12px;
+        background: var(--color-bg-menu);
+        z-index: 10;
+
+        &:last-child,
+        &:first-child {
+          z-index: 11;
+        }
+      }
+    }
+  }
+
+  & > tbody {
+    & > tr {
+      & > td {
+        height: 56px;
+        max-height: 56px;
+        vertical-align: middle;
+        padding: 0px 12px;
+        border-bottom: 1px solid var(--color-neutral-100);
+        background: var(--color-bg-menu);
+
+        &:last-child,
+        &:first-child {
+          z-index: 9;
+        }
+      }
+
+      &:first-child {
+        & > td {
+          border-top: 1px solid var(--color-neutral-100);
+        }
+      }
+      &:last-child {
+        & > td {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}
+
+.fixed-left {
+  width: fit-content;
+  text-align: left;
+  min-width: 120px;
+  max-width: 120px;
+  position: sticky;
+  left: 0;
+  &::after {
+    box-shadow: inset 10px 0 8px -8px rgba(5, 5, 5, 0.06);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: -1px;
+    width: 16px;
+    transform: translateX(100%);
+    transition: box-shadow 0.3s;
+    content: "";
+    pointer-events: none;
+  }
+}
+
+.fixed-right {
+  width: fit-content;
+  text-align: center !important;
+  width: 40px;
+  max-width: 40px;
+  position: sticky;
+  right: 0;
+  &::after {
+    box-shadow: inset -10px 0 8px -8px rgba(5, 5, 5, 0.06);
+    position: absolute;
+    top: 0;
+    bottom: -1px;
+    left: 0;
+    width: 16px;
+    transform: translateX(-100%);
+    transition: box-shadow 0.3s;
+    content: "";
+    pointer-events: none;
+  }
+}
+
+.highlighted {
+  border-top: 2px solid var(--color-yellow-500);
+  border-bottom: 2px solid var(--color-yellow-500);
+}
