@@ -1,16 +1,12 @@
 "use client";
 
 import { Table } from "@/components";
-import { useBreadcrumb } from "@/hooks";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
 export default function Items() {
   const t = useTranslations();
 
-  useBreadcrumb({
-    selectedMenu: "OUTBOUND",
-  });
   const filterOptions: any = useMemo(() => {
     const _filterOptions: any[] = [
       {
@@ -75,7 +71,7 @@ export default function Items() {
         }}
         onClickAdd={() => {}}
         addText={t("Create outbound")}
-
       />
     </div>
-  );}
+  );
+}

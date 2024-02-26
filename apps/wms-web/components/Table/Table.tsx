@@ -5,7 +5,7 @@ import { Table, Pagination, Button, Input, Tooltip } from "antd";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 // hooks
 import { useTranslations } from "next-intl";
@@ -39,7 +39,6 @@ interface Props {
   extraFilterRight?: JSX.Element;
   extraFilterLeft?: JSX.Element;
   rowKey?: any;
-  dataSource?: any;
 }
 
 const PostTable = ({
@@ -63,7 +62,6 @@ const PostTable = ({
     hardcodeFilter,
     extraFilterRight,
     extraFilterLeft,
-    dataSource,
     ...rest
   } = props;
 
@@ -116,7 +114,7 @@ const PostTable = ({
             onClick={onClickAdd}
             type="primary"
             icon={
-              addIcon || (
+              addIcon ?? (
                 <FontAwesomeIcon
                   icon={faPlus}
                   style={{ color: "#fff", fontSize: 14 }}
@@ -124,7 +122,7 @@ const PostTable = ({
               )
             }
           >
-            {addText || t("Add")}
+            {addText ?? t("Add")}
           </Button>
         )}
       </div>
@@ -132,7 +130,7 @@ const PostTable = ({
         <Table
           pagination={false}
           columns={mergeColumns as any}
-          dataSource={dataSource ?? tableQuery?.data?.data?.docs}
+          dataSource={tableQuery?.data?.data?.docs}
           loading={tableQuery?.isFetching}
           rowKey="_id"
           scroll={{
@@ -152,7 +150,6 @@ const PostTable = ({
           pageSizeOptions={[10, 20, 50]}
           onChange={handleChangePagination}
           showTotal={(total) => <div>{`${t("Total")} ${total}`} </div>}
-          // hideOnSinglePage
           className="pr-16"
         />
       </div>

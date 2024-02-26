@@ -11,8 +11,8 @@ import ObjectUtility from "@/utils/object.utility";
 // contexts
 
 const DEFAULT_PAGING = {
-  page: 1,
-  perPage: 20,
+  currentPage: 1,
+  pageSize: 20,
 };
 
 // models
@@ -37,20 +37,19 @@ const usePostTable = (props: Props) => {
 
   const [filterParams, setFilterParams] = useState<{
     filter: any;
-    pagination: {
-      page: number;
-      perPage: number;
+    paging: {
+      currentPage: number;
+      pageSize: number;
     };
-    // search: string;
+    search: string;
   }>({
     filter: { ...hardcodeFilter },
-    pagination: DEFAULT_PAGING,
-    // search: "",
+    paging: DEFAULT_PAGING,
+    search: "",
   });
 
   useEffect(() => {
     setFilterParams((prev) => ({ ...prev, filter: { ...hardcodeFilter } }));
-    // Reset filter form when change hardcodeFilter
     filterForm.resetFields();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hardcodeFilter]);
@@ -65,25 +64,25 @@ const usePostTable = (props: Props) => {
       queryConfig.queryFn({
         ...filterParams,
       }),
-    keepPreviousData: true,
+    keepPreviousData: false,
     refetchOnWindowFocus: false,
     // enabled: isReady,
     retry: false,
     onSuccess: (response) => {
-      const pagination = response?.data?.pagination;
-      if (pagination?.page > pagination?.pageTotal) {
+      const paging = response?.data?.paging;
+      if (paging?.currentPage > paging?.pageSize) {
         const _filterParams = JSON.parse(JSON.stringify(filterParams));
-        _filterParams.pagination.page = pagination?.pageTotal;
+        _filterParams.paging.currentPage = paging?.pageSize;
         setFilterParams(_filterParams);
       }
     },
   });
 
-  const handleChangePagination = (page: number, perPage: number) => {
+  const handleChangePagination = (currentPage: number, pageSize: number) => {
     const _filterParams = JSON.parse(JSON.stringify(filterParams));
-    _filterParams.pagination = {
-      page,
-      perPage,
+    _filterParams.paging = {
+      currentPage,
+      pageSize,
     };
     setFilterParams(_filterParams);
   };
@@ -98,7 +97,7 @@ const usePostTable = (props: Props) => {
           ...filter,
         };
 
-        _filterParams.pagination = DEFAULT_PAGING;
+        _filterParams.paging = DEFAULT_PAGING;
         setFilterParams(_filterParams);
       } catch (error) {
         console.error(error);
@@ -110,10 +109,11 @@ const usePostTable = (props: Props) => {
 
   const handleSearch = useCallback(
     (value: string) => {
+      // TODO: cancel not work
       queryClient.cancelQueries({ queryKey: [queryConfig.queryKey] });
       const _filterParams = JSON.parse(JSON.stringify(filterParams));
       _filterParams.search = value;
-      _filterParams.pagination = DEFAULT_PAGING;
+      _filterParams.paging = DEFAULT_PAGING;
       setFilterParams(_filterParams);
     },
     [filterParams]

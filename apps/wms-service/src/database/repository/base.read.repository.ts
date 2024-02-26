@@ -1,5 +1,5 @@
 import { FilterQuery, Model, PopulateOptions, QueryOptions } from "mongoose";
-import { WMSEntity } from "wms-models/lib/entity";
+import { WMSEntity } from "wms-models/lib/shared";
 import { mergeSelect } from "wms-utils/lib/db";
 import { NotFoundError, ValidationError } from "wms-utils/lib/error";
 import {
