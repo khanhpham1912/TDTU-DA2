@@ -7,8 +7,7 @@ import { usePostList } from "./usePostList";
 import { useTranslations } from "next-intl";
 
 // components
-import { NoResultFound, Search } from "@/components/common";
-import { Pagination, Skeleton } from "antd";
+import { Input, Pagination, Skeleton } from "antd";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -68,7 +67,7 @@ export const PostList = ({
         {extraHeader}
         <div className="d-flex gap-8">
           {showSearch && (
-            <Search
+            <Input
               placeholder={searchPlaceholder ?? t("Search")}
               onChange={(event) => handleSearch(event.target.value)}
               allowClear
@@ -97,12 +96,10 @@ export const PostList = ({
           )}
           {!listQuery?.isFetching && (
             <>
-              {listQuery?.data?.data?.docs?.length ? (
+              {listQuery?.data?.data?.docs?.length && (
                 listQuery?.data?.data?.docs?.map?.((item: any) =>
                   renderItem(item)
                 )
-              ) : (
-                <NoResultFound />
               )}
             </>
           )}

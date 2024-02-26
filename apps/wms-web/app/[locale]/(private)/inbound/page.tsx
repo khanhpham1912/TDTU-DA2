@@ -8,11 +8,12 @@ import { useMemo } from "react";
 import { InboundOrder } from "wms-models/lib/inbound";
 import { Item } from "wms-models/lib/items";
 import { useInboundManagement } from "./_logic";
+import { useRouter } from "next/navigation";
 
 export default function Items() {
   const t = useTranslations();
-
-  const { columns, filterOptions, selectedInbound, setSelectedInbound } =
+  const {push} = useRouter();
+  const { columns, filterOptions } =
   useInboundManagement();
 
   return (
@@ -25,7 +26,7 @@ export default function Items() {
           queryKey: ["inbound-management"],
           queryFn: () => {},
         }}
-        onClickAdd={() => {}}
+        onClickAdd={() => {push("/inbound/add")}}
         addText={t("Create inbound")}
       />
     </div>

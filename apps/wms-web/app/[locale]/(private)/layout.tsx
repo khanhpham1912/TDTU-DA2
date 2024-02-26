@@ -105,7 +105,7 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
         navigation={navigation}
       />
 
-      <main className="lg:pl-56 flex flex-col h-screen box-border overflow-x-auto overflow-y-hidden">
+      <main className="lg:pl-56 flex flex-col h-screen box-border overflow-x-auto overflow-y-hidden w-full">
         <PrivateHeader
           onOpenSideBar={() => setSidebarOpen(true)}
           userNavigation={userNavigation}
