@@ -43,7 +43,7 @@ export class ItemController {
 
   @Delete(":id")
   async delete(@Param("id") id: string): Promise<IResponse<boolean>> {
-    const result: ItemDeletedResponse = await this.writeRepo.delete(id);
+    const result: ItemDeletedResponse = await this.writeRepo.deleteItem(id);
     return resOk(ERROR_CODE.DeleteSuccess["Success"], result.success);
   }
 
