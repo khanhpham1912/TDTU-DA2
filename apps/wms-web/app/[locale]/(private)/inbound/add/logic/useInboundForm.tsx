@@ -1,9 +1,11 @@
 import { DatePicker } from "@/components/DatePicker";
 import { FORMAT_DATE, disabledAfter } from "@/configs/date.config";
+import { createInbound } from "@/services/inbounds.service";
 import { displayDate, displayNumber } from "@/utils/display.utility";
 import { pushNotify } from "@/utils/toast";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMutation } from "@tanstack/react-query";
 import { Form, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { InboundOrder, InboundOrderItem } from "wms-models/lib/inbound";
@@ -11,8 +13,7 @@ import { Item } from "wms-models/lib/items";
 
 const useInboundForm = () => {
   const t = useTranslations();
-  const [form] = Form.useForm()
-
+  const [form] = Form.useForm();
 
   const handleAddItem = (
     newItem: Item,
@@ -47,9 +48,25 @@ const useInboundForm = () => {
         form.setFieldValue("items", items);
         return;
       }
+      "totalNetWeight must be a number conforming to the specified constraints"
+  "totalGrossWeight must be a number conforming to the specified constraints"
+  "totalVolume must be a number conforming to the specified constraints"
+  "totalValue must be a number conforming to the specified constraints"
+  "status must be one of the following values: NEW, INPROGRESS, COMPLETED, CANCELED"
       add(
         {
-          ...newItem,
+          no: newItem?.no,
+          sku: newItem?.sku,
+          name: newItem?.name,
+          description: newItem?.description,
+          uom: newItem?.uom,
+          type: newItem?.type,
+          grossWeight: newItem?.grossWeight,
+          unitValue: newItem?.unitValue,
+          productionDate: newItem?.productionDate,
+          expiryDate: newItem?.expiryDate,
+          supplier: newItem?.supplier,
+          dimension: newItem?.dimension,
           itemCount: 1,
         },
         0
@@ -160,7 +177,7 @@ const useInboundForm = () => {
           </Tooltip>
         </div>
       ),
-      width: 150,
+      width: 200,
       render: ({ field }: any) => {
         return (
           <Form.Item<any>
@@ -192,10 +209,62 @@ const useInboundForm = () => {
         );
       },
     },
+    {
+      title: t("Weight (kg)"),
+      width: 140,
+      formType: "InputNumber",
+      formName: "grossWeight",
+      inputNumberConfig: {
+        min: 0,
+        placeholder: "0",
+      },
+    },
+    {
+      title: (
+        <div className=" flex gap-1 items-center">
+          <span>{t("Total weight (kg)")}</span>
+          <Tooltip title={t("Total weight = Quantity * Weight")}>
+            <span className="material-symbols-outlined text-blue-500 cursor-pointer">
+              info
+            </span>
+          </Tooltip>
+        </div>
+      ),
+      width: 200,
+      render: ({ field }: any) => {
+        return (
+          <Form.Item<any>
+            noStyle
+            shouldUpdate={(prev, current) => {
+              return (
+                prev?.items?.[field.name]?.itemCount !==
+                  current?.items?.[field.name]?.itemCount ||
+                prev?.items?.[field.name]?.grossWeight !==
+                  current?.items?.[field.name]?.grossWeight
+              );
+            }}
+          >
+            {({ getFieldValue }) => {
+              const itemCount =
+                getFieldValue(["items", field.name, "itemCount"]) || 0;
 
+              const grossWeight =
+                getFieldValue(["items", field.name, "grossWeight"]) || 0;
+              const totalValue = itemCount * grossWeight;
+
+              return (
+                <div className="text-right w-full">
+                  {displayNumber(totalValue)}
+                </div>
+              );
+            }}
+          </Form.Item>
+        );
+      },
+    },
     {
       title: t("Production date"),
-      width: 120,
+      width: 150,
       align: "right",
       render: ({ field }: any) => {
         return (
@@ -284,10 +353,44 @@ const useInboundForm = () => {
     },
   ];
 
+  const createInboundMutation = useMutation({
+    mutationFn: (request: any) => createInbound(request),
+    onSuccess: (response) => {
+      pushNotify(response?.message);
+    },
+    onError: (error: any) => {
+      pushNotify(
+        error?.response?.data?.message ||
+          error.message ||
+          t("An error has occurred"),
+        {
+          type: "error",
+        }
+      );
+    },
+  });
+
+  const handleCreateInbound = async () => {
+    try {
+      const values = await form.validateFields();
+      console.log("🚀 ~ handleCreateInbound ~ values:", values);
+      createInboundMutation.mutate(values);
+    } catch (error: any) {
+      if (error?.errorFields && !!error?.errorFields?.length) {
+        const errorField = error?.errorFields?.[0];
+        form.scrollToField(errorField.name, {
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }
+  };
+
   return {
     form,
     handleAddItem,
     formColumns,
+    handleCreateInbound,
   };
 };
 

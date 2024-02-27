@@ -4,7 +4,7 @@ import classNames from "classnames";
 import styles from "./styles.module.scss";
 
 // components
-import { Col, Form, Row, Spin } from "antd";
+import { Button, Col, Form, Input, Row, Spin } from "antd";
 
 // hooks
 import { useTranslations } from "next-intl";
@@ -16,15 +16,31 @@ import { useRef } from "react";
 import EditTable from "@/components/EditTable";
 import { InboundOrder } from "wms-models/lib/inbound";
 import { displayNumber } from "@/utils/display.utility";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faPhone, faCar } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
+import { DatePicker } from "@/components/DatePicker";
 
 const CreateInboundOrder = () => {
   const t = useTranslations();
   const tableRef: any = useRef();
-  const { form, handleAddItem, formColumns } = useInboundForm();
-
+  const { form, handleAddItem, formColumns, handleCreateInbound } =
+    useInboundForm();
+  const { push } = useRouter();
   return (
     <div className="app-content">
-      <Form form={form} className="w-full">
+      <div className="flex justify-between pb-4">
+        <span className=" text-gray-900 font-semibold text-xl">
+          {t("New inbound order")}
+        </span>
+        <div className="flex gap-2">
+          <Button onClick={() => push("/inbound")}>{t("Cancel")}</Button>
+          <Button type="primary" onClick={handleCreateInbound}>
+            {t("Save")}
+          </Button>
+        </div>
+      </div>
+      <Form form={form} className="w-full" layout="vertical">
         <Row gutter={16}>
           <Col xs={8}>
             <PostList
@@ -104,12 +120,10 @@ const CreateInboundOrder = () => {
                             } else {
                               totalCount[item.uom] = item?.itemCount;
                             }
-                            totalWeight += Number(
-                              displayNumber(item?.grossWeight)
-                            );
-                            totalValue += Number(
-                              displayNumber(item?.unitValue)
-                            );
+                            totalWeight +=
+                              (item?.grossWeight ?? 0) * (item?.itemCount ?? 0);
+                            totalValue +=
+                              (item?.unitValue ?? 0) * (item?.itemCount ?? 0);
                           });
                           return (
                             <div className={styles.summary}>
@@ -134,7 +148,7 @@ const CreateInboundOrder = () => {
                                   </tr>
 
                                   <tr>
-                                    <td>{t("Total gross weight (kg)")}</td>
+                                    <td>{t("Total weight (kg)")}</td>
                                     <td>{displayNumber(totalWeight)}</td>
                                   </tr>
 
@@ -152,6 +166,99 @@ const CreateInboundOrder = () => {
                   );
                 }}
               />
+            </div>
+          </Col>
+        </Row>
+        <Row gutter={16} className="mt-6">
+          <Col xs={12}>
+            <div className="flex flex-col gap-4 border border-gray-200 border-solid rounded-lg p-4">
+              <span className="text-indigo-600 text-lg font-bold">
+                {t("General")}
+              </span>
+              <div className="flex flex-col">
+                {/* <Form.Item<InboundOrder>
+                  name={["arrivalTime"]}
+                  label={t("Arrival time")}
+                >
+                  <DatePicker/>
+                </Form.Item> */}
+                <Form.Item<InboundOrder>
+                  name={["remark"]}
+                  label={t("Remark")}
+                  style={{ marginBottom: 4 }}
+                >
+                  <Input.TextArea
+                    className={styles.input}
+                    placeholder={t("Enter")}
+                    maxLength={200}
+                    showCount
+                  />
+                </Form.Item>
+              </div>
+            </div>
+          </Col>
+          <Col xs={12}>
+            <div className=" flex flex-col gap-4 border border-gray-200 border-solid rounded-lg p-4">
+              <span className=" text-indigo-600 text-lg font-bold">
+                {t("Transporter")}
+              </span>
+              <div className="flex flex-col gap-2">
+                <span className="text-gray-900">{t("Shipper")}</span>
+                <Form.Item<InboundOrder>
+                  name={["shipper", "shipperName"]}
+                  style={{ marginBottom: 4 }}
+                >
+                  <Input
+                    className={styles.input}
+                    placeholder={t("Name")}
+                    prefix={
+                      <FontAwesomeIcon
+                        icon={faUser}
+                        className=" text-gray-400"
+                        style={{ fontSize: 16 }}
+                      />
+                    }
+                  />
+                </Form.Item>
+                <Form.Item<InboundOrder>
+                  name={["shipper", "shipperPhone"]}
+                  rules={[
+                    {
+                      pattern: /^[0-9]{10}$/,
+                      message: t("Invalid phone number"),
+                    },
+                  ]}
+                  style={{ marginBottom: 4 }}
+                >
+                  <Input
+                    className={styles.input}
+                    placeholder={t("Phone")}
+                    prefix={
+                      <FontAwesomeIcon
+                        icon={faPhone}
+                        className="text-gray-400"
+                        style={{ fontSize: 16 }}
+                      />
+                    }
+                    maxLength={10}
+                  />
+                </Form.Item>
+                <Form.Item<InboundOrder>
+                  label={t("License plates")}
+                  name={["shipper", "shipperLicense"]}
+                >
+                  <Input
+                    placeholder={t("License plates")}
+                    prefix={
+                      <FontAwesomeIcon
+                        icon={faCar}
+                        className="text-gray-400"
+                        style={{ fontSize: 16 }}
+                      />
+                    }
+                  />
+                </Form.Item>
+              </div>
             </div>
           </Col>
         </Row>

@@ -65,7 +65,7 @@ export const PostList = ({
         style={headerStyle}
       >
         {extraHeader}
-        <div className="d-flex gap-8">
+        <div className="flex gap-2">
           {showSearch && (
             <Input
               placeholder={searchPlaceholder ?? t("Search")}

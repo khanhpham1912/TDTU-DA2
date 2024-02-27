@@ -87,10 +87,7 @@ export default function useItemForm({
   const handleSubmitItemForm = async () => {
     try {
       const values = await itemForm.validateFields();
-      console.log(
-        "🚀 ~ file: useItemForm.tsx:18 ~ handleSubmitItemForm ~ values:",
-        values
-      );
+
       if (Object.keys(values?.dimension)?.length === 0) {
         delete values.dimension;
       }

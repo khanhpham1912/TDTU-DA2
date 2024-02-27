@@ -138,5 +138,15 @@
   "Total gross weight (kg)": "Total gross weight (kg)",
   "Total unit value (VND)": "Total unit value (VND)",
   "General": "General",
-  "TRANSPORTER": "TRANSPORTER"
+  "TRANSPORTER": "TRANSPORTER",
+  "Weight (kg)": "Weight (kg)",
+  "Total weight (kg)": "Total weight (kg)",
+  "Total weight = Quantity * Weight": "Total weight = Quantity * Weight",
+  "Transporter": "Transporter",
+  "Invalid phone number": "Invalid phone number",
+  "Phone": "Phone",
+  "License plates": "License plates",
+  "New inbound order": "New inbound order",
+  "Save": "Save",
+  "Arrival time": "Arrival time"
 }
