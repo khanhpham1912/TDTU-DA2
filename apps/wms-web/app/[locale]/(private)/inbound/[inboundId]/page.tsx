@@ -82,6 +82,7 @@ export default function InboundDetail() {
     mutationFn: (request: any) => updateInbound(inboundId, request),
     onSuccess: (response) => {},
   });
+
   const handleConfirmQuantity = async () => {
     try {
       const values = await form.validateFields();
