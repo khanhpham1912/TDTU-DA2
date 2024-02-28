@@ -125,7 +125,7 @@ const usePostTable = (props: Props) => {
         {
           title: t("No"),
           dataIndex: "index",
-          width: 50,
+          width: 70,
           fixed: "left",
           align: "center",
           render: (_: any, __: any, index: number) => index + 1,

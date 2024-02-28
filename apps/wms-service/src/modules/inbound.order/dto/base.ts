@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
   IsDate,
@@ -64,6 +64,10 @@ export class InboundOrderItemDto implements InboundOrderItem {
   @IsOptional()
   @IsString()
   no: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
   sku: string;
 
   @ApiPropertyOptional()
@@ -76,11 +80,11 @@ export class InboundOrderItemDto implements InboundOrderItem {
   @IsString()
   description?: string;
 
-  @ApiProperty({ enum: UOM })
+  @ApiPropertyOptional({ enum: UOM })
   @IsEnum(UOM)
   uom: UOM;
 
-  @ApiProperty({ enum: EProductType })
+  @ApiPropertyOptional({ enum: EProductType })
   @IsEnum(EProductType)
   type: EProductType;
 
@@ -128,49 +132,55 @@ export class InboundOrderItemDto implements InboundOrderItem {
   @Type(() => DimensionDto)
   dimension?: DimensionDto;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsNumber()
   @Type(() => Number)
   itemCount: number;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsString()
+  @IsOptional()
   barcode: string;
 }
 
 export class InboundOrderDto extends BaseDto implements InboundOrder {
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   no: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsObject()
   @ValidateNested()
   @Type(() => ShipperDto)
   shipper: ShipperDto;
 
-  @ApiProperty({ type: InboundOrderItemDto, isArray: true })
+  @ApiPropertyOptional({ type: InboundOrderItemDto, isArray: true })
   @ValidateNested({ each: true })
   @Type(() => InboundOrderItemDto)
   items: InboundOrderItemDto[];
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsNumber()
+  @IsOptional()
   @Type(() => Number)
   totalNetWeight: number;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsNumber()
+  @IsOptional()
   @Type(() => Number)
   totalGrossWeight: number;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsNumber()
+  @IsOptional()
   @Type(() => Number)
   totalVolume: number;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsNumber()
+  @IsOptional()
   @Type(() => Number)
   totalValue: number;
 
@@ -179,7 +189,7 @@ export class InboundOrderDto extends BaseDto implements InboundOrder {
   @IsString()
   remark?: string;
 
-  @ApiProperty({ enum: EStatus })
+  @ApiPropertyOptional({ enum: EStatus })
   @IsEnum(EStatus)
   status: EStatus;
 

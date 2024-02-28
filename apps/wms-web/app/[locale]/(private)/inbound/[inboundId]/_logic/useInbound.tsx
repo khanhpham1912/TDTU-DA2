@@ -1,83 +1,148 @@
-import { DatePicker } from "@/components/DatePicker";
-import { FORMAT_DATE, disabledAfter } from "@/configs/date.config";
-import { EStatus } from "@/enums";
-import { createInbound } from "@/services/inbounds.service";
-import { displayDate, displayNumber } from "@/utils/display.utility";
-import { pushNotify } from "@/utils/toast";
+import { disabledAfter, FORMAT_DATE } from "@/configs/date.config";
+import {
+  displayNumber,
+  displayDate,
+  displayValue,
+} from "@/utils/display.utility";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMutation } from "@tanstack/react-query";
-import { Form, Tooltip } from "antd";
+import { Form, Tooltip, DatePicker } from "antd";
 import { useTranslations } from "next-intl";
 import { InboundOrder, InboundOrderItem } from "wms-models/lib/inbound";
-import { Item } from "wms-models/lib/items";
 
-const useInboundForm = () => {
+export const useInbound = () => {
   const t = useTranslations();
-  const [form] = Form.useForm();
-
-  const handleAddItem = (
-    newItem: Item,
-    add: (
-      value: Partial<
-        InboundOrderItem & {
-          weight: number;
-          conversionValue: number;
-          conversionWeight: number;
-        }
-      >,
-      index: number
-    ) => void
-  ) => {
-    try {
-      if (!newItem) {
-        return;
-      }
-      const values = form.getFieldsValue();
-
-      const hasProduct = !!values?.items?.find(
-        (item: InboundOrderItem) => item?.no === newItem?.no
-      );
-
-      if (hasProduct) {
-        const items = values.items?.map((item: InboundOrderItem) => {
-          if (item?.no === newItem?.no) {
-            item.itemCount += 1;
-          }
-          return item;
-        });
-        form.setFieldValue("items", items);
-        return;
-      }
-      ("totalNetWeight must be a number conforming to the specified constraints");
-      ("totalGrossWeight must be a number conforming to the specified constraints");
-      ("totalVolume must be a number conforming to the specified constraints");
-      ("totalValue must be a number conforming to the specified constraints");
-      ("status must be one of the following values: NEW, INPROGRESS, COMPLETED, CANCELED");
-      add(
-        {
-          no: newItem?.no,
-          sku: newItem?.sku,
-          name: newItem?.name,
-          description: newItem?.description,
-          uom: newItem?.uom,
-          type: newItem?.type,
-          grossWeight: newItem?.grossWeight,
-          unitValue: newItem?.unitValue,
-          productionDate: newItem?.productionDate,
-          expiryDate: newItem?.expiryDate,
-          supplier: newItem?.supplier,
-          dimension: newItem?.dimension,
-          itemCount: 1,
-        },
-        0
-      );
-    } catch (error) {
-      console.error(error);
-      pushNotify(t("An error has occurred"), { type: "error" });
-    }
-  };
-
+  const tableColumns: any = [
+    {
+      title: t("No"),
+      dataIndex: "index",
+      width: 70,
+      fixed: "left",
+      align: "center",
+      render: (_: any, __: any, index: number) => index + 1,
+    },
+    {
+      title: t("Item"),
+      key: "name",
+      fixed: "left",
+      width: 250,
+      render: (record: InboundOrderItem) => (
+        <div className="flex gap-2 items-center">
+          <div className="flex flex-col">
+            <Tooltip title={record?.name}>
+              <span className="text-gray-900 text-sm">{record?.name}</span>
+            </Tooltip>
+            <div className="flex gap-1 text-gray-500 items-center text-xs">
+              <span>{`SKU: `}</span>
+              <span>{record?.sku}</span>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: t("UOM"),
+      key: "uom",
+      width: 170,
+      render: (record: InboundOrderItem) => (
+        <div className="flex gap-2 items-center text-sm">
+          <span>{t(record?.uom as any)}</span>
+        </div>
+      ),
+    },
+    {
+      title: t("Quantity"),
+      key: "itemCount",
+      width: 170,
+      render: (record: InboundOrderItem) => (
+        <div className="text-right text-sm">
+          {displayNumber(record?.itemCount)}
+        </div>
+      ),
+    },
+    {
+      title: t("Unit value (VND)"),
+      key: "unitValue",
+      width: 200,
+      render: (record: InboundOrderItem) => (
+        <div className="text-right">
+          {displayNumber(record?.unitValue ?? 0)}
+        </div>
+      ),
+    },
+    {
+      title: (
+        <div className=" flex gap-1 items-center">
+          <span>{t("Total value (VND)")}</span>
+          <Tooltip title={t("Total values = Quantity * Unit Value")}>
+            <span className="material-symbols-outlined text-blue-500 cursor-pointer">
+              info
+            </span>
+          </Tooltip>
+        </div>
+      ),
+      key: "totalValue",
+      width: 200,
+      render: (record: InboundOrderItem) => (
+        <div className="text-right">
+          {displayNumber((record?.unitValue ?? 0) * (record?.itemCount ?? 0))}
+        </div>
+      ),
+    },
+    {
+      title: t("Weight (kg)"),
+      key: "grossWeight",
+      width: 200,
+      render: (record: InboundOrderItem) => (
+        <div className="text-right">
+          {displayNumber(record?.grossWeight ?? 0)}
+        </div>
+      ),
+    },
+    {
+      title: (
+        <div className=" flex gap-1 items-center">
+          <span>{t("Total weight (kg)")}</span>
+          <Tooltip title={t("Total weight = Quantity * Weight")}>
+            <span className="material-symbols-outlined text-blue-500 cursor-pointer">
+              info
+            </span>
+          </Tooltip>
+        </div>
+      ),
+      key: "totalWeight",
+      width: 200,
+      render: (record: InboundOrderItem) => (
+        <div className="text-right">
+          {displayNumber((record?.grossWeight ?? 0) * (record?.itemCount ?? 0))}
+        </div>
+      ),
+    },
+    {
+      title: t("Production date"),
+      key: "productionDate",
+      width: 200,
+      render: (record: InboundOrderItem) => (
+        <div>{displayDate(record?.productionDate)}</div>
+      ),
+    },
+    {
+      title: t("Expiry date"),
+      key: "expiryDate",
+      width: 200,
+      render: (record: InboundOrderItem) => (
+        <div>{displayDate(record?.expiryDate)}</div>
+      ),
+    },
+    {
+      title: t("Description"),
+      key: "expiryDate",
+      width: 250,
+      render: (record: InboundOrderItem) => (
+        <div>{displayValue(record?.description)}</div>
+      ),
+    },
+  ];
   const formColumns = [
     {
       title: t("Item"),
@@ -105,7 +170,7 @@ const useInboundForm = () => {
                       <span className="text-gray-900 text-sm">{name}</span>
                     </Tooltip>
                     <div className="flex gap-1 text-gray-500 items-center text-xs">
-                      <span className="text-1line">{`SKU: `}</span>
+                      <span>{`SKU: `}</span>
                       <span>{sku}</span>
                     </div>
                   </div>
@@ -133,7 +198,7 @@ const useInboundForm = () => {
               const uom = getFieldValue(["items", field.name, "uom"]);
 
               return (
-                <div className="d-flex gap-8 align-center">
+                <div className="flex gap-2 items-center text-sm">
                   <span>{t(uom as any)}</span>
                 </div>
               );
@@ -142,7 +207,6 @@ const useInboundForm = () => {
         );
       },
     },
-
     {
       title: t("Quantity"),
       isRequired: true,
@@ -152,16 +216,36 @@ const useInboundForm = () => {
       inputNumberConfig: {
         min: 0,
         placeholder: "0",
+        className: "border-green-500",
       },
     },
     {
       title: t("Unit value (VND)"),
-      width: 140,
-      formType: "InputNumber",
-      formName: "unitValue",
-      inputNumberConfig: {
-        min: 0,
-        placeholder: "0",
+      width: 150,
+      render: ({ field }: any) => {
+        return (
+          <Form.Item<InboundOrder>
+            noStyle
+            shouldUpdate={(prev, current) => {
+              return (
+                prev?.items?.[field.name]?.unitValue !==
+                current?.items?.[field.name]?.unitValue
+              );
+            }}
+          >
+            {({ getFieldValue }) => {
+              const unitValue = getFieldValue([
+                "items",
+                field.name,
+                "unitValue",
+              ]);
+
+              return (
+                <div className="text-right">{displayNumber(unitValue)}</div>
+              );
+            }}
+          </Form.Item>
+        );
       },
     },
     {
@@ -210,11 +294,30 @@ const useInboundForm = () => {
     {
       title: t("Weight (kg)"),
       width: 140,
-      formType: "InputNumber",
-      formName: "grossWeight",
-      inputNumberConfig: {
-        min: 0,
-        placeholder: "0",
+      render: ({ field }: any) => {
+        return (
+          <Form.Item<InboundOrder>
+            noStyle
+            shouldUpdate={(prev, current) => {
+              return (
+                prev?.items?.[field.name]?.grossWeight !==
+                current?.items?.[field.name]?.grossWeight
+              );
+            }}
+          >
+            {({ getFieldValue }) => {
+              const grossWeight = getFieldValue([
+                "items",
+                field.name,
+                "grossWeight",
+              ]);
+
+              return (
+                <div className="text-right">{displayNumber(grossWeight)}</div>
+              );
+            }}
+          </Form.Item>
+        );
       },
     },
     {
@@ -333,11 +436,10 @@ const useInboundForm = () => {
         );
       },
     },
-
     {
       title: t("Action"),
       fixed: "right",
-      width: 60,
+      width: 80,
       render: ({ field, remove }: any) => {
         return (
           <FontAwesomeIcon
@@ -351,57 +453,5 @@ const useInboundForm = () => {
     },
   ];
 
-  const createInboundMutation = useMutation({
-    mutationFn: (request: any) => createInbound(request),
-    onSuccess: (response) => {
-      pushNotify(response?.message);
-    },
-    onError: (error: any) => {
-      pushNotify(
-        error?.response?.data?.message ||
-          error.message ||
-          t("An error has occurred"),
-        {
-          type: "error",
-        }
-      );
-    },
-  });
-
-  const handleCreateInbound = async () => {
-    try {
-      const values = await form.validateFields();
-      let totalGrossWeight = 0;
-      let totalValue = 0;
-      values?.items?.map((item: InboundOrderItem) => {
-        totalValue += (item?.unitValue ?? 0) * (item?.itemCount ?? 0);
-        totalGrossWeight += (item?.grossWeight ?? 0) * (item?.itemCount ?? 0);
-      });
-
-      console.log("🚀 ~ handleCreateInbound ~ values:", values);
-      createInboundMutation.mutate({
-        ...values,
-        totalValue,
-        totalGrossWeight,
-        status: EStatus.NEW,
-      });
-    } catch (error: any) {
-      if (error?.errorFields && !!error?.errorFields?.length) {
-        const errorField = error?.errorFields?.[0];
-        form.scrollToField(errorField.name, {
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    }
-  };
-
-  return {
-    form,
-    handleAddItem,
-    formColumns,
-    handleCreateInbound,
-  };
+  return { formColumns, tableColumns };
 };
-
-export default useInboundForm;

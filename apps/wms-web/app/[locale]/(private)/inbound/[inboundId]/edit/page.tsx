@@ -1,12 +1,12 @@
 "use client";
 // styles
 import styles from "./styles.module.scss";
+
 // components
 import { Button, Col, Form, Input, Row } from "antd";
 
 // hooks
 import { useTranslations } from "next-intl";
-import useInboundForm from "./logic/useInboundForm";
 import { PostList } from "@/components/PostList";
 import { getItems } from "@/services/items.service";
 import { Item } from "wms-models/lib/items";
@@ -16,14 +16,20 @@ import { InboundOrder } from "wms-models/lib/inbound";
 import { displayNumber } from "@/utils/display.utility";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faPhone, faCar } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from "next/navigation";
+import useInboundForm from "./logic";
 
-const CreateInboundOrder = () => {
+const UpdateInboundOrder = () => {
   const t = useTranslations();
   const tableRef: any = useRef();
-  const { form, handleAddItem, formColumns, handleCreateInbound } =
-    useInboundForm();
-  const { push } = useRouter();
+
+  const {
+    form,
+    handleAddItem,
+    formColumns,
+    handleUpdateInbound,
+    handleCancelUpdate,
+  } = useInboundForm();
+
   return (
     <div className="app-content">
       <div className="flex justify-between pb-4">
@@ -31,8 +37,8 @@ const CreateInboundOrder = () => {
           {t("New inbound order")}
         </span>
         <div className="flex gap-2">
-          <Button onClick={() => push("/inbound")}>{t("Cancel")}</Button>
-          <Button type="primary" onClick={handleCreateInbound}>
+          <Button onClick={handleCancelUpdate}>{t("Cancel")}</Button>
+          <Button type="primary" onClick={handleUpdateInbound}>
             {t("Save")}
           </Button>
         </div>
@@ -263,4 +269,4 @@ const CreateInboundOrder = () => {
     </div>
   );
 };
-export default CreateInboundOrder;
+export default UpdateInboundOrder;

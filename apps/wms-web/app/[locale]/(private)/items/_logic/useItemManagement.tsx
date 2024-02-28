@@ -1,6 +1,10 @@
 import CommonContext from "@/contexts/CommonContext";
 import { deleteItem } from "@/services/items.service";
-import { displayDate, displayValue } from "@/utils/display.utility";
+import {
+  displayDate,
+  displayNumber,
+  displayValue,
+} from "@/utils/display.utility";
 import { getEnumValues } from "@/utils/enum.utility";
 import { pushNotify } from "@/utils/toast";
 import { faEye, faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -94,8 +98,8 @@ export default function useItemManagement() {
   const columns: any = [
     {
       title: t("Name"),
-      width: 150,
       fixed: "left",
+      width: 250,
       render: (record: Item) => (
         <div className="flex flex-col">
           <span
@@ -110,8 +114,12 @@ export default function useItemManagement() {
     },
     {
       title: t("Weight"),
-      with: 70,
-      render: (record: Item) => <span>{record?.grossWeight}</span>,
+      width: 150,
+      render: (record: Item) => (
+        <div className="text-right">
+          {record?.grossWeight ? displayNumber(record?.grossWeight ?? 0) : "-"}
+        </div>
+      ),
     },
     {
       title: t("Production date"),
@@ -127,6 +135,7 @@ export default function useItemManagement() {
     },
     {
       title: t("Supplier"),
+      width: 200,
       render: (record: Item) => (
         <span>{displayValue(record?.supplier?.name)}</span>
       ),
@@ -147,14 +156,14 @@ export default function useItemManagement() {
     },
     {
       title: t("Remark"),
-      width: 200,
+      width: 300,
       render: (record: Item) => (
         <span>{displayValue(record?.description)}</span>
       ),
     },
     {
       title: t("Action"),
-      width: 80,
+      width: 100,
       key: "action",
       fixed: "right",
       align: "center",

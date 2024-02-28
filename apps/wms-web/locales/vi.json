@@ -148,5 +148,16 @@
   "License plates": "License plates",
   "New inbound order": "New inbound order",
   "Save": "Save",
-  "Arrival time": "Arrival time"
+  "Arrival time": "Arrival time",
+  "General information": "General information",
+  "Shipper name": "Shipper name",
+  "Shipper phone": "Shipper phone",
+  "Print": "Print",
+  "Edit": "Edit",
+  "Enter actual quantity": "Enter actual quantity",
+  "Confirm item quantity": "Confirm item quantity",
+  "Confirm": "Confirm",
+  "Description": "Description",
+  "Recent updates have not been saved": "Recent updates have not been saved",
+  "Yes": "Yes"
 }

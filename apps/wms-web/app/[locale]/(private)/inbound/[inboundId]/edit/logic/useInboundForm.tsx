@@ -1,20 +1,37 @@
 import { DatePicker } from "@/components/DatePicker";
 import { FORMAT_DATE, disabledAfter } from "@/configs/date.config";
+import CommonContext from "@/contexts/CommonContext";
 import { EStatus } from "@/enums";
-import { createInbound } from "@/services/inbounds.service";
+import { getInbound, updateInbound } from "@/services/inbounds.service";
 import { displayDate, displayNumber } from "@/utils/display.utility";
 import { pushNotify } from "@/utils/toast";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Form, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
+import { useParams, useRouter } from "next/navigation";
+import { useContext } from "react";
 import { InboundOrder, InboundOrderItem } from "wms-models/lib/inbound";
 import { Item } from "wms-models/lib/items";
 
 const useInboundForm = () => {
   const t = useTranslations();
   const [form] = Form.useForm();
+  const { push } = useRouter();
+  const { modal } = useContext(CommonContext);
+  const params = useParams();
+  const inboundId = params?.inboundId as string;
+
+  const inboundDetailQuery = useQuery({
+    queryKey: ["inbound-detail", inboundId],
+    queryFn: () => getInbound(inboundId),
+    refetchOnWindowFocus: false,
+    onSuccess: (response) => {
+      form.setFieldsValue(response?.data);
+    },
+  });
 
   const handleAddItem = (
     newItem: Item,
@@ -49,11 +66,6 @@ const useInboundForm = () => {
         form.setFieldValue("items", items);
         return;
       }
-      ("totalNetWeight must be a number conforming to the specified constraints");
-      ("totalGrossWeight must be a number conforming to the specified constraints");
-      ("totalVolume must be a number conforming to the specified constraints");
-      ("totalValue must be a number conforming to the specified constraints");
-      ("status must be one of the following values: NEW, INPROGRESS, COMPLETED, CANCELED");
       add(
         {
           no: newItem?.no,
@@ -100,11 +112,13 @@ const useInboundForm = () => {
 
               return (
                 <div className="flex gap-2 items-center">
-                  <div className="flex flex-col">
+                  <div className="d-flex column">
                     <Tooltip title={name}>
-                      <span className="text-gray-900 text-sm">{name}</span>
+                      <span className="text-1line color-neutral-900">
+                        {name}
+                      </span>
                     </Tooltip>
-                    <div className="flex gap-1 text-gray-500 items-center text-xs">
+                    <div className="d-flex gap-4 color-neutral-500 align-center text-note">
                       <span className="text-1line">{`SKU: `}</span>
                       <span>{sku}</span>
                     </div>
@@ -150,7 +164,7 @@ const useInboundForm = () => {
       formType: "InputNumber",
       formName: "itemCount",
       inputNumberConfig: {
-        min: 0,
+        min: 1,
         placeholder: "0",
       },
     },
@@ -343,7 +357,7 @@ const useInboundForm = () => {
           <FontAwesomeIcon
             icon={faTrashCan}
             style={{ fontSize: 16 }}
-            className="text-[#ff4d4f] cursor-pointer"
+            className="color-danger pointer"
             onClick={() => remove(field.name)}
           />
         );
@@ -351,8 +365,8 @@ const useInboundForm = () => {
     },
   ];
 
-  const createInboundMutation = useMutation({
-    mutationFn: (request: any) => createInbound(request),
+  const updateInboundMutation = useMutation({
+    mutationFn: (request: any) => updateInbound(inboundId, request),
     onSuccess: (response) => {
       pushNotify(response?.message);
     },
@@ -368,7 +382,7 @@ const useInboundForm = () => {
     },
   });
 
-  const handleCreateInbound = async () => {
+  const handleUpdateInbound = async () => {
     try {
       const values = await form.validateFields();
       let totalGrossWeight = 0;
@@ -378,8 +392,7 @@ const useInboundForm = () => {
         totalGrossWeight += (item?.grossWeight ?? 0) * (item?.itemCount ?? 0);
       });
 
-      console.log("🚀 ~ handleCreateInbound ~ values:", values);
-      createInboundMutation.mutate({
+      updateInboundMutation.mutate({
         ...values,
         totalValue,
         totalGrossWeight,
@@ -396,11 +409,37 @@ const useInboundForm = () => {
     }
   };
 
+  const handleCancelUpdate = () => {
+    if (
+      JSON.stringify(form.getFieldsValue()) ===
+      JSON.stringify(inboundDetailQuery?.data?.data)
+    ) {
+      push("/inbound");
+    } else {
+      modal?.confirm({
+        title: (
+          <span className="text-gray-900 font-medium text-base">
+            {t("Recent updates have not been saved")}
+          </span>
+        ),
+        icon: <ExclamationCircleOutlined />,
+        cancelText: t("No"),
+        okText: t("Yes"),
+        okButtonProps: { type: "primary" },
+        onOk: () => {
+          push("/inbound");
+        },
+      });
+    }
+  };
+
   return {
+    inboundNo: inboundDetailQuery?.data?.data?.no as string,
     form,
     handleAddItem,
     formColumns,
-    handleCreateInbound,
+    handleUpdateInbound,
+    handleCancelUpdate,
   };
 };
 

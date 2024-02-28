@@ -62,6 +62,37 @@
   }
 }
 
+.new-ui-table {
+  thead.ant-table-thead {
+    tr {
+      > th,
+      > td {
+        background-color: #fff;
+        color: #8d97a6;
+        font-size: 16px;
+        font-weight: normal;
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
+  tbody.ant-table-tbody {
+    tr {
+      > td {
+        border-color: #e8edf2;
+        color: #282b32;
+        vertical-align: middle !important;
+      }
+      &:last-child {
+        > td {
+          border: none;
+        }
+      }
+    }
+  }
+}
+
 .material-symbols-outlined {
   font-variation-settings:
     "FILL" 24,

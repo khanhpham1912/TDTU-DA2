@@ -1,31 +1,23 @@
 import CommonContext from "@/contexts/CommonContext";
 import { deleteInbound } from "@/services/inbounds.service";
-import { deleteItem } from "@/services/items.service";
-import { displayDate, displayValue } from "@/utils/display.utility";
-import { getEnumValues } from "@/utils/enum.utility";
+import { displayNumber } from "@/utils/display.utility";
 import { pushNotify } from "@/utils/toast";
 import { faEye, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
-import { useContext, useMemo, useState } from "react";
-import { useBoolean } from "usehooks-ts";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useContext, useMemo } from "react";
 import { InboundOrder } from "wms-models/lib/inbound";
-import { EProductType, Item, UOM } from "wms-models/lib/items";
 import { EStatus } from "wms-models/lib/shared";
 
 export default function useInboundManagement() {
   const t = useTranslations();
-  const [selectedInbound, setSelectedInbound] = useState<any>();
   const queryClient = useQueryClient();
   const { modal } = useContext(CommonContext);
-  const {
-    value: showInboundForm,
-    setTrue: openInboundForm,
-    setFalse: closeInboundForm,
-  } = useBoolean(false);
-
+  const { push } = useRouter();
   const deleteInboundMutation = useMutation({
     mutationFn: (request: string) => deleteInbound(request),
     onSuccess: (_response) => {
@@ -89,8 +81,8 @@ export default function useInboundManagement() {
       title: t("Inbound order"),
       render: (record: InboundOrder) => (
         <div className="flex flex-col">
-          <span className=" text-blue-500">{record?.no}</span>
-          <span className=" text-gray-500">{record?.status}</span>
+          <Link href={`/inbound/${record?._id}`}>{record?.no}</Link>
+          <span className="text-gray-500">{record?.status}</span>
         </div>
       ),
     },
@@ -105,11 +97,21 @@ export default function useInboundManagement() {
     },
     {
       title: t("Total weight"),
-      render: (record: InboundOrder) => <span>{record?.totalGrossWeight}</span>,
+      width: 250,
+      render: (record: InboundOrder) => (
+        <div className="text-right">
+          {displayNumber(record?.totalGrossWeight ?? 0)}
+        </div>
+      ),
     },
     {
       title: t("Total value"),
-      render: (record: InboundOrder) => <span>{record?.totalValue}</span>,
+      width: 250,
+      render: (record: InboundOrder) => (
+        <div className="text-right">
+          {displayNumber(record?.totalValue ?? 0)}
+        </div>
+      ),
     },
     {
       title: t("Remark"),
@@ -117,7 +119,7 @@ export default function useInboundManagement() {
     },
     {
       title: t("Action"),
-      width: 80,
+      width: 100,
       key: "action",
       fixed: "right",
       align: "center",
@@ -128,7 +130,7 @@ export default function useInboundManagement() {
             icon={faEye}
             className=" text-indigo-600 cursor-pointer"
             onClick={() => {
-              setSelectedInbound(record?._id);
+              push(`/inbound/${record?._id}`);
             }}
           />
 
@@ -146,5 +148,5 @@ export default function useInboundManagement() {
       ),
     },
   ];
-  return { columns, filterOptions, selectedInbound, setSelectedInbound };
+  return { columns, filterOptions };
 }

@@ -20,16 +20,18 @@
   & > thead {
     & > tr {
       & > th {
+        background-color: #fff;
+        color: #8d97a6;
+        font-size: 16px;
+        font-weight: normal;
         vertical-align: middle;
         text-align: left;
         position: sticky;
         top: 0;
-        color: var(--color-neutral-500);
         z-index: 2;
-        height: 44px;
-        max-height: 44px;
-        padding: 0px 12px;
-        background: var(--color-bg-menu);
+        // height: 44px;
+        // max-height: 44px;
+        padding: 16px;
         z-index: 10;
 
         &:last-child,
@@ -43,10 +45,10 @@
   & > tbody {
     & > tr {
       & > td {
-        height: 56px;
-        max-height: 56px;
+        // height: 56px;
+        // max-height: 56px;
         vertical-align: middle;
-        padding: 0px 12px;
+        padding: 16px;
         border-bottom: 1px solid var(--color-neutral-100);
         background: var(--color-bg-menu);
 

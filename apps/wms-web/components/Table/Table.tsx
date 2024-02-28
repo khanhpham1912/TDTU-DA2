@@ -128,6 +128,7 @@ const PostTable = ({
       </div>
       <div className={styles.table}>
         <Table
+          className="new-ui-table"
           pagination={false}
           columns={mergeColumns as any}
           dataSource={tableQuery?.data?.data?.docs}
