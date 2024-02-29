@@ -159,5 +159,13 @@
   "Confirm": "Confirm",
   "Description": "Description",
   "Recent updates have not been saved": "Recent updates have not been saved",
-  "Yes": "Yes"
+  "Yes": "Yes",
+  "Print & Process": "Print & Process",
+  "Cancel successfully": "Cancel successfully",
+  "Cancel outbound order": "Cancel outbound order",
+  "OK": "OK",
+  "Outbound order": "Outbound order",
+  "New outbound order": "New outbound order",
+  "View": "View",
+  "Delivery time": "Delivery time"
 }

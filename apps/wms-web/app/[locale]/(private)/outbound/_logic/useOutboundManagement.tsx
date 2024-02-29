@@ -1,31 +1,31 @@
 import CommonContext from "@/contexts/CommonContext";
-import { updateInbound } from "@/services/inbounds.service";
 import { displayNumber } from "@/utils/display.utility";
 import { pushNotify } from "@/utils/toast";
 import { faEye, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Tooltip } from "antd";
 import classNames from "classnames";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useMemo } from "react";
-import { InboundOrder } from "wms-models/lib/inbound";
 import { EStatus } from "wms-models/lib/shared";
+import { OutboundOrder } from "wms-models/lib/outbound.order";
+import { updateOutbound } from "@/services/outbounds.service";
+import { Tooltip } from "antd";
 
-export default function useInboundManagement() {
+export default function useOutboundManagement() {
   const t = useTranslations();
   const queryClient = useQueryClient();
   const { modal } = useContext(CommonContext);
   const { push } = useRouter();
 
-  const cancelInboundMutation = useMutation({
-    mutationFn: (inboundId: string) =>
-      updateInbound(inboundId, { status: EStatus.CANCELED }),
+  const cancelOutboundMutation = useMutation({
+    mutationFn: (outboundId: string) =>
+      updateOutbound(outboundId, { status: EStatus.CANCELED }),
     onSuccess: (_response) => {
       pushNotify(t("Cancel successfully"));
-      queryClient.invalidateQueries({ queryKey: ["inbound-management"] });
+      queryClient.invalidateQueries({ queryKey: ["outbound-management"] });
     },
     onError: (error: any) => {
       pushNotify(
@@ -39,14 +39,14 @@ export default function useInboundManagement() {
     },
   });
 
-  const handleCancelInbound = (order: InboundOrder) => {
+  const handleCancelOutbound = (order: OutboundOrder) => {
     if (order?.status !== EStatus.NEW) {
       return;
     }
     modal?.confirm({
       title: (
         <span className="font-medium text-base">{`${t(
-          "Delete inbound order"
+          "Cancel outbound order"
         )} ${order?.no}?`}</span>
       ),
       icon: (
@@ -61,9 +61,9 @@ export default function useInboundManagement() {
         )}.`}</span>
       ),
       cancelText: t("Cancel"),
-      okText: t("Delete"),
+      okText: t("OK"),
       okButtonProps: { danger: true },
-      onOk: () => cancelInboundMutation.mutate(order?._id),
+      onOk: () => cancelOutboundMutation.mutate(order?._id),
     });
   };
 
@@ -82,8 +82,8 @@ export default function useInboundManagement() {
   }, [t]);
   const columns: any = [
     {
-      title: t("Inbound order"),
-      render: (record: InboundOrder) => (
+      title: t("Outbound order"),
+      render: (record: OutboundOrder) => (
         <div className="flex flex-col">
           <Link href={`/inbound/${record?._id}`}>{record?.no}</Link>
           <span className="text-gray-500">{record?.status}</span>
@@ -92,7 +92,7 @@ export default function useInboundManagement() {
     },
     {
       title: t("Shipper"),
-      render: (record: InboundOrder) => (
+      render: (record: OutboundOrder) => (
         <div className="flex flex-col">
           <span className="text-blue-500">{record?.shipper?.shipperName}</span>
           <span className="text-gray-500">{record?.shipper?.shipperPhone}</span>
@@ -102,7 +102,7 @@ export default function useInboundManagement() {
     {
       title: t("Total weight"),
       width: 250,
-      render: (record: InboundOrder) => (
+      render: (record: OutboundOrder) => (
         <div className="text-right">
           {displayNumber(record?.totalGrossWeight ?? 0)}
         </div>
@@ -111,7 +111,7 @@ export default function useInboundManagement() {
     {
       title: t("Total value"),
       width: 250,
-      render: (record: InboundOrder) => (
+      render: (record: OutboundOrder) => (
         <div className="text-right">
           {displayNumber(record?.totalValue ?? 0)}
         </div>
@@ -119,7 +119,7 @@ export default function useInboundManagement() {
     },
     {
       title: t("Remark"),
-      render: (record: InboundOrder) => <span>{record?.remark}</span>,
+      render: (record: OutboundOrder) => <span>{record?.remark}</span>,
     },
     {
       title: t("Action"),
@@ -128,7 +128,7 @@ export default function useInboundManagement() {
       fixed: "right",
       align: "center",
       isDefault: true,
-      render: (_: any, record: InboundOrder) => (
+      render: (_: any, record: OutboundOrder) => (
         <div className="flex gap-4 justify-center items-center">
           <Tooltip title={t("View")}>
             <FontAwesomeIcon
@@ -147,7 +147,7 @@ export default function useInboundManagement() {
                   : "text-[#ff4d4f]",
                 "cursor-pointer material-symbols-outlined"
               )}
-              onClick={() => handleCancelInbound(record)}
+              onClick={() => handleCancelOutbound(record)}
             >
               cancel
             </span>

@@ -6,7 +6,7 @@ import { useInboundManagement } from "./_logic";
 import { useRouter } from "next/navigation";
 import { getInbounds } from "@/services/inbounds.service";
 
-export default function Items() {
+export default function InboundPage() {
   const t = useTranslations();
   const { push } = useRouter();
   const { columns, filterOptions } = useInboundManagement();

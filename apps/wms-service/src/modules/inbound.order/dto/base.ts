@@ -152,6 +152,7 @@ export class InboundOrderDto extends BaseDto implements InboundOrder {
   @ApiPropertyOptional()
   @IsObject()
   @ValidateNested()
+  @IsOptional()
   @Type(() => ShipperDto)
   shipper: ShipperDto;
 

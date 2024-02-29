@@ -1,16 +1,19 @@
 "use client";
 
 import EditTable from "@/components/EditTable";
-import { getInbound, updateInbound } from "@/services/inbounds.service";
+import { getOutbound, updateOutbound } from "@/services/outbounds.service";
 import { displayNumber, displayValue } from "@/utils/display.utility";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Col, Form, Row, Table, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { useContext, useRef, useState } from "react";
-import { InboundOrder, InboundOrderItem } from "wms-models/lib/inbound";
+import {
+  OutboundOrder,
+  OutboundOrderItem,
+} from "wms-models/lib/outbound.order";
 import { EStatus } from "wms-models/lib/shared";
-import { useInbound } from "./_logic";
+import { useOutbound } from "./_logic";
 import CommonContext from "@/contexts/CommonContext";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import styles from "./styles.module.scss";
@@ -33,21 +36,21 @@ const RowView = ({ title, content }: { title: string; content?: string }) => {
   );
 };
 
-export default function InboundDetail() {
+export default function OutboundDetail() {
   const t = useTranslations();
   const tableRef: any = useRef();
   const { push } = useRouter();
   const params = useParams();
-  const inboundId = params?.inboundId as string;
+  const outboundId = params?.outboundId as string;
   const [isEnterQuantity, setIsEnterQuantity] = useState(false);
-  const { formColumns, tableColumns } = useInbound();
+  const { formColumns, tableColumns } = useOutbound();
   const [form] = Form.useForm();
   const { modal } = useContext(CommonContext);
   const queryClient = useQueryClient();
 
-  const inboundDetailQuery = useQuery({
-    queryKey: ["inbound-detail", inboundId],
-    queryFn: () => getInbound(inboundId),
+  const outboundDetailQuery = useQuery({
+    queryKey: ["outbound-detail", outboundId],
+    queryFn: () => getOutbound(outboundId),
     refetchOnWindowFocus: false,
     onSuccess: (response) => {
       form.setFieldsValue(response?.data);
@@ -62,7 +65,7 @@ export default function InboundDetail() {
     const formItemValue = form.getFieldValue("items");
     if (
       JSON.stringify(formItemValue) !==
-      JSON.stringify(inboundDetailQuery?.data?.data?.items)
+      JSON.stringify(outboundDetailQuery?.data?.data?.items)
     ) {
       modal?.confirm({
         title: (
@@ -80,10 +83,10 @@ export default function InboundDetail() {
       cancelConfirm();
     }
   };
-  const updateInboundMutation = useMutation({
-    mutationFn: (request: any) => updateInbound(inboundId, request),
+  const updateOutboundMutation = useMutation({
+    mutationFn: (request: any) => updateOutbound(outboundId, request),
     onSuccess: (response) => {
-      queryClient.setQueryData(["inbound-detail", inboundId], response);
+      queryClient.setQueryData(["inbound-detail", outboundId], response);
       cancelConfirm();
     },
   });
@@ -92,7 +95,7 @@ export default function InboundDetail() {
     try {
       const values = await form.validateFields();
 
-      updateInboundMutation.mutate({ ...values, status: EStatus.COMPLETED });
+      updateOutboundMutation.mutate({ ...values, status: EStatus.COMPLETED });
     } catch (error: any) {
       if (error?.errorFields && !!error?.errorFields?.length) {
         const errorField = error?.errorFields?.[0];
@@ -104,8 +107,8 @@ export default function InboundDetail() {
     }
   };
 
-  const handleProcessInbound = () => {
-    updateInboundMutation.mutate({ status: EStatus.INPROGRESS });
+  const handleProcessOutbound = () => {
+    updateOutboundMutation.mutate({ status: EStatus.INPROGRESS });
   };
 
   const tableSummaryRender = () => {
@@ -113,7 +116,7 @@ export default function InboundDetail() {
     let totalWeight = 0;
     let totalValue = 0;
 
-    inboundDetailQuery?.data?.data?.items.map((item: InboundOrderItem) => {
+    outboundDetailQuery?.data?.data?.items.map((item: OutboundOrderItem) => {
       if (Object.keys(totalCount).includes(item?.uom)) {
         totalCount[item.uom] += item?.itemCount;
       } else {
@@ -169,7 +172,9 @@ export default function InboundDetail() {
               <Col xs={24}>
                 <RowView
                   title={t("Remark")}
-                  content={displayValue(inboundDetailQuery?.data?.data?.remark)}
+                  content={displayValue(
+                    outboundDetailQuery?.data?.data?.remark
+                  )}
                 />
               </Col>
             </Row>
@@ -183,7 +188,7 @@ export default function InboundDetail() {
                 <RowView
                   title={t("Shipper name")}
                   content={displayValue(
-                    inboundDetailQuery?.data?.data?.shipper?.shipperName
+                    outboundDetailQuery?.data?.data?.shipper?.shipperName
                   )}
                 />
               </Col>
@@ -191,7 +196,7 @@ export default function InboundDetail() {
                 <RowView
                   title={t("Shipper phone")}
                   content={displayValue(
-                    inboundDetailQuery?.data?.data?.shipper?.shipperPhone
+                    outboundDetailQuery?.data?.data?.shipper?.shipperPhone
                   )}
                 />
               </Col>
@@ -199,7 +204,7 @@ export default function InboundDetail() {
                 <RowView
                   title={t("License plates")}
                   content={displayValue(
-                    inboundDetailQuery?.data?.data?.shipper?.shipperLicense
+                    outboundDetailQuery?.data?.data?.shipper?.shipperLicense
                   )}
                 />
               </Col>
@@ -212,34 +217,36 @@ export default function InboundDetail() {
           <div className="flex justify-between pb-4 text-indigo-600">
             <div className="flex items-center gap-2">
               <span className=" text-gray-900 font-semibold text-2xl">
-                # {inboundDetailQuery?.data?.data?.no}
+                # {outboundDetailQuery?.data?.data?.no}
               </span>
-              <span className="">{inboundDetailQuery?.data?.data?.status}</span>
+              <span className="">
+                {outboundDetailQuery?.data?.data?.status}
+              </span>
             </div>
             <div className="flex gap-2">
               {/* <Button onClick={() => {}}>{t("Print")}</Button> */}
               {!isEnterQuantity &&
-                inboundDetailQuery?.data?.data?.status ===
+                outboundDetailQuery?.data?.data?.status ===
                   EStatus.INPROGRESS && (
                   <Button
                     type="primary"
                     onClick={() => {
                       setIsEnterQuantity(true);
-                      form.setFieldsValue(inboundDetailQuery?.data?.data);
+                      form.setFieldsValue(outboundDetailQuery?.data?.data);
                     }}
                   >
                     {t("Confirm item quantity")}
                   </Button>
                 )}
 
-              {inboundDetailQuery?.data?.data?.status === EStatus.NEW && (
+              {outboundDetailQuery?.data?.data?.status === EStatus.NEW && (
                 <>
-                  <Button ghost type="primary" onClick={handleProcessInbound}>
+                  <Button ghost type="primary" onClick={handleProcessOutbound}>
                     {t("Print & Process")}
                   </Button>
                   <Button
                     type="primary"
-                    onClick={() => push(`/inbound/${inboundId}/edit`)}
+                    onClick={() => push(`/inbound/${outboundId}/edit`)}
                   >
                     {t("Edit")}
                   </Button>
@@ -276,7 +283,7 @@ export default function InboundDetail() {
                 footer={({}) => {
                   return (
                     <div className="flex-1 d-flex column justify-end">
-                      <Form.Item<InboundOrder>
+                      <Form.Item<OutboundOrder>
                         noStyle
                         shouldUpdate={(prev, current) => {
                           return prev?.items !== current?.items;
@@ -347,7 +354,7 @@ export default function InboundDetail() {
                 className="new-ui-table"
                 columns={tableColumns}
                 scroll={{ x: 1300 }}
-                dataSource={inboundDetailQuery?.data?.data?.items}
+                dataSource={outboundDetailQuery?.data?.data?.items}
                 pagination={false}
               />
               <div className="flex-1 d-flex column justify-end">

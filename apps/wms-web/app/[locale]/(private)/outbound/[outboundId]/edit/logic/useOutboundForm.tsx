@@ -1,27 +1,47 @@
 import { DatePicker } from "@/components/DatePicker";
 import { FORMAT_DATE, disabledAfter } from "@/configs/date.config";
+import CommonContext from "@/contexts/CommonContext";
 import { EStatus } from "@/enums";
-import { createInbound } from "@/services/inbounds.service";
+import { getInbound } from "@/services/inbounds.service";
 import { displayDate, displayNumber } from "@/utils/display.utility";
 import { pushNotify } from "@/utils/toast";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Form, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
-import { InboundOrder, InboundOrderItem } from "wms-models/lib/inbound";
+import { useParams, useRouter } from "next/navigation";
+import { useContext } from "react";
+import {
+  OutboundOrder,
+  OutboundOrderItem,
+} from "wms-models/lib/outbound.order";
 import { Item } from "wms-models/lib/items";
+import { updateOutbound } from "@/services/outbounds.service";
 
-const useInboundForm = () => {
+const useOutboundForm = () => {
   const t = useTranslations();
   const [form] = Form.useForm();
   const { push } = useRouter();
+  const { modal } = useContext(CommonContext);
+  const params = useParams();
+  const outboundId = params?.outboundId as string;
+
+  const outboundDetailQuery = useQuery({
+    queryKey: ["inbound-detail", outboundId],
+    queryFn: () => getInbound(outboundId),
+    refetchOnWindowFocus: false,
+    onSuccess: (response) => {
+      form.setFieldsValue(response?.data);
+    },
+  });
+
   const handleAddItem = (
     newItem: Item,
     add: (
       value: Partial<
-        InboundOrderItem & {
+        OutboundOrderItem & {
           weight: number;
           conversionValue: number;
           conversionWeight: number;
@@ -37,11 +57,11 @@ const useInboundForm = () => {
       const values = form.getFieldsValue();
 
       const hasProduct = !!values?.items?.find(
-        (item: InboundOrderItem) => item?.no === newItem?.no
+        (item: OutboundOrderItem) => item?.no === newItem?.no
       );
 
       if (hasProduct) {
-        const items = values.items?.map((item: InboundOrderItem) => {
+        const items = values.items?.map((item: OutboundOrderItem) => {
           if (item?.no === newItem?.no) {
             item.itemCount += 1;
           }
@@ -50,11 +70,6 @@ const useInboundForm = () => {
         form.setFieldValue("items", items);
         return;
       }
-      ("totalNetWeight must be a number conforming to the specified constraints");
-      ("totalGrossWeight must be a number conforming to the specified constraints");
-      ("totalVolume must be a number conforming to the specified constraints");
-      ("totalValue must be a number conforming to the specified constraints");
-      ("status must be one of the following values: NEW, INPROGRESS, COMPLETED, CANCELED");
       add(
         {
           no: newItem?.no,
@@ -86,7 +101,7 @@ const useInboundForm = () => {
       width: 220,
       render: ({ field }: any) => {
         return (
-          <Form.Item<InboundOrder>
+          <Form.Item<OutboundOrder>
             noStyle
             shouldUpdate={(prev, current) => {
               return (
@@ -101,11 +116,13 @@ const useInboundForm = () => {
 
               return (
                 <div className="flex gap-2 items-center">
-                  <div className="flex flex-col">
+                  <div className="d-flex column">
                     <Tooltip title={name}>
-                      <span className="text-gray-900 text-sm">{name}</span>
+                      <span className="text-1line color-neutral-900">
+                        {name}
+                      </span>
                     </Tooltip>
-                    <div className="flex gap-1 text-gray-500 items-center text-xs">
+                    <div className="d-flex gap-4 color-neutral-500 align-center text-note">
                       <span className="text-1line">{`SKU: `}</span>
                       <span>{sku}</span>
                     </div>
@@ -143,7 +160,6 @@ const useInboundForm = () => {
         );
       },
     },
-
     {
       title: t("Quantity"),
       isRequired: true,
@@ -151,7 +167,7 @@ const useInboundForm = () => {
       formType: "InputNumber",
       formName: "itemCount",
       inputNumberConfig: {
-        min: 0,
+        min: 1,
         placeholder: "0",
       },
     },
@@ -267,7 +283,7 @@ const useInboundForm = () => {
       align: "right",
       render: ({ field }: any) => {
         return (
-          <Form.Item<InboundOrder>
+          <Form.Item<OutboundOrder>
             noStyle
             shouldUpdate={(prev, current) => {
               return (
@@ -306,7 +322,7 @@ const useInboundForm = () => {
       width: 120,
       render: ({ field }: any) => {
         return (
-          <Form.Item<InboundOrder>
+          <Form.Item<OutboundOrder>
             noStyle
             shouldUpdate={(prev, current) => {
               return (
@@ -344,7 +360,7 @@ const useInboundForm = () => {
           <FontAwesomeIcon
             icon={faTrashCan}
             style={{ fontSize: 16 }}
-            className="text-[#ff4d4f] cursor-pointer"
+            className="color-danger pointer"
             onClick={() => remove(field.name)}
           />
         );
@@ -352,11 +368,10 @@ const useInboundForm = () => {
     },
   ];
 
-  const createInboundMutation = useMutation({
-    mutationFn: (request: any) => createInbound(request),
+  const updateOutboundMutation = useMutation({
+    mutationFn: (request: any) => updateOutbound(outboundId, request),
     onSuccess: (response) => {
       pushNotify(response?.message);
-      push(`/inbound/${response?.data?._id}`);
     },
     onError: (error: any) => {
       pushNotify(
@@ -370,16 +385,17 @@ const useInboundForm = () => {
     },
   });
 
-  const handleCreateInbound = async () => {
+  const handleUpdateOutbound = async () => {
     try {
       const values = await form.validateFields();
       let totalGrossWeight = 0;
       let totalValue = 0;
-      values?.items?.map((item: InboundOrderItem) => {
+      values?.items?.map((item: OutboundOrderItem) => {
         totalValue += (item?.unitValue ?? 0) * (item?.itemCount ?? 0);
         totalGrossWeight += (item?.grossWeight ?? 0) * (item?.itemCount ?? 0);
       });
-      createInboundMutation.mutate({
+
+      updateOutboundMutation.mutate({
         ...values,
         totalValue,
         totalGrossWeight,
@@ -396,12 +412,38 @@ const useInboundForm = () => {
     }
   };
 
+  const handleCancelUpdate = () => {
+    if (
+      JSON.stringify(form.getFieldsValue()) ===
+      JSON.stringify(outboundDetailQuery?.data?.data)
+    ) {
+      push("/outbound");
+    } else {
+      modal?.confirm({
+        title: (
+          <span className="text-gray-900 font-medium text-base">
+            {t("Recent updates have not been saved")}
+          </span>
+        ),
+        icon: <ExclamationCircleOutlined />,
+        cancelText: t("No"),
+        okText: t("Yes"),
+        okButtonProps: { type: "primary" },
+        onOk: () => {
+          push("/outbound");
+        },
+      });
+    }
+  };
+
   return {
+    outboundNo: outboundDetailQuery?.data?.data?.no as string,
     form,
     handleAddItem,
     formColumns,
-    handleCreateInbound,
+    handleUpdateOutbound,
+    handleCancelUpdate,
   };
 };
 
-export default useInboundForm;
+export default useOutboundForm;
