@@ -1,0 +1,15 @@
+.content {
+  width: 100%;
+
+  & > tbody {
+    & > tr {
+      & > td {
+        font-size: 12px;
+        font-family: "Arial";
+        &:first-child {
+          width: 180px;
+        }
+      }
+    }
+  }
+}

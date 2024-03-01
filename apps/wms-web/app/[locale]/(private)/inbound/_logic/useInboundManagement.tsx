@@ -144,7 +144,7 @@ export default function useInboundManagement() {
             <span
               className={classNames(
                 record?.status !== EStatus.NEW
-                  ? "text-gray-500"
+                  ? "text-gray-300"
                   : "text-[#ff4d4f]",
                 "cursor-pointer material-symbols-outlined"
               )}

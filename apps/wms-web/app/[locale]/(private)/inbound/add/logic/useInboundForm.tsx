@@ -50,11 +50,6 @@ const useInboundForm = () => {
         form.setFieldValue("items", items);
         return;
       }
-      ("totalNetWeight must be a number conforming to the specified constraints");
-      ("totalGrossWeight must be a number conforming to the specified constraints");
-      ("totalVolume must be a number conforming to the specified constraints");
-      ("totalValue must be a number conforming to the specified constraints");
-      ("status must be one of the following values: NEW, INPROGRESS, COMPLETED, CANCELED");
       add(
         {
           no: newItem?.no,

@@ -2,18 +2,26 @@
 
 import EditTable from "@/components/EditTable";
 import { getInbound, updateInbound } from "@/services/inbounds.service";
-import { displayNumber, displayValue } from "@/utils/display.utility";
+import {
+  displayDateTime,
+  displayNumber,
+  displayValue,
+} from "@/utils/display.utility";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Col, Form, Row, Table, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useParams, useRouter } from "next/navigation";
 import { useContext, useRef, useState } from "react";
 import { InboundOrder, InboundOrderItem } from "wms-models/lib/inbound";
-import { EStatus } from "wms-models/lib/shared";
+import { EEntity, EStatus } from "wms-models/lib/shared";
 import { useInbound } from "./_logic";
 import CommonContext from "@/contexts/CommonContext";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import styles from "./styles.module.scss";
+import { CustomFieldView } from "@/components/custom.field";
+import { Status } from "@/components/Status";
+import { PrintInboundModal } from "../_ui";
+import { useBoolean } from "usehooks-ts";
 
 const RowView = ({ title, content }: { title: string; content?: string }) => {
   return (
@@ -44,6 +52,11 @@ export default function InboundDetail() {
   const [form] = Form.useForm();
   const { modal } = useContext(CommonContext);
   const queryClient = useQueryClient();
+  const {
+    value: showPrint,
+    setTrue: openPrint,
+    setFalse: closePrint,
+  } = useBoolean(false);
 
   const inboundDetailQuery = useQuery({
     queryKey: ["inbound-detail", inboundId],
@@ -85,6 +98,7 @@ export default function InboundDetail() {
     onSuccess: (response) => {
       queryClient.setQueryData(["inbound-detail", inboundId], response);
       cancelConfirm();
+      openPrint();
     },
   });
 
@@ -168,6 +182,14 @@ export default function InboundDetail() {
             <Row gutter={[16, 16]}>
               <Col xs={24}>
                 <RowView
+                  title={t("Arrival time")}
+                  content={displayDateTime(
+                    inboundDetailQuery?.data?.data?.arrivalTime
+                  )}
+                />
+              </Col>
+              <Col xs={24}>
+                <RowView
                   title={t("Remark")}
                   content={displayValue(inboundDetailQuery?.data?.data?.remark)}
                 />
@@ -205,19 +227,39 @@ export default function InboundDetail() {
               </Col>
             </Row>
           </div>
+          <div className="flex flex-col gap-2">
+            <span className=" text-indigo-600 text-lg font-bold">
+              {t("Additional info")}
+            </span>
+            <CustomFieldView
+              entity={EEntity.Inbound}
+              layout="horizontal"
+              data={{
+                customFieldMapping:
+                  inboundDetailQuery?.data?.data?.customFieldMapping,
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className="flex flex-col flex-grow justify-between overflow-x-auto overflow-y-hidden box-border bg-gray-100">
         <div className="app-content">
           <div className="flex justify-between pb-4 text-indigo-600">
             <div className="flex items-center gap-2">
-              <span className=" text-gray-900 font-semibold text-2xl">
-                # {inboundDetailQuery?.data?.data?.no}
+              <span className=" text-neutral-900 font-bold text-2xl">
+                #{inboundDetailQuery?.data?.data?.no}
               </span>
-              <span className="">{inboundDetailQuery?.data?.data?.status}</span>
+              <Status
+                text={t(inboundDetailQuery?.data?.data?.status as any)}
+                colorKey={inboundDetailQuery?.data?.data?.status}
+              />
             </div>
             <div className="flex gap-2">
-              {/* <Button onClick={() => {}}>{t("Print")}</Button> */}
+              {inboundDetailQuery?.data?.data?.status !== EStatus.NEW && (
+                <Button ghost type="primary" onClick={openPrint}>
+                  {t("Print")}
+                </Button>
+              )}
               {!isEnterQuantity &&
                 inboundDetailQuery?.data?.data?.status ===
                   EStatus.INPROGRESS && (
@@ -357,6 +399,11 @@ export default function InboundDetail() {
           )}
         </div>
       </div>
+      <PrintInboundModal
+        open={showPrint}
+        onCancel={closePrint}
+        inboundId={inboundDetailQuery?.data?.data?._id}
+      />
     </div>
   );
 }

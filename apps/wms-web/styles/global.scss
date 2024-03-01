@@ -100,3 +100,48 @@
     "GRAD" 0,
     "opsz" 0;
 }
+
+
+.printing-table {
+  :global {
+    .ant-table-fixed {
+      table-layout: fixed;
+    }
+
+    .ant-table-thead {
+      & > tr {
+        & > th[class*="ant-table-cell"] {
+          vertical-align: middle !important;
+          text-align: center !important;
+          font-family: "Arial";
+        }
+      }
+    }
+
+    .ant-table-tbody > tr > td {
+      word-wrap: break-word;
+      font-family: "Arial";
+      vertical-align: middle !important;
+
+      &:first-child {
+        width: 24px !important;
+        max-width: 24px !important;
+        min-width: 24px !important;
+      }
+
+      &:nth-child(2) {
+        word-break: break-all;
+      }
+    }
+  }
+}
+
+.print {
+  @media print {
+    @page {
+      background: var(--color-bg-menu);
+      margin: 0mm;
+      size: auto;
+    }
+  }
+}
