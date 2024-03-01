@@ -2,11 +2,11 @@ import { Controller, Get, Param } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { IResponse, resOk } from "wms-utils/lib/apis";
 import { ERROR_CODE } from "wms-utils/lib/error";
-import { InventoryService } from "./service";
 import {
   AvailableInventoryItem,
   InventoryItem,
 } from "wms-models/lib/inventory";
+import { InventoryService } from "./service";
 
 @ApiBearerAuth()
 @ApiTags("Inventory")
@@ -22,7 +22,7 @@ export class InventoryController {
     return resOk(ERROR_CODE.GetSuccess["Success"], result);
   }
 
-  @Get(":no")
+  @Get(":no/available")
   async getAvailableInventoriesItem(
     @Param("no") no: string
   ): Promise<IResponse<AvailableInventoryItem>> {

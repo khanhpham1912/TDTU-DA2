@@ -17,7 +17,9 @@ import { CustomFieldMappingModule } from "./custom.field.mapping/module";
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     MongooseModule.forRoot(process.env.URI),
     AuthModule,
     UsersModule,
