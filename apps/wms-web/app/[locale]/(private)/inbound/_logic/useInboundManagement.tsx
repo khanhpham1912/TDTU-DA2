@@ -1,3 +1,4 @@
+import { Status } from "@/components/Status";
 import CommonContext from "@/contexts/CommonContext";
 import { updateInbound } from "@/services/inbounds.service";
 import { displayNumber } from "@/utils/display.utility";
@@ -86,7 +87,7 @@ export default function useInboundManagement() {
       render: (record: InboundOrder) => (
         <div className="flex flex-col">
           <Link href={`/inbound/${record?._id}`}>{record?.no}</Link>
-          <span className="text-gray-500">{record?.status}</span>
+          <Status text={t(record?.status as any)} colorKey={record?.status} />
         </div>
       ),
     },

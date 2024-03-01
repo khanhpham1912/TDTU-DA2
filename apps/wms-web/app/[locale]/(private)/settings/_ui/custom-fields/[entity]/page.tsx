@@ -7,48 +7,22 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // components
-import { Search } from "@/components/common";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import { DragField, MapFieldDrawer } from "./ui";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // hooks
-import { useBreadcrumb } from "@/hooks";
 import { useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
 import { useFieldMapping } from "./logic";
 
 // models
-import { EEntity } from "tms-models/lib/shared";
 import { useContext } from "react";
 import CommonContext from "@/contexts/CommonContext";
+import { EEntity } from "wms-models/lib/shared";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-const CustomFieldPage = () => {
-  const params = useParams();
-  const entity = params?.entity as EEntity;
+const CustomFieldPage = ({ entity }: { entity: EEntity }) => {
   const t = useTranslations();
   const { modal } = useContext(CommonContext);
-
-  useBreadcrumb({
-    dependencies: [],
-    breadcrumbs: {
-      items: [
-        {
-          name: t("Settings"),
-          url: "/settings",
-        },
-        {
-          name: t("Custom fields"),
-          url: "/settings/custom-fields",
-        },
-        {
-          name: t(entity as any),
-        },
-      ],
-    },
-    selectedMenu: "SETTINGS",
-    openedMenu: "SETTINGS",
-  });
 
   const {
     fields,
@@ -68,9 +42,9 @@ const CustomFieldPage = () => {
       <div className="d-flex justify-space-between align-center">
         <div className="color-neutral-900 text-600 text-h3">{entity}</div>
         <div className="d-flex gap-8 align-center">
-          <Search
-            placeholder={`${t("Search")}...`}
-            onChange={(event) => handleSearch(event.target.value)}
+          <Input
+            placeholder={`${t("Search")}`}
+            onChange={(event: any) => handleSearch(event.target.value)}
             allowClear
             style={{ width: "270px" }}
           />
@@ -91,7 +65,7 @@ const CustomFieldPage = () => {
       <div className={styles.content}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable">
-            {(provided) => (
+            {(provided: any) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {fields.map((field, index) => (
                   <Draggable
@@ -99,7 +73,7 @@ const CustomFieldPage = () => {
                     draggableId={field._id}
                     index={index}
                   >
-                    {(provided) => (
+                    {(provided: any) => (
                       <DragField
                         field={field}
                         provided={provided}

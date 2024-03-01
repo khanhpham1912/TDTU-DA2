@@ -2,13 +2,12 @@
 import styles from "./styles.module.scss";
 
 // utils
-import { FieldDefinitionsIconMapping } from "@/utils/customField.utility";
+import { FieldDefinitionsIconMapping } from "@/utils/custom.field.utility";
 
 // models
-import { CustomFieldMapping } from "tms-models/lib/custom.field.mapping";
+import { CustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 
 // components
-import { Status } from "@/components/common";
 
 // hooks
 import { useTranslations } from "next-intl";
@@ -16,6 +15,7 @@ import { useTranslations } from "next-intl";
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { Status } from "@/components/Status";
 
 export const DragField = ({
   provided,
@@ -38,41 +38,41 @@ export const DragField = ({
       {...provided.draggableProps}
       className={styles.field}
     >
-      <div className="d-flex gap-16 align-center">
+      <div className=" flex gap-4 items-center">
         {!isSearch && (
           <span
-            className="material-symbols-outlined color-neutral-500"
+            className="material-symbols-outlined text-gray-500"
             {...provided.dragHandleProps}
           >
             drag_indicator
           </span>
         )}
-        <div className="d-flex column gap-4">
-          <div className="d-flex gap-8 align-center">
+        <div className="flex flex-col gap-1">
+          <div className="flex gap-2 items-center">
             {FieldDefinitionsIconMapping[field.customField.type]}
-            <span className="color-neutral-600 text-700 text-h5">
+            <span className="text-gray-600 font-bold text-base">
               {field.displayName}
             </span>
             <div
               style={{
                 height: 16,
                 width: 1,
-                borderRight: "1px solid var(--color-neutral-400)",
+                borderRight: "1px solid #b8c0cc",
               }}
             />
-            <span className="color-neutral-600 text-400 text-body">
+            <span className=" text-neutral-600 font-normal text-sm">
               {field._id}
             </span>
           </div>
-          <div className="d-flex gap-8">
+          <div className="flex gap-2">
             <Status
               text={
-                <div className="d-flex gap-2 text-600">
+                <div className="flex gap-1 font-semibold">
                   <span
                     className={
                       field.displayOnWeb
-                        ? "color-green-500"
-                        : "color-neutral-500"
+                        ? " text-green-500"
+                        : "text-neutral-500"
                     }
                   >
                     {t("Display on web")}
@@ -85,42 +85,37 @@ export const DragField = ({
                   )}
                 </div>
               }
-              colorKey={field.displayOnWeb ? "ACTIVE" : "default"}
+              colorKey={field.displayOnWeb ? "COMPLETED" : "default"}
             />
-            <Status
-              text={
-                <div className="d-flex gap-2 text-600">
-                  <span
-                    className={
-                      field.displayOnMobile
-                        ? "color-green-500"
-                        : "color-neutral-500"
-                    }
-                  >
-                    {t("Display on mobile")}
-                  </span>
-                  {field.isAllowMobileModified && (
-                    <span
-                      style={{ textTransform: "lowercase" }}
-                      className="color-neutral-500"
-                    >{`(${t("Allow driver update")})`}</span>
-                  )}
-                </div>
-              }
-              colorKey={field.displayOnMobile ? "ACTIVE" : "default"}
-            />
+            {/* <Status
+            text={
+              <div className="d-flex gap-2 text-600">
+                <span
+                  className={
+                    field.isDisplayOnDocument
+                      ? "color-green-500"
+                      : "color-neutral-500"
+                  }
+                >
+                  {t("Display on document")}
+                </span>
+                
+              </div>
+            }
+            colorKey={field.isDisplayOnDocument ? "COMPLETED" : "default"}
+          /> */}
           </div>
         </div>
       </div>
-      <div className="d-flex gap-8">
+      <div className="flex gap-2">
         <FontAwesomeIcon
           icon={faPenToSquare}
-          className="pointer color-blue-500"
+          className="cursor-pointer text-blue-500"
           onClick={() => onClickViewDetailField(field?._id)}
         />
         <FontAwesomeIcon
           icon={faTrashCan}
-          className="pointer color-red-500"
+          className="cursor-pointer text-red-500"
           onClick={() => onRemoveField(field?._id)}
         />
       </div>

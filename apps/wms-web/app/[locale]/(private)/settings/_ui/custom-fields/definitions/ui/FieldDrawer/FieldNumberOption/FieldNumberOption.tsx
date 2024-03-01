@@ -1,5 +1,5 @@
+import { number } from "@/configs/number.config";
 import { Col, Form, InputNumber, Row } from "antd";
-import { number } from "common-ui/lib/configs";
 import { useTranslations } from "next-intl";
 
 const FieldNumberOption = () => {
@@ -35,14 +35,7 @@ const FieldNumberOption = () => {
                         "numberConfig",
                         "min",
                       ]);
-                      console.log(
-                        "🚀 ~ file: FieldNumberOption.tsx:34 ~ validator ~ min:",
-                        min
-                      );
-                      console.log(
-                        "🚀 ~ file: FieldNumberOption.tsx:33 ~ validator ~ max:",
-                        max
-                      );
+
                       if (!max || !min || min <= max) {
                         return Promise.resolve();
                       }

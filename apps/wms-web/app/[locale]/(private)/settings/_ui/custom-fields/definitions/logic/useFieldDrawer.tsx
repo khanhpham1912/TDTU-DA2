@@ -1,31 +1,26 @@
-import { ConfirmModalProps } from "@/models/confirm.model";
 import {
   createCustomField,
   fieldVerification,
   getCustomField,
   updateCustomField,
-} from "@/services/customField.service";
-import { typeConfig } from "@/utils/customField.utility";
+} from "@/services/custom.field.service";
+import { typeConfig } from "@/utils/custom.field.utility";
+import { displayValue } from "@/utils/display.utility";
 import { pushNotify } from "@/utils/toast";
-import { displayValue } from "@/utils/view.utility";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Form } from "antd";
-import { handleOnRequestError } from "common-ui/lib/utils/request.utility";
 import { useTranslations } from "next-intl";
 import { ChangeEvent, useCallback, useState } from "react";
-import { CustomField } from "tms-models/lib/custom.field";
-import { ECustomFieldType } from "tms-models/lib/shared";
 import { useDebounce } from "usehooks-ts";
-import { ResponseStatus } from "wareflex-utils/lib/apis";
+import { CustomField } from "wms-models/lib/custom.field";
+import { ECustomFieldType } from "wms-models/lib/shared";
 
 export const useFieldDrawer = ({
   fieldId,
   onClose,
-  // modal,
 }: {
   fieldId?: string;
   onClose: () => void;
-  modal?: ConfirmModalProps;
 }) => {
   const [form] = Form.useForm();
   const t = useTranslations();
@@ -40,30 +35,9 @@ export const useFieldDrawer = ({
     enabled: !!debouncedName,
     refetchOnWindowFocus: false,
     onSuccess: (response) => {
-      if (response.status === ResponseStatus.Success) {
-        const isValid = response?.data as boolean;
-        setIsNameValid(isValid);
-      }
+      const isValid = response?.data as boolean;
+      setIsNameValid(isValid);
     },
-  });
-
-  const customFieldQuery = useQuery({
-    queryKey: ["custom-field-detail", fieldId],
-    queryFn: () => getCustomField(fieldId as string),
-    enabled: !!fieldId,
-    refetchOnWindowFocus: false,
-    onSuccess: (response) => {
-      form.setFieldsValue(response?.data);
-    },
-  });
-
-  const createCustomFieldMutation = useMutation({
-    mutationFn: (request: CustomField) => createCustomField(request),
-  });
-
-  const updateCustomFieldMutation = useMutation({
-    mutationFn: (request: CustomField) =>
-      updateCustomField(fieldId as string, request),
   });
 
   const handleChangeType = (type: any) => {
@@ -88,6 +62,29 @@ export const useFieldDrawer = ({
       setName(fieldId);
     }
   };
+
+  const customFieldQuery = useQuery({
+    queryKey: ["custom-field-detail", fieldId],
+    queryFn: () => getCustomField(fieldId as string),
+    enabled: !!fieldId,
+    refetchOnWindowFocus: false,
+    onSuccess: (response) => {
+      form.setFieldsValue(response?.data);
+      setName(
+        `${displayValue(response?.data?.type)}_${response?.data
+          ?.name}`.toLowerCase()
+      );
+    },
+  });
+
+  const createCustomFieldMutation = useMutation({
+    mutationFn: (request: CustomField) => createCustomField(request),
+  });
+
+  const updateCustomFieldMutation = useMutation({
+    mutationFn: (request: CustomField) =>
+      updateCustomField(fieldId as string, request),
+  });
 
   const handleClose = () => {
     setName("");
@@ -140,9 +137,16 @@ export const useFieldDrawer = ({
           });
           handleClose();
         },
-        onError: handleOnRequestError({
-          message: t("An error has occurred"),
-        }),
+        onError: (error: any) => {
+          pushNotify(
+            error?.response?.data?.message ||
+              error.message ||
+              t("An error has occurred"),
+            {
+              type: "error",
+            }
+          );
+        },
       });
     } catch (error: any) {
       console.error(error);
@@ -184,9 +188,16 @@ export const useFieldDrawer = ({
           });
           handleClose();
         },
-        onError: handleOnRequestError({
-          message: t("An error has occurred"),
-        }),
+        onError: (error: any) => {
+          pushNotify(
+            error?.response?.data?.message ||
+              error.message ||
+              t("An error has occurred"),
+            {
+              type: "error",
+            }
+          );
+        },
       });
     } catch (error: any) {
       console.error(error);

@@ -1,19 +1,16 @@
 // components
 import { Form, Row, Col, Drawer, Button, Input, Switch, Checkbox } from "antd";
-import { FieldSelect } from "@/components/common";
 
 // hooks
 import { useTranslations } from "next-intl";
 
 // models
-import { CustomFieldMapping } from "tms-models/lib/custom.field.mapping";
-import { EEntity } from "tms-models/shared";
-
-// utils
-import { required } from "@/utils/form/rules";
 
 // services
 import { useFieldDrawer } from "../../logic";
+import { EEntity } from "wms-models/lib/shared";
+import { CustomFieldMapping } from "wms-models/lib/custom.field.mapping";
+import { FieldSelect } from "@/components";
 
 export const MapFieldDrawer = ({
   open,
@@ -43,7 +40,6 @@ export const MapFieldDrawer = ({
       open={open}
       afterOpenChange={afterOpenChange}
       width={416}
-      bodyStyle={{ padding: 16 }}
       style={{ borderRadius: 4 }}
       contentWrapperStyle={{
         padding: 8,
@@ -84,7 +80,7 @@ export const MapFieldDrawer = ({
               <Form.Item<CustomFieldMapping>
                 name="customField"
                 label={t("Field")}
-                rules={[required(t("Please select"))]}
+                rules={[{ required: true, message: t("Please select") }]}
               >
                 <FieldSelect
                   entity={entity}
@@ -98,7 +94,7 @@ export const MapFieldDrawer = ({
             <Form.Item<CustomFieldMapping>
               name="displayName"
               label={t("Display name")}
-              rules={[required(t("Please select"))]}
+              rules={[{ required: true, message: t("Please select") }]}
             >
               <Input placeholder={t("Type")} maxLength={120} />
             </Form.Item>
@@ -124,53 +120,25 @@ export const MapFieldDrawer = ({
               if (displayOnWeb)
                 return (
                   <Col xs={24}>
-                    <div className="d-flex gap-8 pt-12 pl-24">
+                    <div className=" flex gap-2 pt-3 pl-6">
                       <Form.Item<CustomFieldMapping> name="required" noStyle>
                         <Switch size="small" />
                       </Form.Item>
-                      <span className="color-neutral-900">{t("Required")}</span>
+                      <span className="text-neutral-900">{t("Required")}</span>
                     </div>
                   </Col>
                 );
             }}
           </Form.Item>
-
-          <Col xs={24} className="mt-24">
-            <Form.Item<CustomFieldMapping>
-              name="displayOnMobile"
+          <Col xs={24} className=" mt-6">
+            <Form.Item<any>
+              name="isDisplayOnDocument"
               noStyle
               valuePropName="checked"
             >
-              <Checkbox>{t("Display on mobile")}</Checkbox>
+              <Checkbox>{t("Display on print")}</Checkbox>
             </Form.Item>
           </Col>
-          <Form.Item<CustomFieldMapping>
-            noStyle
-            shouldUpdate={(prevValues, curValues) =>
-              prevValues.displayOnMobile !== curValues.displayOnMobile
-            }
-          >
-            {({ getFieldValue }) => {
-              const displayOnMobile: boolean = getFieldValue("displayOnMobile");
-              if (displayOnMobile)
-                return (
-                  <Col xs={24}>
-                    <div className="d-flex gap-8 pt-12 pl-24">
-                      <Form.Item<CustomFieldMapping>
-                        name="isAllowMobileModified"
-                        noStyle
-                        valuePropName="checked"
-                      >
-                        <Switch size="small" />
-                      </Form.Item>
-                      <span className="color-neutral-900">
-                        {t("Allow driver update")}
-                      </span>
-                    </div>
-                  </Col>
-                );
-            }}
-          </Form.Item>
         </Row>
       </Form>
     </Drawer>

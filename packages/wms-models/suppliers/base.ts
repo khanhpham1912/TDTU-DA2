@@ -16,7 +16,7 @@ export interface SupplierContact {
 }
 
 export interface BankInfo {
-  bankName: string;
+  bankName: any;
   accountName: string;
   accountNumber: string;
 }

@@ -1,27 +1,23 @@
-import { ConfirmModalProps } from "@/models/confirm.model";
-import { removeCustomField } from "@/services/customField.service";
+import CommonContext from "@/contexts/CommonContext";
+import { removeCustomField } from "@/services/custom.field.service";
 import { pushNotify } from "@/utils/toast";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { handleOnRequestError } from "common-ui/lib/utils/request.utility";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useBoolean } from "usehooks-ts";
 
-export const useCustomFieldManagement = ({
-  modal,
-}: {
-  modal?: ConfirmModalProps;
-}) => {
+export const useCustomFieldManagement = () => {
   const t = useTranslations();
   const queryClient = useQueryClient();
   const [selectedFieldId, setSelectedFieldId] = useState("");
+  const { modal } = useContext(CommonContext);
   const {
     value: openDrawer,
     setTrue: onOpenDrawer,
     setFalse: onCloseDrawer,
-  } = useBoolean();
+  } = useBoolean(false);
 
   const handCloseDrawer = () => {
     !!selectedFieldId && setSelectedFieldId("");
@@ -41,26 +37,33 @@ export const useCustomFieldManagement = ({
         queryKey: ["field-definitions"],
       });
     },
-    onError: handleOnRequestError({
-      message: t("An error has occurred"),
-    }),
+    onError: (error: any) => {
+      pushNotify(
+        error?.response?.data?.message ||
+          error.message ||
+          t("An error has occurred"),
+        {
+          type: "error",
+        }
+      );
+    },
   });
 
   const handleRemoveField = (fieldId: string) => {
-    modal?.delete({
+    modal?.confirm({
       title: (
-        <span className="font-weight-500 font-16">{`${t(
+        <span className="text-base font-medium">{`${t(
           "Delete this field"
         )} ?`}</span>
       ),
       icon: (
         <FontAwesomeIcon
           icon={faTrashCan}
-          className="color-danger mr-16 mt-4"
+          className="color-[#ff4d4f] mr-4 mt-1"
         />
       ),
       content: (
-        <span className="color-red-500">{`${t(
+        <span className="color-[#ff4d4f]">{`${t(
           "Note: Mapping fields are also permanently deleted"
         )}.`}</span>
       ),

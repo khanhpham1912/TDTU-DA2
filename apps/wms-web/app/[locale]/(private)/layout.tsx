@@ -1,8 +1,6 @@
 "use client";
-import styles from "./styles.module.scss";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-import { useLocalStorage } from "usehooks-ts";
 // contexts
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -10,31 +8,7 @@ import { PrivateHeader, SideBar } from "@/components";
 import { validateJwtToken } from "@/utils/jwt.utility";
 import { pushNotify } from "@/utils/toast";
 
-import { Fragment } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  BellIcon,
-  CalendarIcon,
-  ChartPieIcon,
-  Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
-import LanguageSwitch from "@/components/LanguageSwitch";
-import classNames from "classnames";
-import Link from "next/link";
-import { Logo } from "@/icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWarehouse } from "@fortawesome/free-solid-svg-icons";
-
+import { FolderIcon, HomeIcon, UsersIcon } from "@heroicons/react/24/outline";
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   const t = useTranslations();
@@ -51,19 +25,25 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
 
   const navigation = [
     {
-      name: "Items",
+      name: t("Items"),
       href: "/items",
       icon: HomeIcon,
       current: currentPage === "items",
     },
     {
-      name: "Inbound",
+      name: t("Suppliers"),
+      href: "/suppliers",
+      icon: HomeIcon,
+      current: currentPage === "suppliers",
+    },
+    {
+      name: t("Inbound orders"),
       href: "/inbound",
       icon: UsersIcon,
       current: currentPage === "inbound",
     },
     {
-      name: "Outbound",
+      name: t("Outbound orders"),
       href: "/outbound",
       icon: FolderIcon,
       current: currentPage === "outbound",

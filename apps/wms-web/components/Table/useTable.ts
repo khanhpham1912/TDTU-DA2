@@ -109,8 +109,6 @@ const usePostTable = (props: Props) => {
 
   const handleSearch = useCallback(
     (value: string) => {
-      // TODO: cancel not work
-      queryClient.cancelQueries({ queryKey: [queryConfig.queryKey] });
       const _filterParams = JSON.parse(JSON.stringify(filterParams));
       _filterParams.search = value;
       _filterParams.paging = DEFAULT_PAGING;

@@ -1,5 +1,6 @@
 import { Tabs } from "antd";
 import { useTranslations } from "next-intl";
+import { CustomFields } from "./_ui";
 
 export default function SettingPage() {
   const t = useTranslations();

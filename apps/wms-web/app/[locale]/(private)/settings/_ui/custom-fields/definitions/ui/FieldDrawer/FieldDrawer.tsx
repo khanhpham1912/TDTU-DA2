@@ -6,20 +6,14 @@ import { FieldNumberOption } from "./FieldNumberOption";
 // hooks
 import { useTranslations } from "next-intl";
 import { useFieldDrawer } from "../../logic";
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 
 // models
-import { CustomField } from "tms-models/lib/custom.field";
-import { ECustomFieldType } from "tms-models/lib/shared";
 
-// utils
+import { ECustomFieldType } from "wms-models/lib/shared";
+import { CustomField } from "wms-models/lib/custom.field";
 import { getEnumValues } from "@/utils/enum.utility";
-import { required } from "@/utils/form/rules";
-
-// configs
-import { search } from "@/configs/select.config";
-import { displayValue } from "common-ui/lib/utils/view.utility";
-import CommonContext from "@/contexts/CommonContext";
+import { displayValue } from "@/utils/display.utility";
 
 const getCustomField = (fieldType: ECustomFieldType) => {
   switch (fieldType) {
@@ -46,7 +40,6 @@ export const FieldDrawer = ({
   fieldId?: string;
 }) => {
   const t = useTranslations();
-  const { modal } = useContext(CommonContext);
 
   const {
     form,
@@ -58,7 +51,7 @@ export const FieldDrawer = ({
     handleClose,
     handleClickSave,
     handleChangeType,
-  } = useFieldDrawer({ onClose, modal, fieldId });
+  } = useFieldDrawer({ onClose, fieldId });
 
   const shouldRenderSaveButton = useMemo(() => {
     if (!customField) {
@@ -80,7 +73,7 @@ export const FieldDrawer = ({
     <Drawer
       destroyOnClose
       title={
-        <span className="text-h5 text-600">
+        <span className=" text-base font-semibold">
           {!fieldId ? t("New field") : t("Update field")}
         </span>
       }
@@ -89,14 +82,13 @@ export const FieldDrawer = ({
       open={open}
       afterOpenChange={afterOpenChange}
       width={416}
-      bodyStyle={{ padding: 16 }}
       style={{ borderRadius: 4 }}
       contentWrapperStyle={{
         padding: 8,
         boxShadow: "none",
       }}
       footer={
-        <div className="d-flex justify-start gap-12">
+        <div className="flex justify-end gap-2">
           <Button onClick={handleClose}>{t("Close")}</Button>
 
           {shouldRenderSaveButton && (
@@ -116,7 +108,7 @@ export const FieldDrawer = ({
                 <Form.Item<CustomField>
                   name="type"
                   label={t("Type")}
-                  rules={[required(t("Please select"))]}
+                  rules={[{ required: true, message: t("Please select") }]}
                 >
                   <Select
                     onChange={handleChangeType}
@@ -127,7 +119,6 @@ export const FieldDrawer = ({
                         label: t(item as any),
                       };
                     })}
-                    {...search}
                   />
                 </Form.Item>
               </Col>
@@ -164,16 +155,16 @@ export const FieldDrawer = ({
           ) : (
             <>
               <Col xs={24}>
-                <div className="d-flex column gap-4 pb-24">
-                  <span className="color-neutral-600 text-400">
+                <div className="flex flex-col gap-1 pb-5">
+                  <span className="text-gray-600 font-normal">
                     {`${t("Type")}:`}
                   </span>
                   <span>{t(customField?.type as any)}</span>
                 </div>
               </Col>
               <Col xs={24}>
-                <div className="d-flex column gap-4">
-                  <span className="color-neutral-600 text-400">
+                <div className="flex flex-col gap-1">
+                  <span className="text-gray-600 font-normal">
                     {`${t("Name")}:`}
                   </span>
                   <span>{customField?.name}</span>
@@ -182,8 +173,8 @@ export const FieldDrawer = ({
             </>
           )}
           <Col xs={24}>
-            <div className="d-flex column gap-4 pt-20">
-              <span className="color-neutral-600 text-400">
+            <div className="flex flex-col gap-1 pt-5">
+              <span className="text-gray-600 font-normal">
                 {`${t("System name")}:`}
               </span>
               <span>{displayValue(name)}</span>
@@ -198,7 +189,7 @@ export const FieldDrawer = ({
           >
             {({ getFieldValue }) => {
               const type: ECustomFieldType = getFieldValue("type");
-              return <div className="w-100">{getCustomField(type)}</div>;
+              return <div className="w-full">{getCustomField(type)}</div>;
             }}
           </Form.Item>
         </Row>

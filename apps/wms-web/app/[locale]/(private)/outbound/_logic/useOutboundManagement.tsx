@@ -13,6 +13,7 @@ import { EStatus } from "wms-models/lib/shared";
 import { OutboundOrder } from "wms-models/lib/outbound.order";
 import { updateOutbound } from "@/services/outbounds.service";
 import { Tooltip } from "antd";
+import { Status } from "@/components/Status";
 
 export default function useOutboundManagement() {
   const t = useTranslations();
@@ -86,7 +87,7 @@ export default function useOutboundManagement() {
       render: (record: OutboundOrder) => (
         <div className="flex flex-col">
           <Link href={`/inbound/${record?._id}`}>{record?.no}</Link>
-          <span className="text-gray-500">{record?.status}</span>
+          <Status text={t(record?.status as any)} colorKey={record?.status} />
         </div>
       ),
     },

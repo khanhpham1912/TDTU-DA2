@@ -1,11 +1,10 @@
 import CommonContext from "@/contexts/CommonContext";
-import { typeConfig } from "@/utils/customField.utility";
-import { required } from "@/utils/form/rules";
+import { typeConfig } from "@/utils/custom.field.utility";
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Switch } from "antd";
 import { useTranslations } from "next-intl";
 import { useContext } from "react";
-import { ECustomFieldType } from "tms-models/lib/shared";
+import { ECustomFieldType } from "wms-models/lib/shared";
 
 const FieldMultipleOptions = ({
   fieldType,
@@ -16,9 +15,9 @@ const FieldMultipleOptions = ({
   const { modal } = useContext(CommonContext);
 
   const onRemoveOption = (remove: Function) => {
-    modal?.delete({
+    modal?.confirm({
       title: (
-        <span className="font-weight-500 font-16">{`${t(
+        <span className=" font-medium text-base">{`${t(
           "Delete this option"
         )} ?`}</span>
       ),
@@ -30,9 +29,9 @@ const FieldMultipleOptions = ({
   };
 
   return (
-    <div className="d-flex column gap-24 pt-20">
+    <div className=" flex flex-col gap-6 pt-5">
       {fieldType === ECustomFieldType.SELECT && (
-        <div className="d-flex gap-8 align-center">
+        <div className="flex gap-2 items-center">
           <Form.Item
             noStyle
             name={["extraData", "selectConfig", "multiple"]}
@@ -40,7 +39,7 @@ const FieldMultipleOptions = ({
           >
             <Switch size="small" />
           </Form.Item>
-          <span className="color-character-primary text-400">
+          <span className="text-gray-900 font-normal">
             {t("Multiple selection")}
           </span>
         </div>
@@ -50,22 +49,22 @@ const FieldMultipleOptions = ({
           {(fields, { add, remove }) => (
             <>
               {fields.map((field, index) => (
-                <div className="d-flex gap-8 justify-space-between align-center">
+                <div className="flex gap-2 justify-between items-center">
                   <Form.Item
                     {...field}
-                    className="w-90"
+                    className="w-[90%]"
                     label={`${t("Option")} ${index + 1}`}
-                    rules={[required(t("Please type"))]}
+                    rules={[{ required: true, message: t("Please type") }]}
                   >
                     <Input
                       placeholder={t("Enter")}
-                      className="w-100"
+                      className="w-full"
                       maxLength={120}
                     />
                   </Form.Item>
                   {index !== 0 ? (
                     <span
-                      className="material-symbols-outlined color-danger pointer"
+                      className="material-symbols-outlined text-[#ff4d4f] cursor-pointer"
                       onClick={() => {
                         onRemoveOption(() => {
                           remove(field.name);
@@ -77,10 +76,9 @@ const FieldMultipleOptions = ({
                   ) : null}
                 </div>
               ))}
-              <Form.Item className="d-flex justify-center">
+              <Form.Item className=" flex justify-center">
                 <Button
                   type="primary"
-                  // className="bg-color-secondary"
                   onClick={() => add()}
                   icon={<PlusOutlined />}
                 >
