@@ -194,7 +194,11 @@ export default function ItemForm({
               />
             </Form.Item>
           </Col>
-          <CustomFieldForm entity={EEntity.Item} />
+          <Col xs={24}>
+            <div className="w-full">
+            <CustomFieldForm entity={EEntity.Item} />
+            </div>
+          </Col>
         </Row>
       </Form>
     </Drawer>

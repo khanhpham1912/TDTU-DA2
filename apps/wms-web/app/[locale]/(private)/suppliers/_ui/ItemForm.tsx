@@ -78,7 +78,11 @@ export default function ItemForm({
               <Input placeholder={t("Enter")} maxLength={100} />
             </Form.Item>
           </Col>
-          <CustomFieldForm entity={EEntity.Supplier} />
+          <Col xs={24}>
+            <div className="w-full">
+              <CustomFieldForm entity={EEntity.Supplier} />
+            </div>
+          </Col>
         </Row>
       </Form>
     </Drawer>
