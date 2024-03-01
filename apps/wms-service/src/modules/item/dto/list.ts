@@ -28,6 +28,11 @@ class ListItemFilterDto implements ListItemFilter {
   @ValidateNested()
   @Type(() => DateDto)
   updatedAt?: DateDto;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  uom?: string;
 }
 
 export class ListItemRequestDto extends ListDto implements ListItemRequest {

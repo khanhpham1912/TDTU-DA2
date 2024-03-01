@@ -10,6 +10,7 @@ export interface ListItemFilter {
     to?: Date;
   };
   supplierNo?: string
+  uom?: string
 }
 
 export interface ListItemRequest extends PaginateRequest<ListItemFilter> {}
