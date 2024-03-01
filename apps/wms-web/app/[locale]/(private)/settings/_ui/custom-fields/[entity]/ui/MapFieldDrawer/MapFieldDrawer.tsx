@@ -68,8 +68,8 @@ export const MapFieldDrawer = ({
         <Row>
           {fieldId ? (
             <Col xs={24}>
-              <div className="d-flex column gap-4 pb-24">
-                <span className="color-neutral-600 text-400">
+              <div className="flex flex-col gap-1 pb-6">
+                <span className="text-neutral-600 font-normal">
                   {`${t("Field")}:`}
                 </span>
                 <span>{fieldMapping?.customField?.name}</span>
@@ -130,15 +130,17 @@ export const MapFieldDrawer = ({
                 );
             }}
           </Form.Item>
-          <Col xs={24} className=" mt-6">
-            <Form.Item<any>
-              name="isDisplayOnDocument"
-              noStyle
-              valuePropName="checked"
-            >
-              <Checkbox>{t("Display on print")}</Checkbox>
-            </Form.Item>
-          </Col>
+          {entity !== EEntity.Item && entity !== EEntity.Supplier && (
+            <Col xs={24} className=" mt-6">
+              <Form.Item<any>
+                name="displayOnDocument"
+                noStyle
+                valuePropName="checked"
+              >
+                <Checkbox>{t("Display on print")}</Checkbox>
+              </Form.Item>
+            </Col>
+          )}
         </Row>
       </Form>
     </Drawer>

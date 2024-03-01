@@ -23,12 +23,14 @@ export const DragField = ({
   isSearch = false,
   onRemoveField,
   onClickViewDetailField,
+  showDisplayOnPrint,
 }: {
   provided: any;
   field: CustomFieldMapping;
   isSearch?: boolean;
   onRemoveField: (fieldId: string) => void;
   onClickViewDetailField: (fieldId: string) => void;
+  showDisplayOnPrint: boolean;
 }) => {
   const t = useTranslations();
 
@@ -87,23 +89,24 @@ export const DragField = ({
               }
               colorKey={field.displayOnWeb ? "COMPLETED" : "default"}
             />
-            {/* <Status
-            text={
-              <div className="d-flex gap-2 text-600">
-                <span
-                  className={
-                    field.isDisplayOnDocument
-                      ? "color-green-500"
-                      : "color-neutral-500"
-                  }
-                >
-                  {t("Display on document")}
-                </span>
-                
-              </div>
-            }
-            colorKey={field.isDisplayOnDocument ? "COMPLETED" : "default"}
-          /> */}
+            {showDisplayOnPrint && (
+              <Status
+                text={
+                  <div className="d-flex gap-2 text-600">
+                    <span
+                      className={
+                        field.displayOnDocument
+                          ? "color-green-500"
+                          : "color-neutral-500"
+                      }
+                    >
+                      {t("Display on print")}
+                    </span>
+                  </div>
+                }
+                colorKey={field.displayOnDocument ? "COMPLETED" : "default"}
+              />
+            )}
           </div>
         </div>
       </div>

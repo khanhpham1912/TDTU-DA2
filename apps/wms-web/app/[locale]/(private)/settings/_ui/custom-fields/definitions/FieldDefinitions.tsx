@@ -2,12 +2,15 @@
 
 import { useCustomFieldManagement } from "./logic";
 import { useTranslations } from "next-intl";
-import { useCallback, useContext, useState } from "react";
-import CommonContext from "@/contexts/CommonContext";
+import { useCallback, useState } from "react";
 import styles from "./styles.module.scss";
 import { FieldDefinitionsIconMapping } from "@/utils/custom.field.utility";
 import { CustomField } from "wms-models/lib/custom.field";
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare,
+  faPlus,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row, Col, Divider, Button, Input } from "antd";
 import { useQuery } from "@tanstack/react-query";
@@ -22,7 +25,6 @@ const DEFAULT_PAGING = {
 
 const FieldDefinitions = () => {
   const t = useTranslations();
-  const { modal } = useContext(CommonContext);
   const [filterParams, setFilterParams] = useState<{
     filter: any;
     paging: {
@@ -68,7 +70,7 @@ const FieldDefinitions = () => {
           <Input
             onChange={(e) => handleSearch(e.target.value)}
             placeholder={t("Search")}
-            style={{ width: "250px" }}
+            style={{ width: "270px" }}
           />
           <ArrowPathIcon
             className="text-[#8d97a6] cursor-pointer h-6 w-6"
@@ -77,7 +79,16 @@ const FieldDefinitions = () => {
         </div>
 
         <div className="flex items-center">
-          <Button type="primary" onClick={onOpenDrawer}>
+          <Button
+            type="primary"
+            onClick={onOpenDrawer}
+            icon={
+              <FontAwesomeIcon
+                icon={faPlus}
+                style={{ color: "#fff", fontSize: 14 }}
+              />
+            }
+          >
             {t("Create field")}
           </Button>
         </div>

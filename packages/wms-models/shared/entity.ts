@@ -19,4 +19,5 @@ export enum EEntity {
   Inbound = 'Inbound',
   Outbound = 'Outbound',
   Item = 'Item',
+  Supplier = "Supplier",
 }

@@ -1,6 +1,8 @@
 import CommonContext from "@/contexts/CommonContext";
 import { typeConfig } from "@/utils/custom.field.utility";
 import { PlusOutlined } from "@ant-design/icons";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Form, Input, Switch } from "antd";
 import { useTranslations } from "next-intl";
 import { useContext } from "react";
@@ -20,6 +22,12 @@ const FieldMultipleOptions = ({
         <span className=" font-medium text-base">{`${t(
           "Delete this option"
         )} ?`}</span>
+      ),
+      icon: (
+        <FontAwesomeIcon
+          icon={faTrashCan}
+          className="color-[#ff4d4f] mr-4 mt-1"
+        />
       ),
       cancelText: t("Cancel"),
       okText: t("Delete"),

@@ -6,11 +6,10 @@ import {
 import { pushNotify } from "@/utils/toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Form } from "antd";
-import { handleOnRequestError } from "common-ui/lib/utils/request.utility";
 import { useTranslations } from "next-intl";
 import { useCallback } from "react";
-import { CustomFieldMapping } from "tms-models/lib/custom.field.mapping";
-import { EEntity } from "tms-models/shared";
+import { CustomFieldMapping } from "wms-models/lib/custom.field.mapping";
+import { EEntity } from "wms-models/shared";
 
 export const useFieldDrawer = ({
   fieldId,
@@ -66,9 +65,16 @@ export const useFieldDrawer = ({
           });
           handleClose();
         },
-        onError: handleOnRequestError({
-          message: t("An error has occurred"),
-        }),
+        onError: (error: any) => {
+          pushNotify(
+            error?.response?.data?.message ||
+              error.message ||
+              t("An error has occurred"),
+            {
+              type: "error",
+            }
+          );
+        },
       });
     } catch (error: any) {
       console.error(error);
@@ -98,9 +104,16 @@ export const useFieldDrawer = ({
         });
         handleClose();
       },
-      onError: handleOnRequestError({
-        message: t("An error has occurred"),
-      }),
+      onError: (error: any) => {
+        pushNotify(
+          error?.response?.data?.message ||
+            error.message ||
+            t("An error has occurred"),
+          {
+            type: "error",
+          }
+        );
+      },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -133,7 +133,7 @@ export const useFieldDrawer = ({
         onSuccess: (response) => {
           pushNotify(response.message);
           queryClient.invalidateQueries({
-            queryKey: ["field-definitions"],
+            queryKey: ["field-definition"],
           });
           handleClose();
         },
@@ -184,7 +184,7 @@ export const useFieldDrawer = ({
         onSuccess: (response) => {
           pushNotify(response.message);
           queryClient.invalidateQueries({
-            queryKey: ["field-definitions"],
+            queryKey: ["field-definition"],
           });
           handleClose();
         },

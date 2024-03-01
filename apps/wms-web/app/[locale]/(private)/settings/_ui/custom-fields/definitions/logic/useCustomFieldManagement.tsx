@@ -34,7 +34,7 @@ export const useCustomFieldManagement = () => {
     onSuccess: (response) => {
       pushNotify(response.message);
       queryClient.invalidateQueries({
-        queryKey: ["field-definitions"],
+        queryKey: ["field-definition"],
       });
     },
     onError: (error: any) => {
@@ -59,11 +59,12 @@ export const useCustomFieldManagement = () => {
       icon: (
         <FontAwesomeIcon
           icon={faTrashCan}
-          className="color-[#ff4d4f] mr-4 mt-1"
+          style={{ color: "#ff4d4f", fontSize: 14 }}
+          className="mr-4 mt-1"
         />
       ),
       content: (
-        <span className="color-[#ff4d4f]">{`${t(
+        <span className="text-[#ff4d4f]">{`${t(
           "Note: Mapping fields are also permanently deleted"
         )}.`}</span>
       ),

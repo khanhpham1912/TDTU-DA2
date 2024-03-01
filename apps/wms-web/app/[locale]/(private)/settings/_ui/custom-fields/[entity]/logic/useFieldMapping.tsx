@@ -1,5 +1,4 @@
 // services
-import { ConfirmModalProps } from "@/models/confirm.model";
 import {
   getAllCustomFieldMappings,
   removeCustomFieldMapping,
@@ -11,17 +10,19 @@ import { pushNotify } from "@/utils/toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // utils
-import { handleOnRequestError } from "common-ui/lib/utils/request.utility";
 import Fuse from "fuse.js";
 
 // hooks
 import { useTranslations } from "next-intl";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 
 // models
-import { CustomFieldMapping } from "tms-models/lib/custom.field.mapping";
-import { EEntity } from "tms-models/lib/shared";
+import { CustomFieldMapping } from "wms-models/lib/custom.field.mapping";
+import { EEntity } from "wms-models/lib/shared";
 import { useBoolean } from "usehooks-ts";
+import CommonContext from "@/contexts/CommonContext";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const reorder = (list: any, startIndex: any, endIndex: any) => {
   const result = Array.from(list);
@@ -30,16 +31,11 @@ const reorder = (list: any, startIndex: any, endIndex: any) => {
   return result;
 };
 
-export const useFieldMapping = ({
-  entity,
-  modal,
-}: {
-  entity: EEntity;
-  modal?: ConfirmModalProps;
-}) => {
+export const useFieldMapping = ({ entity }: { entity: EEntity }) => {
   const [isSearch, setIsSearch] = useState(false);
   const [fields, setFields] = useState<CustomFieldMapping[]>([]);
   const [selectedFieldId, setSelectedFieldId] = useState("");
+  const { modal } = useContext(CommonContext);
   const t = useTranslations();
   const queryClient = useQueryClient();
 
@@ -71,9 +67,16 @@ export const useFieldMapping = ({
         queryKey: ["all-custom-field-mapping"],
       });
     },
-    onError: handleOnRequestError({
-      message: t("An error has occurred"),
-    }),
+    onError: (error: any) => {
+      pushNotify(
+        error?.response?.data?.message ||
+          error.message ||
+          t("An error has occurred"),
+        {
+          type: "error",
+        }
+      );
+    },
   });
 
   const resortFieldsMutation = useMutation({
@@ -105,16 +108,31 @@ export const useFieldMapping = ({
       // onSuccess: (response) => {
       //   pushNotify(response.message);
       // },
-      onError: handleOnRequestError({ message: t("An error has occurred") }),
+      onError: (error: any) => {
+        pushNotify(
+          error?.response?.data?.message ||
+            error.message ||
+            t("An error has occurred"),
+          {
+            type: "error",
+          }
+        );
+      },
     });
   };
 
   const onRemoveField = (fieldId: string) => {
-    modal?.delete({
+    modal?.confirm({
       title: (
         <span className="font-weight-500 font-16">{`${t(
           "Delete this mapping field"
         )} ?`}</span>
+      ),
+      icon: (
+        <FontAwesomeIcon
+          icon={faTrashCan}
+          className="text-[#ff4d4f] mr-3 mt-1 text-base"
+        />
       ),
       content: (
         <span className="color-red-500">{`${t(
