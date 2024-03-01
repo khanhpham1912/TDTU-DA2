@@ -47,7 +47,7 @@ export default function useInboundManagement() {
     modal?.confirm({
       title: (
         <span className="font-medium text-base">{`${t(
-          "Delete inbound order"
+          "Cancel inbound order"
         )} ${order?.no}?`}</span>
       ),
       icon: (
@@ -58,11 +58,11 @@ export default function useInboundManagement() {
       ),
       content: (
         <span className="text-[#ff4d4f]">{`${t(
-          "Note: This information will be deleted permanently"
+          "Note: This action cannot undo"
         )}.`}</span>
       ),
       cancelText: t("Cancel"),
-      okText: t("Delete"),
+      okText: t("OK"),
       okButtonProps: { danger: true },
       onOk: () => cancelInboundMutation.mutate(order?._id),
     });

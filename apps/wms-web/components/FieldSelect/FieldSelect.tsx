@@ -21,11 +21,11 @@ import { ECustomFieldType, EEntity } from "wms-models/lib/shared";
 
 const renderItem = (item: any, t: any) => {
   return (
-    <div className="d-flex gap-12 align-center">
+    <div className="flex gap-3 items-center">
       {FieldDefinitionsIconMapping[item.type as ECustomFieldType]}
-      <div className="d-flex gap-8">
-        <span className="text-body color-info">{t(item?.type as any)}</span>
-        <span className="text-body color-neutral-900">{item?.name}</span>
+      <div className="flex gap-2">
+        <span className=" text-sm text-blue-500">{t(item?.type as any)}</span>
+        <span className="text-sm text-neutral-900">{item?.name}</span>
       </div>
     </div>
   );
@@ -89,8 +89,6 @@ export const FieldSelect = ({
     <Select
       options={options}
       {...props}
-      // {...search}
-      showSearch
       onChange={handleSelect}
       placeholder={t("Select")}
       value={selected}

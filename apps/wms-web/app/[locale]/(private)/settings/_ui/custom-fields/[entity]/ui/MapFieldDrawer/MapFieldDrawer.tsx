@@ -31,7 +31,7 @@ export const MapFieldDrawer = ({
   return (
     <Drawer
       title={
-        <span className="text-h5 text-600">
+        <span className=" text-base font-semibold">
           {!fieldId ? t("Map field") : t("Update map field")}
         </span>
       }
@@ -46,7 +46,7 @@ export const MapFieldDrawer = ({
         boxShadow: "none",
       }}
       footer={
-        <div className="d-flex justify-end gap-12">
+        <div className="flex justify-end items-center gap-2">
           <Button onClick={handleClose}>{t("Close")}</Button>
           <Button type="primary" onClick={handleClickSave}>
             {t("Save")}
