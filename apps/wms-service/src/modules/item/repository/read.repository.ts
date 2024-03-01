@@ -36,6 +36,11 @@ export class ItemReadRepository extends BaseReadRepository<Item> {
         modelValue: query?.search?.trim(),
         operator: FilterOperator.REGEX,
       },
+      {
+        modelKey: "name",
+        modelValue: query?.search?.trim(),
+        operator: FilterOperator.REGEX,
+      },
     ];
 
     const filter: {} = FilterBuilder.init({})
