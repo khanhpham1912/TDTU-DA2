@@ -58,7 +58,7 @@ export default function useOutboundManagement() {
       ),
       content: (
         <span className="text-[#ff4d4f]">{`${t(
-          "Note: This information will be deleted permanently"
+          "Note: This action cannot undo"
         )}.`}</span>
       ),
       cancelText: t("Cancel"),

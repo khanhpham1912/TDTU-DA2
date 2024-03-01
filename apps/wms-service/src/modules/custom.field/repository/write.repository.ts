@@ -49,9 +49,6 @@ export class CustomFieldWriteRepository extends BaseWriteRepository<CustomField>
       case ECustomFieldType.SELECT:
         if (!request.extraData?.selectConfig) throw new ValidationError();
         break;
-      case ECustomFieldType.RANGE_PICKER:
-        if (!request.extraData?.numberConfig) throw new ValidationError();
-        break;
       case ECustomFieldType.CHECKBOX:
         if (!request.extraData?.checkboxConfig) throw new ValidationError();
         break;

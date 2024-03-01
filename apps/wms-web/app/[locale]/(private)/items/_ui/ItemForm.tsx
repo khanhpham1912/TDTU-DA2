@@ -185,7 +185,7 @@ export default function ItemForm({
             <DimensionForm />
           </Col>
           <Col xs={24}>
-            <Form.Item name="description" label="Description">
+            <Form.Item name="description" label={t("Description")}>
               <Input.TextArea
                 rows={4}
                 placeholder={t("Please enter item description")}
