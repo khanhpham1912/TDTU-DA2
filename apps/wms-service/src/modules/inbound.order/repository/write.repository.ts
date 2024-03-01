@@ -26,6 +26,7 @@ export class InboundOrderWriteRepository extends BaseWriteRepository<InboundOrde
     );
 
     inboundOrder.status = EStatus.NEW;
+    inboundOrder.arrivalTime = new Date();
 
     return await this.create(inboundOrder);
   }

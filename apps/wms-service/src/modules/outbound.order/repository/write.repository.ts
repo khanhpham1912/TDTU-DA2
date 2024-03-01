@@ -26,7 +26,7 @@ export class OutboundOrderWriteRepository extends BaseWriteRepository<OutboundOr
     );
 
     outboundOrder.status = EStatus.NEW;
-
+    outboundOrder.deliveryTime = new Date();
     return await this.create(outboundOrder);
   }
 }
