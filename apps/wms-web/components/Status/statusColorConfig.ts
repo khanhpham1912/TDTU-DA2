@@ -1,6 +1,6 @@
 const statusColors: any = {
   default: {
-    color: "#94A3B8",
+    color: "default",
   },
   NEW: {
     color: "blue",

@@ -70,15 +70,7 @@ export const DragField = ({
             <Status
               text={
                 <div className="flex gap-1 font-semibold">
-                  <span
-                    className={
-                      field.displayOnWeb
-                        ? " text-green-500"
-                        : "text-neutral-500"
-                    }
-                  >
-                    {t("Display on web")}
-                  </span>
+                  <span>{t("Display on web")}</span>
                   {field.required && (
                     <span
                       style={{ textTransform: "lowercase" }}
@@ -93,15 +85,7 @@ export const DragField = ({
               <Status
                 text={
                   <div className="d-flex gap-2 text-600">
-                    <span
-                      className={
-                        field.displayOnDocument
-                          ? "color-green-500"
-                          : "color-neutral-500"
-                      }
-                    >
-                      {t("Display on print")}
-                    </span>
+                    <span>{t("Display on print")}</span>
                   </div>
                 }
                 colorKey={field.displayOnDocument ? "COMPLETED" : "default"}
