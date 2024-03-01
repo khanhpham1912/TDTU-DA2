@@ -11,6 +11,7 @@ import {
 } from "class-validator";
 import { BaseDto } from "src/dto";
 import { RefEntityDto } from "src/dto/entity.dto";
+import { IsSkip } from "src/utils/dto.utility";
 import { RefCustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 import {
   InboundOrder,
@@ -144,6 +145,11 @@ export class InboundOrderItemDto implements InboundOrderItem {
 }
 
 export class InboundOrderDto extends BaseDto implements InboundOrder {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsSkip()
+  arrivalTime: Date;
+
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()

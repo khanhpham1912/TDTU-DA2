@@ -69,4 +69,12 @@ export class OutboundOrderController {
       await this.readRepo.list(body);
     return resOk(ERROR_CODE.ListSuccess["Success"], result);
   }
+
+  @Post("all")
+  async all(
+    @Body() body: ListOutboundOrderRequestDto
+  ): Promise<IResponse<OutboundOrder[]>> {
+    const result: OutboundOrder[] = await this.readRepo.all(body);
+    return resOk(ERROR_CODE.ListSuccess["Success"], result);
+  }
 }

@@ -98,6 +98,9 @@ const OutboundOrderItemSchema = SchemaFactory.createForClass(
   timestamps: true,
 })
 export class OutboundOrderDocument extends BaseSchema implements OutboundOrder {
+  @Prop(Date)
+  deliveryTime: Date;
+
   @Prop(String)
   no: string;
 

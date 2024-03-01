@@ -23,5 +23,5 @@ export interface InboundOrder extends BaseEntity {
   remark?: string;
   status: EStatus;
   customFieldMapping?: RefCustomFieldMapping;
-
+  arrivalTime: Date
 }

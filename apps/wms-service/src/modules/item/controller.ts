@@ -43,7 +43,7 @@ export class ItemController {
 
   @Delete(":id")
   async delete(@Param("id") id: string): Promise<IResponse<boolean>> {
-    const result: ItemDeletedResponse = await this.writeRepo.delete(id);
+    const result: ItemDeletedResponse = await this.writeRepo.deleteItem(id);
     return resOk(ERROR_CODE.DeleteSuccess["Success"], result.success);
   }
 
@@ -58,6 +58,12 @@ export class ItemController {
     @Body() body: ListItemRequestDto
   ): Promise<IResponse<PaginateResponse<Item>>> {
     const result: PaginateResponse<Item> = await this.readRepo.list(body);
+    return resOk(ERROR_CODE.ListSuccess["Success"], result);
+  }
+
+  @Get(":sku/check-sku")
+  async checkSKU(@Param("sku") sku: string): Promise<IResponse<boolean>> {
+    const result: boolean = await this.readRepo.checkSKU(sku);
     return resOk(ERROR_CODE.ListSuccess["Success"], result);
   }
 }

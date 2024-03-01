@@ -19,6 +19,7 @@ import {
 import { UOM, EProductType, Dimension } from "wms-models/lib/items";
 import { EStatus } from "wms-models/lib/shared";
 import { RefCustomFieldMapping } from "wms-models/lib/custom.field.mapping";
+import { IsSkip } from "src/utils/dto.utility";
 
 export class DimensionDto implements Dimension {
   @ApiPropertyOptional()
@@ -147,6 +148,11 @@ export class OutboundOrderItemDto implements OutboundOrderItem {
 }
 
 export class OutboundOrderDto extends BaseDto implements OutboundOrder {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsSkip()
+  deliveryTime: Date;
+
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
