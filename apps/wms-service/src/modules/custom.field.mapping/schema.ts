@@ -35,6 +35,9 @@ export class CustomFieldMappingDocument
   extends BaseSchema
   implements CustomFieldMapping
 {
+  @Prop(Boolean)
+  displayOnDocument: boolean;
+
   @Prop(String)
   tenantId: string;
 

@@ -14,6 +14,7 @@ export interface CustomFieldMapping extends BaseEntity {
   // _id format: account_txt_hoten
   displayName: string;
   displayOnWeb: boolean;
+  displayOnDocument: boolean;
   required: boolean;
   entity: EEntity;
   customField: RefCustomField;

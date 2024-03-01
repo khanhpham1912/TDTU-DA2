@@ -22,7 +22,7 @@ export class ItemReadRepository extends BaseReadRepository<Item> {
   ): Promise<PaginateResponse<Item>> {
     const filterSearch: FilterOrData[] = [
       {
-        modelKey: "no",
+        modelKey: "type",
         modelValue: query?.search?.trim(),
         operator: FilterOperator.REGEX,
       },
@@ -32,12 +32,7 @@ export class ItemReadRepository extends BaseReadRepository<Item> {
         operator: FilterOperator.REGEX,
       },
       {
-        modelKey: "sku",
-        modelValue: query?.search?.trim(),
-        operator: FilterOperator.REGEX,
-      },
-      {
-        modelKey: "no",
+        modelKey: "uom",
         modelValue: query?.search?.trim(),
         operator: FilterOperator.REGEX,
       },

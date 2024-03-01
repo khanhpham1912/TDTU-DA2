@@ -1,5 +1,5 @@
 import { IsSkip } from "src/utils/dto.utility";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
   IsBoolean,
@@ -34,6 +34,11 @@ class RefCustomFieldDto implements RefCustomField {
 }
 
 export class CustomFieldMappingDto implements CustomFieldMapping {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
+  displayOnDocument: boolean;
+
   @IsSkip()
   _id: string;
 

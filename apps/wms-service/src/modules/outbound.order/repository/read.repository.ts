@@ -51,4 +51,37 @@ export class OutboundOrderReadRepository extends BaseReadRepository<OutboundOrde
       selects: query.selects,
     });
   }
+
+  public async all(
+    query: ListOutboundOrderRequestDto
+  ): Promise<OutboundOrder[]> {
+    const filterSearch: FilterOrData[] = [
+      {
+        modelKey: "no",
+        modelValue: query?.search?.trim(),
+        operator: FilterOperator.REGEX,
+      },
+      {
+        modelKey: "shipper.shipperName",
+        modelValue: query?.search?.trim(),
+        operator: FilterOperator.REGEX,
+      },
+    ];
+
+    const filter: {} = FilterBuilder.init({})
+      .withAnd(
+        "createdAt",
+        filterDate(query?.filter?.createdAt?.from, query?.filter?.createdAt?.to)
+      )
+      .withAnd(
+        "updatedAt",
+        filterDate(query?.filter?.createdAt?.from, query?.filter?.createdAt?.to)
+      )
+      .withOr(filterSearch)
+      .build();
+
+    return this.findWithFilterBuilder(filter, query.sort, {
+      selects: query.selects,
+    });
+  }
 }
