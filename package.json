@@ -23,7 +23,8 @@
     "node": ">=18"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "dependencies": {
     "flag": "^5.0.1",

@@ -1,57 +1,37 @@
 import styles from "./styles.module.scss";
 
 // components
-import {
-  Table,
-  Pagination,
-  Badge,
-  Button,
-  Dropdown,
-  ConfigProvider,
-} from "antd";
-// import FilterTable from "../FilterTable";
-// import { ExportTable } from "../ExportTable";
-// import SettingTable from "../SettingTable";
-// import { EmptyList, NoResultFound, Search } from "@/components/common";
+import { Table, Pagination, Button, Input, Tooltip } from "antd";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileExport, faPlus } from "@fortawesome/free-solid-svg-icons";
-// import { DocxIcon, FilterIcon, ReloadIcon } from "@/icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 // hooks
 import { useTranslations } from "next-intl";
 import usePostTable from "./useTable";
-import { useExportTable } from "./useExportTable";
 
 // models
 import type { ColumnsType } from "antd/es/table";
-// import { FilterOption } from "@/models/filter.model";
-
-// libs
-import classNames from "classnames";
+import Filter from "./Filter";
+import { FilterOption } from "./Filter/filter.config";
+import { SearchOutlined } from "@ant-design/icons";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 interface Props {
-  columns: ColumnsType;
+  columns: ColumnsType<any>;
   queryConfig: {
     queryKey: any;
     queryFn: any;
   };
-  // exportConfig?: {
-  //   mutationFn: any;
-  //   headers: string[];
-  //   fileName: string;
-  // };
-  // exportOptions?: FilterOption[];
   searchPlaceholder?: string;
   scroll?: {
     x?: any;
     y?: any;
   };
   showIndex?: boolean;
-  // filterOptions?: FilterOption[];
+  filterOptions?: FilterOption[];
   onClickAdd?: () => void;
-  // onClickImport?: () => void;
   addText?: string;
   addIcon?: React.ReactNode;
   title?: React.ReactNode;
@@ -63,8 +43,8 @@ interface Props {
 
 const PostTable = ({
   scroll = {
-    x: 600,
-    y: "calc(100vh - 15.5rem)",
+    x: 1500,
+    y: "calc(100vh - 16.5rem)",
   },
   title,
   ...props
@@ -72,14 +52,11 @@ const PostTable = ({
   const t = useTranslations();
   const {
     columns,
-    // filterOptions,
+    filterOptions,
     queryConfig,
-    // exportConfig,
-    // exportOptions,
     searchPlaceholder,
     showIndex,
     onClickAdd,
-    // onClickImport,
     addText,
     addIcon,
     hardcodeFilter,
@@ -91,196 +68,92 @@ const PostTable = ({
   const {
     filterForm,
     filter,
-    openFilter,
-    countFilter,
-    searchValue,
-    handleChangeTable,
     handleChangePagination,
-    handleCloseFilter,
     handleSubmitFilter,
-    handleOpenFilter,
     handleSearch,
     tableQuery,
-    openSetting,
-    handleOpenSettingChange,
-    handleCloseSetting,
-    handleSubmitSetting,
-    handleResetSetting,
     mergeColumns,
-    settingData,
-    settings,
   } = usePostTable({ queryConfig, columns, showIndex, hardcodeFilter });
 
-  const {
-    exportForm,
-    openExport,
-    exportLoading,
-    handleOpenExport,
-    onCloseExport,
-    handleClickExport,
-  } = useExportTable({
-    filter,
-    exportConfig,
-    hardcodeFilter,
-  });
-
   return (
-    <div className="d-flex column gap-24 h-100">
-      <div className="d-flex gap-4 justify-space-between align-center">
-        <span className="color-neutral-900 text-600 text-h3">{title}</span>
-        <div className="d-flex gap-16">
-          {extraFilterLeft}
-
-          <Search
+    <div className="flex flex-col gap-6 h-100">
+      <div className="flex gap-1 justify-between items-center">
+        <div className="flex gap-3 justify-between items-center flex-wrap">
+          <Input
             placeholder={searchPlaceholder ?? t("Search")}
-            onChange={(event) => handleSearch(event.target.value)}
-            allowClear
-            style={{ width: "270px" }}
+            suffix={<SearchOutlined className="text-base" />}
+            onChange={(e) => handleSearch(e.target.value)}
+            className={styles.search}
           />
-          <div className="d-flex align-center gap-8">
-            <ReloadIcon
-              className="material-symbols-outlined color-neutral-500 text-h3 pointer"
-              onClick={() => tableQuery.refetch()}
+          <div className="flex items-center gap-3 flex-wrap">
+            {extraFilterLeft}
+
+            <Filter
+              onSubmitFilter={handleSubmitFilter}
+              form={filterForm}
+              filterOptions={filterOptions ?? []}
             />
-            {filterOptions && (
-              <div onClick={handleOpenFilter} className="pointer">
-                <Badge
-                  size="small"
-                  count={countFilter}
-                  style={{ zIndex: 1 }}
-                  className={styles.badge}
-                >
-                  <FilterIcon className="material-symbols-outlined color-neutral-500" />
-                </Badge>
-              </div>
-            )}
-            <Dropdown
-              destroyPopupOnHide
-              dropdownRender={() => (
-                <>
-                  <SettingTable
-                    settingData={settingData}
-                    settings={settings}
-                    onClose={handleCloseSetting}
-                    onSubmit={handleSubmitSetting}
-                    onResetSetting={handleResetSetting}
-                  />
-                </>
-              )}
-              trigger={["click"]}
-              placement="bottomLeft"
-              arrow={{ pointAtCenter: true }}
-              open={openSetting}
-              onOpenChange={handleOpenSettingChange}
-            >
-              <span className="material-symbols-outlined color-neutral-500 text-h3 pointer">
-                settings
-              </span>
-            </Dropdown>
+            <Tooltip title={t("Reload")}>
+              <ArrowPathIcon
+                className="text-[#8d97a6] cursor-pointer h-5 w-5"
+                onClick={() => tableQuery.refetch()}
+              />
+            </Tooltip>
+            {/* <FontAwesomeIcon
+              icon={faRotateRight}
+              style={{ color: "#8d97a6", fontSize: "20px" }}
+              className="cursor-pointer"
+              onClick={() => tableQuery.refetch()}
+            /> */}
+
+            {extraFilterRight}
           </div>
-          {onClickAdd && (
-            <Button
-              onClick={onClickAdd}
-              type="primary"
-              icon={
-                addIcon || (
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    style={{ color: "#fff", fontSize: 14 }}
-                  />
-                )
-              }
-            >
-              {addText || t("Add")}
-            </Button>
-          )}
-          {onClickImport && (
-            <Button onClick={onClickImport} type="default" icon={<DocxIcon />}>
-              {t("Import")}
-            </Button>
-          )}
-          {exportConfig?.mutationFn && (
-            <Button
-              type="primary"
-              icon={<FontAwesomeIcon icon={faFileExport} />}
-              onClick={handleOpenExport}
-            >
-              {t("Export")}
-            </Button>
-          )}
-          {extraFilterRight}
         </div>
+        {onClickAdd && (
+          <Button
+            onClick={onClickAdd}
+            type="primary"
+            icon={
+              addIcon ?? (
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  style={{ color: "#fff", fontSize: 14 }}
+                />
+              )
+            }
+          >
+            {addText ?? t("Add")}
+          </Button>
+        )}
       </div>
       <div className={styles.table}>
-        <ConfigProvider
-          renderEmpty={() => {
-            return (
-              <div
-                style={{ height: "calc(100vh - 20.5rem)" }}
-                className="d-flex justify-center"
-              >
-                {countFilter > 0 || searchValue ? (
-                  <NoResultFound />
-                ) : (
-                  <EmptyList />
-                )}
-              </div>
-            );
+        <Table
+          className="new-ui-table"
+          pagination={false}
+          columns={mergeColumns as any}
+          dataSource={tableQuery?.data?.data?.docs}
+          loading={tableQuery?.isFetching}
+          rowKey="_id"
+          scroll={{
+            ...scroll,
+            scrollToFirstRowOnChange: true,
           }}
-        >
-          <Table
-            pagination={false}
-            columns={mergeColumns as any}
-            dataSource={tableQuery?.data?.data?.docs}
-            loading={tableQuery?.isFetching}
-            rowKey="_id"
-            scroll={{
-              ...scroll,
-              scrollToFirstRowOnChange: true,
-            }}
-            onChange={handleChangeTable}
-            expandable={{
-              showExpandColumn: false,
-            }}
-            className={classNames([
-              {
-                [styles["empty-data"]]: !tableQuery?.data?.data?.docs?.length,
-              },
-            ])}
-            {...rest}
-          />
-          <Pagination
-            style={{ color: "var(--color-neutral-400)" }}
-            current={Number(tableQuery?.data?.data?.paging?.currentPage || 1)}
-            pageSize={Number(tableQuery?.data?.data?.paging?.pageSize || 20)}
-            total={Number(tableQuery?.data?.data?.paging?.totalSize || 0)}
-            pageSizeOptions={[10, 20, 50]}
-            onChange={handleChangePagination}
-            showTotal={(total) => (
-              <div>{`${t("Total")} ${total} ${t("items")}`} </div>
-            )}
-            hideOnSinglePage
-            className="pr-16"
-          />
-        </ConfigProvider>
-      </div>
-      {filterOptions && (
-        <FilterTable
-          form={filterForm}
-          open={openFilter}
-          filterOptions={filterOptions}
-          onClose={handleCloseFilter}
-          onSubmitFilter={handleSubmitFilter}
+          expandable={{
+            showExpandColumn: false,
+          }}
+          {...rest}
         />
-      )}
-      <ExportTable
-        form={exportForm}
-        open={openExport}
-        onClose={onCloseExport}
-        filterOptions={exportOptions || []}
-        onClickExport={handleClickExport}
-        loading={exportLoading}
-      />
+        <Pagination
+          style={{ color: "var(--color-neutral-400)" }}
+          current={Number(tableQuery?.data?.data?.paging?.currentPage || 1)}
+          pageSize={Number(tableQuery?.data?.data?.paging?.pageSize || 20)}
+          total={Number(tableQuery?.data?.data?.paging?.totalSize || 0)}
+          pageSizeOptions={[10, 20, 50]}
+          onChange={handleChangePagination}
+          showTotal={(total) => <div>{`${t("Total")} ${total}`} </div>}
+          className="pr-16"
+        />
+      </div>
     </div>
   );
 };

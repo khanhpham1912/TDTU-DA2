@@ -1,0 +1,34 @@
+.length {
+  width: 100%;
+
+  :global {
+    .ant-input-number-group-addon {
+      border-radius: 0px !important;
+      border-right: none !important;
+    }
+  }
+}
+
+.width {
+  width: 100%;
+
+  :global {
+    .ant-input-number-group-addon {
+      border-radius: 0px !important;
+      border-right: none !important;
+    }
+
+    .ant-input-number {
+      border-radius: 0px !important;
+    }
+  }
+}
+
+.height {
+  width: 100%;
+  :global {
+    .ant-input-number {
+      border-radius: 0px !important;
+    }
+  }
+}
