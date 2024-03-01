@@ -1,1 +1,1 @@
-export { default } from "./PostTable";
+export { default } from "./Table";

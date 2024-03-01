@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 
 // component
-import PublicHeader from "@/components/PublicHeader";
+import { PublicHeader } from "@/components";
 
 const PublicLayout = ({ children }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = useState(false);

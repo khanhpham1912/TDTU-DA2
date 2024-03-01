@@ -1,13 +1,8 @@
+import { HookAPI } from "antd/es/modal/useModal";
 import { createContext } from "react";
 
-export interface Breadcrumb {
-  name?: string;
-  url?: string;
-}
-
 type ContextProps = {
-  selectedMenu?: string;
-  setSelectedMenu?: any;
+  modal?: HookAPI;
 };
 
 const CommonContext = createContext<Partial<ContextProps>>({});

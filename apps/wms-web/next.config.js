@@ -19,6 +19,7 @@ const nextConfig = {
         destination: "/items",
         permanent: true,
       },
+
     ];
   },
 }

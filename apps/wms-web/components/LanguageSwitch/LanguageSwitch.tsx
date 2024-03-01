@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GlobeAltIcon } from "@heroicons/react/24/outline";
 
 const LanguageSwitch = () => {
   const pathname = usePathname();
@@ -45,7 +46,8 @@ const LanguageSwitch = () => {
   return (
     <Dropdown menu={{ items }}>
       <div className="flex gap-2 cursor-pointer">
-        <GlobalOutlined style={{ fontSize: 20, color: "#8d97a6" }} />
+        <GlobeAltIcon className="text-[#8d97a6] hover:text-indigo-600 h-6 w-6" />
+        {/* <GlobalOutlined style={{ fontSize: 20, color: "#8d97a6" }} className="hover:text-indigo-600"/> */}
       </div>
     </Dropdown>
   );

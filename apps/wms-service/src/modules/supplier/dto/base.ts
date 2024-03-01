@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
   IsObject,
@@ -17,51 +17,61 @@ import {
 } from "wms-models/lib/suppliers";
 
 class SupplierGeneralDto implements SupplierGeneral {
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   tax: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   companyName: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   companyPhone: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   companyEmail: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   officeAddress: string;
 }
 
 class SupplierContactDto implements SupplierContact {
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   name: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   phone: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   email: string;
 }
 
 class BankInfoDto implements BankInfo {
-  @ApiProperty()
-  @IsString()
-  bankName: string;
+  @ApiPropertyOptional()
+  @IsOptional()
+  bankName: any;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   accountName: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsString()
   accountNumber: string;
 }
@@ -70,19 +80,22 @@ export class SupplierDto extends BaseDto implements Supplier {
   @IsSkip()
   no: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsObject()
   @ValidateNested()
   @Type(() => SupplierGeneralDto)
   general: SupplierGeneralDto;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsObject()
   @ValidateNested()
   @Type(() => SupplierContactDto)
   contact: SupplierContactDto;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @IsObject()
   @ValidateNested()
   @Type(() => BankInfoDto)

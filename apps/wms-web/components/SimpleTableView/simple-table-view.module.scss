@@ -1,0 +1,15 @@
+.table-detail {
+  width: 100%;
+  :global {
+    td {
+      padding: 4px 0px 4px 0px;
+    }
+
+    .detail-key {
+      color: var(--color-neutral-500);
+    }
+    .detail-value {
+      color: var(--color-neutral-900);
+    }
+  }
+}

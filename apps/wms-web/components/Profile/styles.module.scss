@@ -1,0 +1,13 @@
+
+.menu-item {
+    padding: 4px 8px;
+    width: 275px;
+    cursor: pointer;
+    & > a {
+      color: #000;
+    }
+  
+    &-logout {
+      color: var(--color-danger) !important;
+    }
+  }
