@@ -113,7 +113,7 @@ export default function useItemManagement() {
       ),
     },
     {
-      title: t("Weight"),
+      title: t("Weight (kg)"),
       width: 150,
       render: (record: Item) => (
         <div className="text-right">

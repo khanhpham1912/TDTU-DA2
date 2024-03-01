@@ -235,5 +235,7 @@
   "SWITCH": "Switch",
   "NOTE": "Note",
   "Print inbound order": "Print inbound order",
-  "Print outbound order": "Print outbound order"
+  "Print outbound order": "Print outbound order",
+  "Cancel inbound order": "Cancel inbound order",
+  "Note: This action cannot undo": "Note: This action cannot undo"
 }

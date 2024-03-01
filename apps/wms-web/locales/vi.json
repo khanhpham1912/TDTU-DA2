@@ -6,7 +6,7 @@
   "Login": "Đăng nhập",
   "Dashboard": "Bảng điều khiển",
   "Data master": "Dữ liệu chính",
-  "Items": "Hạng mục",
+  "Items": "Sản phẩm",
   "Driver": "Tài xế",
   "Truck": "Xe tải",
   "CRM": "CRM",
@@ -235,5 +235,7 @@
   "SWITCH": "Chuyển đổi",
   "NOTE": "Ghi chú",
   "Print inbound order": "In đơn nhập hàng",
-  "Print outbound order": "In đơn xuất hàng"
+  "Print outbound order": "In đơn xuất hàng",
+  "Cancel inbound order": "Hủy đơn nhập kho",
+  "Note: This action cannot undo": "Ghi chú: Hành động này không thể thu hồi"
 }
