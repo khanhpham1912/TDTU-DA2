@@ -41,7 +41,7 @@ export class ItemWriteRepository extends BaseWriteRepository<Item> {
       "items.no": item.no,
     });
 
-    const outbound: Promise<InboundOrder> = this.outboundReadRepo.findOne({
+    const outbound: Promise<OutboundOrder> = this.outboundReadRepo.findOne({
       "items.no": item.no,
     });
 
