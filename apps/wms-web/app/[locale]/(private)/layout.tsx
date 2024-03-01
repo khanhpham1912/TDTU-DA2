@@ -8,7 +8,7 @@ import { PrivateHeader, SideBar } from "@/components";
 import { validateJwtToken } from "@/utils/jwt.utility";
 import { pushNotify } from "@/utils/toast";
 
-import { FolderIcon, HomeIcon, UsersIcon } from "@heroicons/react/24/outline";
+import { ArrowUpTrayIcon, FolderIcon, HomeIcon, InboxArrowDownIcon, RectangleStackIcon, UserGroupIcon, UsersIcon } from "@heroicons/react/24/outline";
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   const t = useTranslations();
@@ -27,25 +27,25 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
     {
       name: t("Items"),
       href: "/items",
-      icon: HomeIcon,
+      icon: RectangleStackIcon,
       current: currentPage === "items",
     },
     {
       name: t("Suppliers"),
       href: "/suppliers",
-      icon: HomeIcon,
+      icon: UserGroupIcon,
       current: currentPage === "suppliers",
     },
     {
       name: t("Inbound orders"),
       href: "/inbound",
-      icon: UsersIcon,
+      icon: InboxArrowDownIcon,
       current: currentPage === "inbound",
     },
     {
       name: t("Outbound orders"),
       href: "/outbound",
-      icon: FolderIcon,
+      icon: ArrowUpTrayIcon,
       current: currentPage === "outbound",
     },
   ];

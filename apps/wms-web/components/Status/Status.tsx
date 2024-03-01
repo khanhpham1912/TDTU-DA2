@@ -17,7 +17,11 @@ const Status: FC<StatusProps> = ({ text, colorKey }) => {
     ? statusColors[colorKey]
     : { color: dftColor.color };
 
-  return <Tag {...statusStyle}>{text}</Tag>;
+  return (
+    <Tag {...statusStyle} style={{ width: "fit-content" }}>
+      {text}
+    </Tag>
+  );
 };
 
 export default Status;

@@ -1,0 +1,22 @@
+.footer {
+  color: #000;
+  font-family: Arial;
+  font-style: normal;
+  font-weight: 400;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.blank {
+  flex-grow: 1;
+  border-bottom: 1px dotted #000;
+  margin-bottom: 2px;
+}
+
+.page-break {
+  margin-top: 1rem;
+  display: block;
+  page-break-before: auto;
+}

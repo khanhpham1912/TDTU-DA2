@@ -12,11 +12,15 @@ import {
   OutboundOrder,
   OutboundOrderItem,
 } from "wms-models/lib/outbound.order";
-import { EStatus } from "wms-models/lib/shared";
+import { EEntity, EStatus } from "wms-models/lib/shared";
 import { useOutbound } from "./_logic";
 import CommonContext from "@/contexts/CommonContext";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import styles from "./styles.module.scss";
+import { Status } from "@/components/Status";
+import { CustomFieldView } from "@/components/custom.field";
+import { PrintOutboundModal } from "../_ui";
+import { useBoolean } from "usehooks-ts";
 
 const RowView = ({ title, content }: { title: string; content?: string }) => {
   return (
@@ -47,6 +51,11 @@ export default function OutboundDetail() {
   const [form] = Form.useForm();
   const { modal } = useContext(CommonContext);
   const queryClient = useQueryClient();
+  const {
+    value: showPrint,
+    setTrue: openPrint,
+    setFalse: closePrint,
+  } = useBoolean(false);
 
   const outboundDetailQuery = useQuery({
     queryKey: ["outbound-detail", outboundId],
@@ -88,6 +97,7 @@ export default function OutboundDetail() {
     onSuccess: (response) => {
       queryClient.setQueryData(["inbound-detail", outboundId], response);
       cancelConfirm();
+      openPrint();
     },
   });
 
@@ -210,20 +220,39 @@ export default function OutboundDetail() {
               </Col>
             </Row>
           </div>
+          <div className="flex flex-col gap-2">
+            <span className=" text-indigo-600 text-lg font-bold">
+              {t("Additional info")}
+            </span>
+            <CustomFieldView
+              entity={EEntity.Outbound}
+              layout="horizontal"
+              data={{
+                customFieldMapping:
+                  outboundDetailQuery?.data?.data?.customFieldMapping,
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className="flex flex-col flex-grow justify-between overflow-x-auto overflow-y-hidden box-border bg-gray-100">
         <div className="app-content">
           <div className="flex justify-between pb-4 text-indigo-600">
             <div className="flex items-center gap-2">
-              <span className=" text-gray-900 font-semibold text-2xl">
-                # {outboundDetailQuery?.data?.data?.no}
+              <span className=" text-gray-900 font-bold text-2xl">
+                #{outboundDetailQuery?.data?.data?.no}
               </span>
-              <span className="">
-                {outboundDetailQuery?.data?.data?.status}
-              </span>
+              <Status
+                text={t(outboundDetailQuery?.data?.data?.status as any)}
+                colorKey={outboundDetailQuery?.data?.data?.status}
+              />
             </div>
             <div className="flex gap-2">
+              {outboundDetailQuery?.data?.data?.status !== EStatus.NEW && (
+                <Button ghost type="primary" onClick={openPrint}>
+                  {t("Print")}
+                </Button>
+              )}
               {/* <Button onClick={() => {}}>{t("Print")}</Button> */}
               {!isEnterQuantity &&
                 outboundDetailQuery?.data?.data?.status ===
@@ -364,6 +393,11 @@ export default function OutboundDetail() {
           )}
         </div>
       </div>
+      <PrintOutboundModal
+        open={showPrint}
+        onCancel={closePrint}
+        outboundId={outboundDetailQuery?.data?.data?._id}
+      />
     </div>
   );
 }

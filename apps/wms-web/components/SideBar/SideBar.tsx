@@ -113,7 +113,7 @@ export default function SideBar({
 
                       <li className="mt-auto">
                         <Link
-                          href="#"
+                          href="/settings"
                           className="group -mx-2 flex gap-x-3 rounded-md p-4 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                         >
                           <Cog6ToothIcon
@@ -172,7 +172,7 @@ export default function SideBar({
               </li>
               <li className="mt-auto">
                 <Link
-                  href="#"
+                  href="/settings"
                   className="group -mx-2 flex gap-x-3 rounded-md p-4 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                 >
                   <Cog6ToothIcon

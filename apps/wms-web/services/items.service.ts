@@ -35,3 +35,9 @@ export const deleteItem = async (itemId: any): Promise<any> => {
     method: "DELETE",
   });
 };
+
+export const skuVerify = async (sku: any): Promise<any> => {
+  return await httpClient<any>(`${API_PATH}/${sku}/check-sku`, {
+    method: "GET",
+  });
+};

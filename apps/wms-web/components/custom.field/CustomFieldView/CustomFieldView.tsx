@@ -1,4 +1,3 @@
-import { SimpleTableView } from "@/components/common";
 
 import { useTranslations } from "next-intl";
 
@@ -8,8 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 // services
 import { getAllCustomFieldMappings } from "@/services/custom.field.mapping.service";
 import { EEntity } from "wms-models/lib/shared";
-import { PrintContent } from "@/components/common/Print";
 import { renderViewField } from "../render.field";
+import { PrintContent } from "@/components/Print";
+import SimpleTableView from "@/components/SimpleTableView";
 
 export const CustomFieldView = ({
   data,
@@ -44,8 +44,8 @@ export const CustomFieldView = ({
           layout={layout as any}
           data={
             customFieldsQuery?.data?.data
-              ?.filter((field) => field?.displayOnWeb)
-              ?.map?.((field) => {
+              ?.filter((field: any) => field?.displayOnWeb)
+              ?.map?.((field: any) => {
                 return {
                   label: field.displayName,
                   content: (
@@ -68,8 +68,8 @@ export const CustomFieldView = ({
         <PrintContent
           items={
             customFieldsQuery?.data?.data
-              ?.filter((field) => field?.isDisplayOnDocument)
-              ?.map?.((field) => {
+              ?.filter((field: any) => field?.isDisplayOnDocument)
+              ?.map?.((field: any) => {
                 return {
                   label: field.displayName,
                   value: renderViewField(

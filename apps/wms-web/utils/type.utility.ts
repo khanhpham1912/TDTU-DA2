@@ -12,3 +12,5 @@ export enum Types {
 
 export const typeOf = (value: any): Types =>
   Object.prototype.toString.call(value).slice(8, -1) as Types;
+
+  

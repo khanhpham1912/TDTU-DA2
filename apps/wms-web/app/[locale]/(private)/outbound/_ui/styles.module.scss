@@ -1,0 +1,57 @@
+.modal-content {
+  height: fit-content;
+  max-height: fit-content;
+  height: calc(100vh - 150px) !important;
+  max-height: calc(100vh - 150px) !important;
+  padding: 32px;
+  background: #fff;
+}
+
+.print {
+  size: auto;
+  margin: 0mm;
+}
+
+.printing-table--custom {
+  :global {
+    .ant-table-container {
+      border-inline-start: none !important;
+    }
+    thead {
+      tr {
+        &:first-child {
+          th {
+            &:first-child {
+              border-inline-start: 1px solid #000;
+            }
+          }
+        }
+      }
+
+      th {
+        vertical-align: middle !important;
+        text-align: center !important;
+      }
+    }
+    tbody {
+      tr {
+        td {
+          &:first-child {
+            border-inline-start: 1px solid #000;
+          }
+        }
+        &:last-child {
+          td {
+            border: none !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media print {
+  @page {
+    size: landscape !important;
+  }
+}

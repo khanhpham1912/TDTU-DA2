@@ -11,26 +11,22 @@ import { getAllCustomFieldMappings } from "@/services/custom.field.mapping.servi
 
 // hooks
 import { useTranslations } from "next-intl";
-import { useUserInfo } from "common-ui/lib/hooks";
 
 // utils
-import { isEmail, isPhone, required } from "common-ui/lib/utils/form/rules";
 
 // models
 import { ECustomFieldType, EEntity } from "wms-models/lib/shared";
 import { renderFormField } from "../render.field";
+import { isEmail, isPhone } from "@/utils/rules.utility";
 
 export const CustomFieldForm = ({
   entity,
-  xs = 24,
   labelClassName,
 }: {
   entity: EEntity;
-  xs?: number;
   labelClassName?: string;
 }) => {
   const t = useTranslations();
-  const { userInfo } = useUserInfo();
   const customFieldsQuery = useQuery({
     queryKey: ["all-custom-field-mapping", entity],
     queryFn: () =>
@@ -43,14 +39,14 @@ export const CustomFieldForm = ({
   });
 
   return (
-    <Row>
+    <Row gutter={16}>
       {customFieldsQuery?.data?.data
-        ?.filter((field) => field?.displayOnWeb)
-        ?.map?.((field) => {
+        ?.filter((field: any) => field?.displayOnWeb)
+        ?.map?.((field: any) => {
           const rules = [];
           let valuePropName = "value";
           if (field.required) {
-            rules.push(required(t("Please enter")));
+            rules.push({ required: true, message: t("Please enter") });
           }
           const fieldType = field?.customField?.type;
           if (fieldType === ECustomFieldType.PHONE) {
@@ -59,18 +55,10 @@ export const CustomFieldForm = ({
             rules.push(isEmail(t("Invalid email address")));
           } else if (fieldType === ECustomFieldType.SWITCH) {
             valuePropName = "checked";
-          } else if (fieldType === ECustomFieldType.ATTACHMENT) {
-            let attachmentConfig =
-              field?.customField?.extraData?.attachmentConfig || {};
-            attachmentConfig = {
-              ...attachmentConfig,
-              filePath: `/users/${userInfo?._id}/custom-field/${entity}`,
-            };
-            field.customField.extraData = { attachmentConfig };
           }
 
           return (
-            <Col key={field._id} xs={xs}>
+            <Col key={field._id} xs={24}>
               <Form.Item
                 name={["customFieldMapping", field._id]}
                 label={
@@ -79,6 +67,7 @@ export const CustomFieldForm = ({
                 rules={rules}
                 valuePropName={valuePropName}
                 validateDebounce={300}
+                style={{ width: "100%" }}
               >
                 {renderFormField(field, t)}
               </Form.Item>

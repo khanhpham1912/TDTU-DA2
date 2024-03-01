@@ -10,6 +10,8 @@ import {
 } from "antd";
 import { useTranslations } from "next-intl";
 import styles from "./styles.module.scss";
+import { CustomFieldForm } from "@/components/custom.field";
+import { EEntity } from "wms-models/lib/shared";
 
 export default function ItemForm({
   isUpdate = false,
@@ -76,6 +78,7 @@ export default function ItemForm({
               <Input placeholder={t("Enter")} maxLength={100} />
             </Form.Item>
           </Col>
+          <CustomFieldForm entity={EEntity.Supplier} />
         </Row>
       </Form>
     </Drawer>

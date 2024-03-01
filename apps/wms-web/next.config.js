@@ -19,11 +19,7 @@ const nextConfig = {
         destination: "/items",
         permanent: true,
       },
-      {
-        source: "/settings",
-        destination: "/settings/custom-fields",
-        permanent: true,
-      },
+
     ];
   },
 }

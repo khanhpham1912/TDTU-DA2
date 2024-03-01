@@ -19,6 +19,12 @@ import DimensionForm from "./DimensionForm";
 import { number } from "@/configs/number.config";
 import { disabledAfter, disabledBefore } from "@/configs/date.config";
 import { DatePicker } from "@/components/DatePicker";
+import { CustomFieldForm } from "@/components/custom.field";
+import { EEntity } from "wms-models/lib/shared";
+import { useEffect, useState } from "react";
+import { useDebounce } from "usehooks-ts";
+import { useMutation } from "@tanstack/react-query";
+import { skuVerify } from "@/services/items.service";
 
 export default function ItemForm({
   isUpdate = false,
@@ -34,6 +40,28 @@ export default function ItemForm({
   onSubmit: () => void;
 }) {
   const t = useTranslations();
+  const [sku, setSku] = useState("");
+  const [isNameValid, setIsNameValid] = useState(true);
+  const skuDebounced = useDebounce(sku, 300);
+  const skuVerifyMutation = useMutation({
+    mutationFn: () => skuVerify(skuDebounced),
+    onSuccess: (response) => {
+      if (response?.data) {
+        form.setFieldValue(["sku"], skuDebounced);
+        setIsNameValid(true);
+      } else {
+        setIsNameValid(false);
+      }
+    },
+  });
+
+  useEffect(() => {
+    skuVerifyMutation.mutate();
+  }, [skuDebounced]);
+
+  const handleChangeSku = (e: any) => {
+    setSku(e.target.value);
+  };
 
   return (
     <Drawer
@@ -71,6 +99,14 @@ export default function ItemForm({
             <Form.Item
               name="sku"
               label="SKU"
+              {...(!isNameValid
+                ? {
+                    validateStatus: "error",
+                    help: t("SKU is already exists"),
+                  }
+                : {
+                    validateStatus: undefined,
+                  })}
               rules={[
                 { required: true, message: t("Please enter sku") },
                 {
@@ -79,7 +115,7 @@ export default function ItemForm({
                 },
               ]}
             >
-              <Input placeholder={t("Enter")} />
+              <Input placeholder={t("Enter")} onChange={handleChangeSku} />
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
@@ -118,20 +154,6 @@ export default function ItemForm({
               />
             </Form.Item>
           </Col>
-          {/* <Col md={12} xs={24}>
-            <Form.Item name="outboundMethod" label="Outbound method">
-              <Select
-                placeholder={t("Select")}
-                options={getEnumValues(E_OUTBOUND_METHOD).map((item) => {
-                  return {
-                    value: item,
-                    label: item,
-                  };
-                })}
-              />
-            </Form.Item>
-          </Col> */}
-
           <Col md={12} xs={24}>
             <Form.Item name="grossWeight" label={t("Weight")}>
               <InputNumber placeholder={t("Enter")} min={0} {...number} />
@@ -172,6 +194,7 @@ export default function ItemForm({
               />
             </Form.Item>
           </Col>
+          <CustomFieldForm entity={EEntity.Item} />
         </Row>
       </Form>
     </Drawer>

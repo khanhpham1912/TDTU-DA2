@@ -1,4 +1,10 @@
 import {
+  displayValue,
+  displayPhone,
+  displayNumber,
+  displayDate,
+} from "@/utils/display.utility";
+import {
   Select,
   Input,
   Checkbox,
@@ -10,16 +16,9 @@ import {
   DatePicker,
   TimePicker,
 } from "antd";
-import { search } from "common-ui/lib/configs";
 import { CustomFieldMapping } from "wms-models/lib/custom.field.mapping";
 import { ECustomFieldType } from "wms-models/lib/shared";
-import { DragAndDrop, DateTimePicker, RangePicker } from "../common";
-import {
-  displayValue,
-  displayPhone,
-  displayNumber,
-  displayDate,
-} from "common-ui/lib/utils/view.utility";
+import { DateTimePicker, RangePicker } from "../DatePicker";
 
 export const renderFormField = (field: CustomFieldMapping, t: any) => {
   const placeholder = t("Enter");
@@ -33,7 +32,6 @@ export const renderFormField = (field: CustomFieldMapping, t: any) => {
         <Select
           allowClear
           placeholder={t("Please select")}
-          {...search}
           mode={selectConfig?.multiple ? "multiple" : undefined}
           options={selectConfig?.options?.map?.((option) => {
             return {
@@ -93,32 +91,15 @@ export const renderFormField = (field: CustomFieldMapping, t: any) => {
           {...numberConfig}
         />
       );
-    case ECustomFieldType.ATTACHMENT:
-      const attachmentConfig = extraData?.attachmentConfig;
-      return (
-        <DragAndDrop
-          filePath={attachmentConfig?.filePath}
-          fileType={
-            attachmentConfig?.fileType || [
-              "image/jpeg",
-              "image/png",
-              "application/pdf",
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ]
-          }
-          maxCount={attachmentConfig?.maxCount || 10}
-          fileSize={attachmentConfig?.fileSize || 5}
-        />
-      );
+
     case ECustomFieldType.DATE:
       return <DatePicker />;
     case ECustomFieldType.DATE_TIME:
       return <DateTimePicker />;
     case ECustomFieldType.TIME:
       return <TimePicker />;
-    case ECustomFieldType.RANGE_PICKER:
-      return <RangePicker style={{ maxWidth: "500px" }} />;
+    // case ECustomFieldType.RANGE_PICKER:
+    //   return <RangePicker style={{ maxWidth: "500px" }} />;
     // case ECustomFieldType.ADDRESS:
     //   return <LocationSelect />;
     default:
@@ -158,22 +139,17 @@ export const renderViewField = (
       return <span>{displayValue(value)}</span>;
     case ECustomFieldType.NUMBER:
       return <span>{displayNumber(value)}</span>;
-    case ECustomFieldType.ATTACHMENT:
-      return value || !!value?.length ? (
-        <DragAndDrop mode="preview" value={value} />
-      ) : (
-        "-"
-      );
+
     case ECustomFieldType.DATE:
       return <span>{displayDate(value)}</span>;
     case ECustomFieldType.DATE_TIME:
       return <span>{displayDate(value, "HH:mm DD/MM/YYYY")}</span>;
     case ECustomFieldType.TIME:
       return <span>{displayDate(value, "HH:mm")}</span>;
-    case ECustomFieldType.RANGE_PICKER:
-      return (
-        <span>{`${displayDate(value?.from)} - ${displayDate(value?.to)}`}</span>
-      );
+    // case ECustomFieldType.RANGE_PICKER:
+    //   return (
+    //     <span>{`${displayDate(value?.from)} - ${displayDate(value?.to)}`}</span>
+    //   );
     // case ECustomFieldType.ADDRESS:
     //   return <span>{displayValue(value?.address?.path)}</span>;
     default:

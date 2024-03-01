@@ -17,6 +17,9 @@ import { displayNumber } from "@/utils/display.utility";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faPhone, faCar } from "@fortawesome/free-solid-svg-icons";
 import useInboundForm from "./logic";
+import { DateTimePicker } from "@/components/DatePicker";
+import { CustomFieldForm } from "@/components/custom.field";
+import { EEntity } from "wms-models/shared";
 
 const UpdateOutboundOrder = () => {
   const t = useTranslations();
@@ -180,12 +183,13 @@ const UpdateOutboundOrder = () => {
                 {t("General")}
               </span>
               <div className="flex flex-col">
-                {/* <Form.Item<OutboundOrder>
-                  name={["arrivalTime"]}
-                  label={t("Arrival time")}
+                <Form.Item<OutboundOrder>
+                  name={["deliveryTime"]}
+                  label={t("Delivery time")}
+                  rules={[{ required: true, message: t("Please select") }]}
                 >
-                  <DatePicker/>
-                </Form.Item> */}
+                  <DateTimePicker />
+                </Form.Item>
                 <Form.Item<OutboundOrder>
                   name={["remark"]}
                   label={t("Remark")}
@@ -263,6 +267,16 @@ const UpdateOutboundOrder = () => {
                   />
                 </Form.Item>
               </div>
+            </div>
+          </Col>
+        </Row>
+        <Row gutter={16} className="mt-6">
+          <Col xs={24}>
+            <div className=" flex flex-col gap-4 border border-gray-200 border-solid rounded-lg p-4">
+              <span className="text-indigo-600 text-lg font-bold">
+                {t("Additional info")}
+              </span>
+              <CustomFieldForm entity={EEntity.Outbound} />
             </div>
           </Col>
         </Row>
