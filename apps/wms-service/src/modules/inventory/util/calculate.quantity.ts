@@ -9,8 +9,8 @@ export function calculateQuantity(
   itemNo: string
 ): number {
   let quantity: number = 0;
-  list.forEach((inbound: InboundOrder | OutboundOrder): void => {
-    inbound.items.forEach(
+  list?.forEach((inbound: InboundOrder | OutboundOrder): void => {
+    inbound?.items?.forEach(
       (item: InboundOrderItem | OutboundOrderItem): void => {
         if (item.no === itemNo) quantity += item.itemCount;
       }

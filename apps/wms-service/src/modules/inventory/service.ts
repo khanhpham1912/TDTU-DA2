@@ -8,7 +8,9 @@ import { InboundOrder } from "wms-models/lib/inbound";
 import { OutboundOrder } from "wms-models/lib/outbound.order";
 import { EStatus } from "wms-models/lib/shared";
 import { calculateQuantity } from "./util/calculate.quantity";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class InventoryService {
   constructor(
     private readonly inboundReadRepo: InboundOrderReadRepository,
@@ -16,18 +18,20 @@ export class InventoryService {
   ) {}
 
   public async getInventoryItem(no: string): Promise<InventoryItem> {
-    const inboundComplete: Promise<InboundOrder[]> = this.inboundReadRepo.find({
-      "items.no": no,
-      status: EStatus.COMPLETED,
-    });
+    const inboundComplete: Promise<InboundOrder[]> = this.inboundReadRepo?.find(
+      {
+        "items.no": no,
+        status: EStatus.COMPLETED,
+      }
+    );
 
     const outboundComplete: Promise<OutboundOrder[]> =
-      this.outboundReadRepo.find({
+      this.outboundReadRepo?.find({
         "items.no": no,
         status: EStatus.COMPLETED,
       });
 
-    const inboundNew: Promise<InboundOrder[]> = this.inboundReadRepo.find({
+    const inboundNew: Promise<InboundOrder[]> = this.inboundReadRepo?.find({
       "items.no": no,
       status: EStatus.NEW,
     });
@@ -66,24 +70,26 @@ export class InventoryService {
   public async getAvailableInventoryItem(
     no: string
   ): Promise<AvailableInventoryItem> {
-    const inboundComplete: Promise<InboundOrder[]> = this.inboundReadRepo.find({
-      "items.no": no,
-      status: EStatus.COMPLETED,
-    });
+    const inboundComplete: Promise<InboundOrder[]> = this.inboundReadRepo?.find(
+      {
+        "items.no": no,
+        status: EStatus.COMPLETED,
+      }
+    );
 
     const outboundComplete: Promise<OutboundOrder[]> =
-      this.outboundReadRepo.find({
+      this.outboundReadRepo?.find({
         "items.no": no,
         status: EStatus.COMPLETED,
       });
 
-    const outboundNew: Promise<OutboundOrder[]> = this.outboundReadRepo.find({
+    const outboundNew: Promise<OutboundOrder[]> = this.outboundReadRepo?.find({
       "items.no": no,
       status: EStatus.NEW,
     });
 
     const outboundInProgress: Promise<OutboundOrder[]> =
-      this.outboundReadRepo.find({
+      this.outboundReadRepo?.find({
         "items.no": no,
         status: EStatus.INPROGRESS,
       });
