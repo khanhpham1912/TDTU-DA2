@@ -1,13 +1,18 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
+  IsEnum,
   IsObject,
   IsOptional,
   IsString,
   ValidateNested,
 } from "class-validator";
 import { DateDto, ListDto } from "src/dto";
-import { ListItemFilter, ListItemRequest } from "wms-models/lib/Items";
+import {
+  EProductType,
+  ListItemFilter,
+  ListItemRequest,
+} from "wms-models/lib/Items";
 
 class ListItemFilterDto implements ListItemFilter {
   @ApiPropertyOptional()
@@ -33,6 +38,11 @@ class ListItemFilterDto implements ListItemFilter {
   @IsOptional()
   @IsString()
   uom?: string;
+
+  @ApiPropertyOptional({ enum: EProductType })
+  @IsOptional()
+  @IsEnum(EProductType)
+  type?: EProductType;
 }
 
 export class ListItemRequestDto extends ListDto implements ListItemRequest {
