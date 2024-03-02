@@ -1,11 +1,12 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsObject, IsOptional, ValidateNested } from "class-validator";
+import { IsEnum, IsObject, IsOptional, ValidateNested } from "class-validator";
 import { DateDto, ListDto } from "src/dto";
 import {
   ListInboundOrderRequest,
   ListInboundOrderFilter,
 } from "wms-models/lib/inbound";
+import { EStatus } from "wms-models/lib/shared";
 
 export class ListInboundOrderFilterDto implements ListInboundOrderFilter {
   @ApiPropertyOptional()
@@ -21,6 +22,11 @@ export class ListInboundOrderFilterDto implements ListInboundOrderFilter {
   @ValidateNested()
   @Type(() => DateDto)
   updatedAt?: DateDto;
+
+  @ApiPropertyOptional({ enum: EStatus })
+  @IsOptional()
+  @IsEnum(EStatus)
+  status: EStatus;
 }
 
 export class ListInboundOrderRequestDto

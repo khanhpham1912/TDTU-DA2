@@ -36,6 +36,7 @@ export class InboundOrderReadRepository extends BaseReadRepository<InboundOrder>
     ];
 
     const filter: {} = FilterBuilder.init({})
+      .withData("status", query?.filter?.status, FilterOperator.EQUAL)
       .withAnd(
         "createdAt",
         filterDate(query?.filter?.createdAt?.from, query?.filter?.createdAt?.to)
