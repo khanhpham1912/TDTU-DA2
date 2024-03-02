@@ -97,7 +97,7 @@ export class ItemDto extends BaseDto implements Item {
   @IsObject()
   @ValidateNested()
   @Type(() => DimensionDto)
-  dimensions?: DimensionDto;
+  dimension?: DimensionDto;
 
   @ApiPropertyOptional()
   @IsOptional()
