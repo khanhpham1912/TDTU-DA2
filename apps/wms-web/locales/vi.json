@@ -109,7 +109,7 @@
   "L": "D",
   "W": "R",
   "H": "C",
-  "Unit value": "Giá trị đơn vị",
+  "Unit value": "Giá tiền",
   "An error has occurred": "Đã xảy ra lỗi",
   "Remove successfully": "Xóa thành công",
   "Delete item": "Xóa sản phẩm",
@@ -238,5 +238,6 @@
   "Print outbound order": "In đơn xuất hàng",
   "Cancel inbound order": "Hủy đơn nhập kho",
   "Note: This action cannot undo": "Ghi chú: Hành động này không thể thu hồi",
-  "Inventory": "Tồn kho"
+  "Inventory": "Tồn kho",
+  "Inventory available": "Tồn kho khả dụng"
 }

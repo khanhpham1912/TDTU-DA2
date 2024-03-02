@@ -238,5 +238,6 @@
   "Print outbound order": "Print outbound order",
   "Cancel inbound order": "Cancel inbound order",
   "Note: This action cannot undo": "Note: This action cannot undo",
-  "Inventory": "Inventory"
+  "Inventory": "Inventory",
+  "Inventory available": "Inventory available"
 }
