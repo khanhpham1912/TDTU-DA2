@@ -1,0 +1,40 @@
+.table {
+  & > div[class*="ant-table-wrapper"] {
+    width: 100%;
+    height: 100%;
+  }
+
+  :global {
+    .ant-table-thead {
+      height: 44px;
+      & > tr {
+        & > th {
+          background: var(--color-bg-menu) !important;
+          color: var(--color-neutral-500) !important;
+          font-weight: 400 !important;
+        }
+      }
+    }
+
+    .ant-table-cell-scrollbar {
+      background: var(--color-bg-menu) !important;
+    }
+
+    .ant-table-cell {
+      vertical-align: middle !important;
+      padding: 8px 12px !important;
+    }
+
+    .ant-table-cell.ant-table-row-expand-icon-cell {
+      background-color: #fff;
+    }
+    .ant-table-wrapper
+      .ant-table-tbody
+      > tr
+      > td
+      > .ant-table-wrapper:only-child
+      .ant-table {
+      margin-inline: unset;
+    }
+  }
+}

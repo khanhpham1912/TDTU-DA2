@@ -41,3 +41,9 @@ export const skuVerify = async (sku: any): Promise<any> => {
     method: "GET",
   });
 };
+
+export const getInventory = async (itemId: any): Promise<any> => {
+  return await httpClient<any>(`/inventories/${itemId}`, {
+    method: "GET",
+  });
+};

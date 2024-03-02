@@ -86,7 +86,7 @@ export default function useOutboundManagement() {
       title: t("Outbound order"),
       render: (record: OutboundOrder) => (
         <div className="flex flex-col">
-          <Link href={`/inbound/${record?._id}`}>{record?.no}</Link>
+          <Link href={`/outbound/${record?._id}`}>{record?.no}</Link>
           <Status text={t(record?.status as any)} colorKey={record?.status} />
         </div>
       ),
@@ -136,7 +136,7 @@ export default function useOutboundManagement() {
               icon={faEye}
               className=" text-indigo-600 cursor-pointer"
               onClick={() => {
-                push(`/inbound/${record?._id}`);
+                push(`/outbound/${record?._id}`);
               }}
             />
           </Tooltip>

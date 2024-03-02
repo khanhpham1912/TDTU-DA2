@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import usePostTable from "./useTable";
 
 // models
-import type { ColumnsType } from "antd/es/table";
+import type { ColumnsType, TableProps } from "antd/es/table";
 import Filter from "./Filter";
 import { FilterOption } from "./Filter/filter.config";
 import { SearchOutlined } from "@ant-design/icons";
@@ -48,7 +48,7 @@ const PostTable = ({
   },
   title,
   ...props
-}: Props) => {
+}: Props & TableProps<any>) => {
   const t = useTranslations();
   const {
     columns,

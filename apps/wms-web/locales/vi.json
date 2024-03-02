@@ -237,5 +237,6 @@
   "Print inbound order": "In đơn nhập hàng",
   "Print outbound order": "In đơn xuất hàng",
   "Cancel inbound order": "Hủy đơn nhập kho",
-  "Note: This action cannot undo": "Ghi chú: Hành động này không thể thu hồi"
+  "Note: This action cannot undo": "Ghi chú: Hành động này không thể thu hồi",
+  "Inventory": "Tồn kho"
 }
