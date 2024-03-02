@@ -46,6 +46,7 @@ export class ItemReadRepository extends BaseReadRepository<Item> {
     const filter: {} = FilterBuilder.init({})
       .withData("supplier.no", query?.filter.supplierNo, FilterOperator.EQUAL)
       .withData("uom", query?.filter?.uom, FilterOperator.EQUAL)
+      .withData("type", query?.filter?.type, FilterOperator.EQUAL)
       .withAnd(
         "createdAt",
         filterDate(query?.filter?.createdAt?.from, query?.filter?.createdAt?.to)
