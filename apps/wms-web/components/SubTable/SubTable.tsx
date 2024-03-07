@@ -1,9 +1,8 @@
 // components
-import { Pagination, Table } from "antd";
-import { ColumnType } from "antd/es/table";
+import { Table } from "antd";
 import { useSubTable } from "./useSubTable";
 import { useTranslations } from "next-intl";
-import { displayNumber, displayValue } from "@/utils/display.utility";
+import { displayNumber } from "@/utils/display.utility";
 import styles from "./styles.module.scss";
 const SubTable = ({ expanded, record }: { record: any; expanded: boolean }) => {
   const t = useTranslations();
@@ -23,6 +22,13 @@ const SubTable = ({ expanded, record }: { record: any; expanded: boolean }) => {
     {
       title: t("Inventory"),
       width: 100,
+      render: (record: any) => (
+        <div className="text-right">{displayNumber(record?.inventories)}</div>
+      ),
+    },
+    {
+      title: t("Inventory available"),
+      width: 200,
       render: (record: any) => (
         <div className="text-right">{displayNumber(record?.inventories)}</div>
       ),

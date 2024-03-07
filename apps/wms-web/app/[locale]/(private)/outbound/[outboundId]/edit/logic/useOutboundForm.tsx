@@ -29,7 +29,7 @@ const useOutboundForm = () => {
   const outboundId = params?.outboundId as string;
 
   const outboundDetailQuery = useQuery({
-    queryKey: ["inbound-detail", outboundId],
+    queryKey: ["outbound-detail", outboundId],
     queryFn: () => getInbound(outboundId),
     refetchOnWindowFocus: false,
     onSuccess: (response) => {
