@@ -14,12 +14,10 @@ export class TasksService {
   ) {}
 
   private readonly logger = new Logger(TasksService.name);
-  //EVERY_10_MINUTES
-  //EVERY_MINUTE
-  @Cron(CronExpression.EVERY_10_MINUTES)
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
+    timeZone: "Asia/Ho_Chi_Minh",
+  })
   async handleCron(): Promise<void> {
-    this.logger.debug("Called when the every day at 2PM");
-
     const items: Item[] = await this.itemReadRepository.find({});
 
     const itemsNo: string[] = items.map((item: Item): string => item.no);

@@ -40,7 +40,7 @@ export class InventoryController {
     return resOk(ERROR_CODE.GetSuccess["Success"], result);
   }
 
-  @Get(":no/available-last-day")
+  @Get(":no/available-current-day")
   async getAvailableInventoriesItemCurrentDay(
     @Param("no") no: string
   ): Promise<IResponse<AvailableInventoryItem>> {

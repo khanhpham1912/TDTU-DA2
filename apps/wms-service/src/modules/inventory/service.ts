@@ -79,7 +79,7 @@ export class InventoryService {
 
   public async getInventoryItemLast24h(no: string): Promise<InventoryItem> {
     //60
-    const createdAt = { $gte: new Date(Date.now() - 24 * 50 * 60 * 1000) };
+    const createdAt = { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) };
 
     const inboundComplete: Promise<InboundOrder[]> = this.inboundReadRepo?.find(
       {
@@ -197,7 +197,7 @@ export class InventoryService {
         outCompleteQuantity +
         inNewQuantity +
         inInProgressQuantity +
-        previousInventory.inventories,
+        (previousInventory?.inventories || 0),
     } as InventoryItem;
   }
 
@@ -250,7 +250,8 @@ export class InventoryService {
     console.log(
       `Calculate available inventories took ${endTime - startTime} milliseconds`
     );
-    return {
+
+    const result = {
       itemNo: no,
       availableInventories:
         inCompleteQuantity -
@@ -258,6 +259,7 @@ export class InventoryService {
         outNewQuantity -
         outInProgressQuantity,
     } as AvailableInventoryItem;
+    return result;
   }
 
   public async getAvailableInventoryItemLast24h(
@@ -299,7 +301,8 @@ export class InventoryService {
     const outCompleteQuantity: number = calculateQuantity(outComplete, no);
     const outNewQuantity: number = calculateQuantity(outNew, no);
     const outInProgressQuantity: number = calculateQuantity(outInProgress, no);
-    return {
+
+    const result = {
       itemNo: no,
       availableInventories:
         inCompleteQuantity -
@@ -307,6 +310,7 @@ export class InventoryService {
         outNewQuantity -
         outInProgressQuantity,
     } as AvailableInventoryItem;
+    return result;
   }
 
   public async getAvailableInventoryItemFromMidNightToNow(
@@ -370,14 +374,17 @@ export class InventoryService {
     console.log(
       `Calculate available inventories took ${endTime - startTime} milliseconds`
     );
-    return {
+
+    const result = {
       itemNo: no,
       availableInventories:
         inCompleteQuantity -
         outCompleteQuantity -
         outNewQuantity -
         outInProgressQuantity +
-        previousInventory.availableInventories,
+        (previousInventory?.availableInventories || 0),
     } as AvailableInventoryItem;
+
+    return result;
   }
 }
