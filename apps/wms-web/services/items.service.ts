@@ -47,3 +47,9 @@ export const getInventory = async (itemId: any): Promise<any> => {
     method: "GET",
   });
 };
+
+export const getInventoryAvailable = async (itemId: any): Promise<any> => {
+  return await httpClient<any>(`/inventories/${itemId}/available`, {
+    method: "GET",
+  });
+};

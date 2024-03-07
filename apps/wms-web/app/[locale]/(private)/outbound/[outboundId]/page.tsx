@@ -95,7 +95,7 @@ export default function OutboundDetail() {
   const updateOutboundMutation = useMutation({
     mutationFn: (request: any) => updateOutbound(outboundId, request),
     onSuccess: (response) => {
-      queryClient.setQueryData(["inbound-detail", outboundId], response);
+      queryClient.setQueryData(["outbound-detail", outboundId], response);
       cancelConfirm();
       openPrint();
     },
@@ -275,7 +275,7 @@ export default function OutboundDetail() {
                   </Button>
                   <Button
                     type="primary"
-                    onClick={() => push(`/inbound/${outboundId}/edit`)}
+                    onClick={() => push(`/outbound/${outboundId}/edit`)}
                   >
                     {t("Edit")}
                   </Button>

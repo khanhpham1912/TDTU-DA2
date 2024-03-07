@@ -6,4 +6,5 @@ export enum ModelTokens {
   Counter = 'Counters',
   CustomFieldMapping = 'CustomFieldMappings',
   CustomField = 'CustomFields',
+  HistoricalInventory = 'HistoricalInventory',
 }

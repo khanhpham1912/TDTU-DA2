@@ -15,7 +15,6 @@ import styles from "./styles.module.scss";
 import { getEnumValues } from "@/utils/enum.utility";
 import { E_PRODUCT_TYPE, E_UOM } from "@/enums";
 import { Item } from "wms-models/lib/items";
-import DimensionForm from "./DimensionForm";
 import { number } from "@/configs/number.config";
 import { disabledAfter, disabledBefore } from "@/configs/date.config";
 import { DatePicker } from "@/components/DatePicker";
@@ -25,6 +24,7 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 import { useMutation } from "@tanstack/react-query";
 import { skuVerify } from "@/services/items.service";
+import DimensionForm from "./DimensionForm";
 
 export default function ItemForm({
   isUpdate = false,
@@ -115,7 +115,11 @@ export default function ItemForm({
                 },
               ]}
             >
-              <Input placeholder={t("Enter")} onChange={handleChangeSku} />
+              <Input
+                placeholder={t("Enter")}
+                onChange={handleChangeSku}
+                disabled={isUpdate}
+              />
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
@@ -155,7 +159,7 @@ export default function ItemForm({
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item name="grossWeight" label={t("Weight")}>
+            <Form.Item name="grossWeight" label={t("Weight (kg)")}>
               <InputNumber placeholder={t("Enter")} min={0} {...number} />
             </Form.Item>
           </Col>
@@ -177,7 +181,7 @@ export default function ItemForm({
             </Form.Item>
           </Col>
           <Col md={12} xs={24}>
-            <Form.Item name="unitValue" label={t("Unit value")}>
+            <Form.Item name="unitValue" label={t("Unit value (VND)")}>
               <InputNumber min={0} placeholder={t("Enter")} {...number} />
             </Form.Item>
           </Col>
@@ -196,7 +200,7 @@ export default function ItemForm({
           </Col>
           <Col xs={24}>
             <div className="w-full">
-            <CustomFieldForm entity={EEntity.Item} />
+              <CustomFieldForm entity={EEntity.Item} />
             </div>
           </Col>
         </Row>

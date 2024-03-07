@@ -14,6 +14,8 @@ import { OutboundOrderModule } from "./outbound.order/module";
 import { InventoryModule } from "./inventory/module";
 import { CustomFieldModule } from "./custom.field/module";
 import { CustomFieldMappingModule } from "./custom.field.mapping/module";
+import { CronJobModule } from "./cron.job/cron.job.module";
+import { ScheduleModule } from "@nestjs/schedule";
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { CustomFieldMappingModule } from "./custom.field.mapping/module";
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.URI),
+    ScheduleModule.forRoot(),
+    CronJobModule,
     AuthModule,
     UsersModule,
     SupplierModule,
