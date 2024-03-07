@@ -134,3 +134,4 @@ export class InboundOrderDocument extends BaseSchema implements InboundOrder {
 
 export const InboundOrderSchema =
   SchemaFactory.createForClass(InboundOrderDocument);
+InboundOrderSchema.index({ "items.no": 1 }, { unique: true });

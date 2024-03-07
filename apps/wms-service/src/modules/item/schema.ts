@@ -72,3 +72,4 @@ export class ItemDocument extends BaseSchema implements Item {
 }
 
 export const ItemSchema = SchemaFactory.createForClass(ItemDocument);
+ItemSchema.index({ no: 1 }, { unique: true });

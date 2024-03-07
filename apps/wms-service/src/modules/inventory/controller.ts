@@ -30,4 +30,22 @@ export class InventoryController {
       await this.service.getAvailableInventoryItem(no);
     return resOk(ERROR_CODE.GetSuccess["Success"], result);
   }
+
+  @Get(":no/current-day")
+  async getInventoriesItemCurrentDay(
+    @Param("no") no: string
+  ): Promise<IResponse<InventoryItem>> {
+    const result: InventoryItem =
+      await this.service.getInventoryItemFromMidNightToNow(no);
+    return resOk(ERROR_CODE.GetSuccess["Success"], result);
+  }
+
+  @Get(":no/available-last-day")
+  async getAvailableInventoriesItemCurrentDay(
+    @Param("no") no: string
+  ): Promise<IResponse<AvailableInventoryItem>> {
+    const result: AvailableInventoryItem =
+      await this.service.getAvailableInventoryItemFromMidNightToNow(no);
+    return resOk(ERROR_CODE.GetSuccess["Success"], result);
+  }
 }
