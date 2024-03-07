@@ -18,6 +18,8 @@ export class InventoryService {
   ) {}
 
   public async getInventoryItem(no: string): Promise<InventoryItem> {
+    const startTime: number = performance.now();
+
     const inboundComplete: Promise<InboundOrder[]> = this.inboundReadRepo?.find(
       {
         "items.no": no,
@@ -57,6 +59,9 @@ export class InventoryService {
 
     const inInProgressQuantity: number = calculateQuantity(inInProgress, no);
 
+    const endTime: number = performance.now();
+
+    console.log(`It took ${endTime - startTime} milliseconds`);
     return {
       itemNo: no,
       inventories:
