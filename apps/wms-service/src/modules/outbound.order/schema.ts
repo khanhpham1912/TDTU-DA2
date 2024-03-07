@@ -135,4 +135,4 @@ export class OutboundOrderDocument extends BaseSchema implements OutboundOrder {
 export const OutboundOrderSchema = SchemaFactory.createForClass(
   OutboundOrderDocument
 );
-OutboundOrderSchema.index({ "items.no": 1 }, { unique: true });
+OutboundOrderSchema.index({ "items.no": 1 }, { unique: false });
