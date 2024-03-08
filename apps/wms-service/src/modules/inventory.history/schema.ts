@@ -28,3 +28,4 @@ export class HistoricalInventoryDocument
 export const HistoricalInventorySchema = SchemaFactory.createForClass(
   HistoricalInventoryDocument
 );
+HistoricalInventorySchema.index({ itemNo: 1 }, { unique: false });
