@@ -35,11 +35,11 @@ export class TasksService {
       await this.historicalInventoryService.create({
         itemNo: no,
         inventories:
-          itemHistoricalInventory?.inventories +
-            inventoriesLast24h?.inventories || 0,
+          (itemHistoricalInventory?.inventories || 0) +
+          (inventoriesLast24h?.inventories || 0),
         availableInventories:
-          itemHistoricalInventory?.availableInventories +
-            availableInventoriesLast24h?.availableInventories || 0,
+          (itemHistoricalInventory?.availableInventories || 0) +
+          (availableInventoriesLast24h?.availableInventories || 0),
       });
     }
 
