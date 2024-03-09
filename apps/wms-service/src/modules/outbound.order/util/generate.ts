@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import { EStatus } from "wms-models/lib/shared";
 import { uuid } from "wms-utils/lib/uuid";
 
 export async function generateOutbound(): Promise<void> {
@@ -6,7 +7,8 @@ export async function generateOutbound(): Promise<void> {
     result: [],
   };
 
-  for (let index: number = 201; index <= 300; index++) {
+  for (let index: number = 301; index <= 10000; index++) {
+    const status: EStatus = EStatus.COMPLETED;
     const _id: string = uuid();
     let no: string = index.toString().padStart(6, "0");
     const outbound = {
@@ -30,7 +32,7 @@ export async function generateOutbound(): Promise<void> {
       ],
       totalGrossWeight: 400,
       totalValue: 0,
-      status: "COMPLETED",
+      status,
       createdAt: {
         $date: "2024-03-09T12:01:59.933Z",
       },
