@@ -187,9 +187,7 @@ export class InventoryService {
       await this.historicalInventoryService.getItemHistoricalInventory(no);
     const endTime: number = performance.now();
     console.log(
-      `Calculate inventories in current day took ${
-        endTime - startTime
-      } milliseconds`
+      `Calculate inventories until now took ${endTime - startTime} milliseconds`
     );
 
     return {
@@ -374,7 +372,7 @@ export class InventoryService {
       await this.historicalInventoryService.getItemHistoricalInventory(no);
 
     console.log(
-      `Calculate available inventories in current day took ${
+      `Calculate available inventories until now took ${
         endTime - startTime
       } milliseconds`
     );
