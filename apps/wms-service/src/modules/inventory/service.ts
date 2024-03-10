@@ -8,14 +8,16 @@ import { InboundOrder } from "wms-models/lib/inbound";
 import { OutboundOrder } from "wms-models/lib/outbound.order";
 import { EStatus } from "wms-models/lib/shared";
 import { calculateQuantity } from "./util/calculate.quantity";
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable, forwardRef } from "@nestjs/common";
 import { HistoricalInventoryService } from "../inventory.history/service";
 import { HistoricalInventory } from "wms-models/lib/inventory.history";
 
 @Injectable()
 export class InventoryService {
   constructor(
+    @Inject(forwardRef(() => InboundOrderReadRepository))
     private readonly inboundReadRepo: InboundOrderReadRepository,
+    @Inject(forwardRef(() => OutboundOrderReadRepository))
     private readonly outboundReadRepo: OutboundOrderReadRepository,
     private readonly historicalInventoryService: HistoricalInventoryService
   ) {}
