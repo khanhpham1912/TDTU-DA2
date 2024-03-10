@@ -7,7 +7,7 @@ export async function generateOutbound(): Promise<void> {
     result: [],
   };
 
-  for (let index: number = 301; index <= 10000; index++) {
+  for (let index: number = 10001; index <= 10100; index++) {
     const status: EStatus = EStatus.COMPLETED;
     const _id: string = uuid();
     let no: string = index.toString().padStart(6, "0");
@@ -27,17 +27,17 @@ export async function generateOutbound(): Promise<void> {
           uom: "BUCKET",
           type: "AGRICULTURE",
           grossWeight: 20,
-          itemCount: 10,
+          itemCount: 20,
         },
       ],
       totalGrossWeight: 400,
       totalValue: 0,
       status,
       createdAt: {
-        $date: "2024-03-09T12:01:59.933Z",
+        $date: "2024-03-10T12:01:59.933Z",
       },
       updatedAt: {
-        $date: "2024-03-09T12:01:59.933Z",
+        $date: "2024-03-10T12:01:59.933Z",
       },
       __v: 0,
     };

@@ -7,8 +7,8 @@ export async function generateInbound(): Promise<void> {
     result: [],
   };
 
-  for (let index: number = 5001; index <= 10000; index++) {
-    const status: EStatus = EStatus.COMPLETED;
+  for (let index: number = 10001; index <= 10100; index++) {
+    const status: EStatus = EStatus.NEW;
     const _id: string = uuid();
     let no: string = index.toString().padStart(6, "0");
     const inbound = {
@@ -16,7 +16,7 @@ export async function generateInbound(): Promise<void> {
       active: true,
       deletedAt: null,
       arrivalTime: {
-        $date: "2024-03-09T12:01:59.929Z",
+        $date: "2024-03-12T12:01:59.929Z",
       },
       no: `IR${no}`,
       items: [
@@ -34,10 +34,10 @@ export async function generateInbound(): Promise<void> {
       totalValue: 0,
       status,
       createdAt: {
-        $date: "2024-03-09T12:01:59.933Z",
+        $date: "2024-03-10T12:01:59.933Z",
       },
       updatedAt: {
-        $date: "2024-03-09T12:01:59.933Z",
+        $date: "2024-03-10T12:01:59.933Z",
       },
       __v: 0,
     };
