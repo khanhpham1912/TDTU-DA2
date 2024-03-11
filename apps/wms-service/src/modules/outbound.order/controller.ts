@@ -18,6 +18,7 @@ import { ItemDeletedResponse } from "src/database";
 import { PaginateResponse } from "wms-utils/lib/paging";
 import { OutboundOrder } from "wms-models/lib/outbound.order";
 import { OutboundOrderDto, ListOutboundOrderRequestDto } from "./dto";
+import { generateOutbound } from "./util/generate";
 
 @ApiBearerAuth()
 @ApiTags("OutboundOrders")
@@ -75,6 +76,12 @@ export class OutboundOrderController {
     @Body() body: ListOutboundOrderRequestDto
   ): Promise<IResponse<OutboundOrder[]>> {
     const result: OutboundOrder[] = await this.readRepo.all(body);
+    return resOk(ERROR_CODE.ListSuccess["Success"], result);
+  }
+
+  @Post("generate")
+  async generate(): Promise<IResponse<void>> {
+    const result: void = await generateOutbound();
     return resOk(ERROR_CODE.ListSuccess["Success"], result);
   }
 }

@@ -23,6 +23,6 @@ import { OutboundOrderModule } from "../outbound.order/module";
   ],
   controllers: [ItemController],
   providers: [ItemReadRepository, ItemWriteRepository],
-  exports: [],
+  exports: [ItemReadRepository],
 })
 export class ItemModule {}
