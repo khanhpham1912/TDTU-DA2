@@ -50,7 +50,11 @@ export class ItemWriteRepository extends BaseWriteRepository<Item> {
       outbound,
     ]);
 
-    if (result[0] || result[1]) throw new ValidationError();
+    if (result[0] || result[1])
+      throw new ValidationError({
+        vi: "Item has been used",
+        en: "Item has been used",
+      });
 
     return await this.delete(id);
   }

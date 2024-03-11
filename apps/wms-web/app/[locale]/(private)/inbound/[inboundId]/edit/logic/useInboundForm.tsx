@@ -357,7 +357,7 @@ const useInboundForm = () => {
           <FontAwesomeIcon
             icon={faTrashCan}
             style={{ fontSize: 16 }}
-            className="color-danger pointer"
+            className="text-[#ff4d4f] cursor-pointer"
             onClick={() => remove(field.name)}
           />
         );

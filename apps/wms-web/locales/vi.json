@@ -239,5 +239,6 @@
   "Cancel inbound order": "Hủy đơn nhập kho",
   "Note: This action cannot undo": "Ghi chú: Hành động này không thể thu hồi",
   "Inventory": "Tồn kho",
-  "Inventory available": "Tồn kho khả dụng"
+  "Inventory available": "Tồn kho khả dụng",
+  "Item has been used": "Sản phẩm đã được sử dụng"
 }

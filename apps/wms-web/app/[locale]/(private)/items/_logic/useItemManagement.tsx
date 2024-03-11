@@ -27,6 +27,10 @@ export default function useItemManagement() {
       queryClient.invalidateQueries({ queryKey: ["items-management"] });
     },
     onError: (error: any) => {
+      if (error?.response?.data?.message === "Item has been used") {
+        pushNotify(t("Item has been used"), { type: "error" });
+        return;
+      }
       pushNotify(
         error?.response?.data?.message ||
           error.message ||

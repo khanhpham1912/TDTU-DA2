@@ -239,5 +239,6 @@
   "Cancel inbound order": "Cancel inbound order",
   "Note: This action cannot undo": "Note: This action cannot undo",
   "Inventory": "Inventory",
-  "Inventory available": "Inventory available"
+  "Inventory available": "Inventory available",
+  "Item has been used": "Item has been used"
 }

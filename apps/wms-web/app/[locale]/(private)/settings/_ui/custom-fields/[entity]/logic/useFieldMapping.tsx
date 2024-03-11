@@ -105,9 +105,9 @@ export const useFieldMapping = ({ entity }: { entity: EEntity }) => {
     };
 
     resortFieldsMutation.mutate(request, {
-      // onSuccess: (response) => {
-      //   pushNotify(response.message);
-      // },
+      onSuccess: (_response) => {
+        pushNotify(t("Update successfully"));
+      },
       onError: (error: any) => {
         pushNotify(
           error?.response?.data?.message ||
