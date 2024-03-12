@@ -66,4 +66,13 @@ export class ItemController {
     const result: boolean = await this.readRepo.checkSKU(sku);
     return resOk(ERROR_CODE.ListSuccess["Success"], result);
   }
+
+  @Post("list/inventories")
+  async listItemWithInventory(
+    @Body() body: ListItemRequestDto
+  ): Promise<IResponse<PaginateResponse<any>>> {
+    const result: PaginateResponse<any> =
+      await this.readRepo.listItemWithInventory(body);
+    return resOk(ERROR_CODE.ListSuccess["Success"], result);
+  }
 }
