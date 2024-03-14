@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ModelTokens } from "wms-models/lib/common";
 
@@ -8,6 +8,7 @@ import { ItemSchema } from "./schema";
 import { ItemController } from "./controller";
 import { InboundOrderModule } from "../inbound.order/module";
 import { OutboundOrderModule } from "../outbound.order/module";
+import { InventoryModule } from "../inventory/module";
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { OutboundOrderModule } from "../outbound.order/module";
     CounterModule,
     InboundOrderModule,
     OutboundOrderModule,
+    forwardRef(() => InventoryModule),
   ],
   controllers: [ItemController],
   providers: [ItemReadRepository, ItemWriteRepository],
