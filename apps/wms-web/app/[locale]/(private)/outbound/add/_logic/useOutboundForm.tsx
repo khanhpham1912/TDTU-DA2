@@ -7,13 +7,12 @@ import { pushNotify } from "@/utils/toast";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation } from "@tanstack/react-query";
-import { Form, Tooltip } from "antd";
+import { Form, InputNumber, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import {
   OutboundOrder,
   OutboundOrderItem,
 } from "wms-models/lib/outbound.order";
-import { Item } from "wms-models/lib/items";
 import { useRouter } from "next/navigation";
 
 const useOutboundForm = () => {
@@ -22,14 +21,14 @@ const useOutboundForm = () => {
   const { push } = useRouter();
 
   const handleAddItem = (
-    newItem: Item,
+    newItem: any,
     add: (
       value: Partial<
         OutboundOrderItem & {
           weight: number;
           conversionValue: number;
           conversionWeight: number;
-        }
+        } & any
       >,
       index: number
     ) => void
@@ -46,6 +45,9 @@ const useOutboundForm = () => {
 
       if (hasProduct) {
         const items = values.items?.map((item: OutboundOrderItem) => {
+          if (item?.itemCount === newItem?.availableInventories) {
+            throw new Error(t("Maximum number of products has been reached"));
+          }
           if (item?.no === newItem?.no) {
             item.itemCount += 1;
           }
@@ -70,12 +72,14 @@ const useOutboundForm = () => {
           supplier: newItem?.supplier,
           dimension: newItem?.dimension,
           itemCount: 1,
+          inventory: newItem?.availableInventories,
         },
         0
       );
-    } catch (error) {
-      console.error(error);
-      pushNotify(t("An error has occurred"), { type: "error" });
+    } catch (error: any) {
+      pushNotify(error?.message ?? t("An error has occurred"), {
+        type: "error",
+      });
     }
   };
 
@@ -146,13 +150,36 @@ const useOutboundForm = () => {
 
     {
       title: t("Quantity"),
-      isRequired: true,
-      rules: [{ required: true, message: t("Please type") }],
-      formType: "InputNumber",
-      formName: "itemCount",
-      inputNumberConfig: {
-        min: 0,
-        placeholder: "0",
+      render: ({ field }: any) => {
+        return (
+          <Form.Item
+            noStyle
+            shouldUpdate={(prev, current) => {
+              return (
+                prev?.items?.[field.name]?.itemCount !==
+                current?.items?.[field.name]?.itemCount
+              );
+            }}
+          >
+            {({ getFieldValue }) => {
+              const total: number = getFieldValue([
+                "items",
+                field.name,
+                "inventory",
+              ]);
+
+              return (
+                <Form.Item
+                  name={[field.name, "itemCount"]}
+                  rules={[{ required: true, message: t("Please type") }]}
+                  style={{ marginBottom: 0 }}
+                >
+                  <InputNumber placeholder="0" min={1} max={total} />
+                </Form.Item>
+              );
+            }}
+          </Form.Item>
+        );
       },
     },
     {
@@ -375,10 +402,13 @@ const useOutboundForm = () => {
       const values = await form.validateFields();
       let totalGrossWeight = 0;
       let totalValue = 0;
-      values?.items?.map((item: OutboundOrderItem) => {
+      values.items = values?.items?.map((item: any) => {
         totalValue += (item?.unitValue ?? 0) * (item?.itemCount ?? 0);
         totalGrossWeight += (item?.grossWeight ?? 0) * (item?.itemCount ?? 0);
+        const { inventory, ...rest } = item;
+        return { ...rest };
       });
+
       createOutboundMutation.mutate({
         ...values,
         totalValue,

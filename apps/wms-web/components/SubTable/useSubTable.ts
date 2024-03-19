@@ -18,13 +18,17 @@ export const useSubTable = ({
     enabled: expanded,
     retry: false,
     onSuccess: (response) => {
-      const _data = { ...record, inventories: response?.data?.inventories };
+      const _data = {
+        ...record,
+        ...data,
+        inventories: response?.data?.inventories,
+      };
       setData(_data);
     },
   });
   useQuery({
-    queryKey: ["item-inventories-available", record?._id],
-    queryFn: () => getInventoryAvailable(record?._id),
+    queryKey: ["item-inventories-available", record?.no],
+    queryFn: () => getInventoryAvailable(record?.no),
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     enabled: expanded,
@@ -32,6 +36,7 @@ export const useSubTable = ({
     onSuccess: (response) => {
       const _data = {
         ...record,
+        ...data,
         availableInventories: response?.data?.availableInventories,
       };
       setData(_data);

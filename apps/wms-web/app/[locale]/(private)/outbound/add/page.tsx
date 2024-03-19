@@ -7,8 +7,7 @@ import { Button, Col, Form, Input, Row } from "antd";
 // hooks
 import { useTranslations } from "next-intl";
 import { PostList } from "@/components/PostList";
-import { getItems } from "@/services/items.service";
-import { Item } from "wms-models/lib/items";
+import { getInventoryItems } from "@/services/items.service";
 import { useRef } from "react";
 import EditTable from "@/components/EditTable";
 import { OutboundOrder } from "wms-models/lib/outbound.order";
@@ -47,9 +46,9 @@ const CreateOutboundOrder = () => {
               searchPlaceholder={t("Search")}
               queryConfig={{
                 queryKey: "items-management",
-                queryFn: getItems,
+                queryFn: getInventoryItems,
               }}
-              renderItem={(item: Item) => {
+              renderItem={(item: any) => {
                 return (
                   <div
                     key={item._id}
@@ -68,12 +67,21 @@ const CreateOutboundOrder = () => {
                         </span>
                       </div>
                     </div>
-
-                    <div
-                      className=" text-indigo-600 text-xs"
-                      style={{ fontStyle: "italic" }}
-                    >
-                      {`UOM: ${t(item?.uom as any)}`}
+                    <div className="flex flex-col text-right">
+                      <div
+                        className=" text-indigo-600 text-xs"
+                        style={{ fontStyle: "italic" }}
+                      >
+                        {`UOM: ${t(item?.uom as any)}`}
+                      </div>
+                      <div
+                        className=" text-green-600 text-xs"
+                        style={{ fontStyle: "italic" }}
+                      >
+                        {`${t("Inventory")}: ${t(
+                          item?.availableInventories as any
+                        )}`}
+                      </div>
                     </div>
                   </div>
                 );
@@ -176,7 +184,7 @@ const CreateOutboundOrder = () => {
                 {t("General")}
               </span>
               <div className="flex flex-col">
-              <Form.Item<OutboundOrder>
+                <Form.Item<OutboundOrder>
                   name={["deliveryTime"]}
                   label={t("Delivery time")}
                   rules={[{ required: true, message: t("Please select") }]}

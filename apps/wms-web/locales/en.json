@@ -240,5 +240,7 @@
   "Note: This action cannot undo": "Note: This action cannot undo",
   "Inventory": "Inventory",
   "Inventory available": "Inventory available",
-  "Item has been used": "Item has been used"
+  "Item has been used": "Item has been used",
+  "Edit inbound order": "Edit inbound order",
+  "Maximum number of products has been reached": "Maximum number of products has been reached"
 }

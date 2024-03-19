@@ -13,8 +13,8 @@ import {
 import { useTranslations } from "next-intl";
 import styles from "./styles.module.scss";
 import { getEnumValues } from "@/utils/enum.utility";
-import { E_PRODUCT_TYPE, E_UOM } from "@/enums";
-import { Item } from "wms-models/lib/items";
+import { E_UOM } from "@/enums";
+import { EProductType, Item } from "wms-models/lib/items";
 import { number } from "@/configs/number.config";
 import { disabledAfter, disabledBefore } from "@/configs/date.config";
 import { DatePicker } from "@/components/DatePicker";
@@ -149,7 +149,7 @@ export default function ItemForm({
             >
               <Select
                 placeholder={t("Select")}
-                options={getEnumValues(E_PRODUCT_TYPE).map((item) => {
+                options={getEnumValues(EProductType).map((item) => {
                   return {
                     value: item,
                     label: t(item as any),
@@ -163,7 +163,6 @@ export default function ItemForm({
               <InputNumber placeholder={t("Enter")} min={0} {...number} />
             </Form.Item>
           </Col>
-
           <Col md={12} xs={24}>
             <Form.Item name="productionDate" label={t("Production date")}>
               <DatePicker
@@ -187,6 +186,12 @@ export default function ItemForm({
           </Col>
           <Col md={12} xs={24}>
             <DimensionForm />
+          </Col>
+          d
+          <Col md={12} xs={24}>
+            <Form.Item name="supplier" label={t("Supplier")}>
+              <Select placeholder={t("Select")} />
+            </Form.Item>
           </Col>
           <Col xs={24}>
             <Form.Item name="description" label={t("Description")}>

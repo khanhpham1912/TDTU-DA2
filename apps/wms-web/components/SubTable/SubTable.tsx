@@ -30,7 +30,9 @@ const SubTable = ({ expanded, record }: { record: any; expanded: boolean }) => {
       title: t("Inventory available"),
       width: 200,
       render: (record: any) => (
-        <div className="text-right">{displayNumber(record?.inventories)}</div>
+        <div className="text-right">
+          {displayNumber(record?.availableInventories)}
+        </div>
       ),
     },
   ];

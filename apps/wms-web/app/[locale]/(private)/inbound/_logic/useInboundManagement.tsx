@@ -75,7 +75,24 @@ export default function useInboundManagement() {
         label: t("Status"),
         filterType: "Select",
         selectConfig: {
-          options: [],
+          options: [
+            {
+              label: t(EStatus.NEW as any),
+              value: EStatus.NEW,
+            },
+            {
+              label: t(EStatus.INPROGRESS as any),
+              value: EStatus.INPROGRESS,
+            },
+            {
+              label: t(EStatus.COMPLETED as any),
+              value: EStatus.COMPLETED,
+            },
+            {
+              label: t(EStatus.CANCELED as any),
+              value: EStatus.CANCELED,
+            },
+          ],
         },
       },
     ];

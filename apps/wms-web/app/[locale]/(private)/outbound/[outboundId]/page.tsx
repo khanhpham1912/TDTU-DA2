@@ -97,7 +97,6 @@ export default function OutboundDetail() {
     onSuccess: (response) => {
       queryClient.setQueryData(["outbound-detail", outboundId], response);
       cancelConfirm();
-      openPrint();
     },
   });
 

@@ -9,7 +9,13 @@ export const getItems = async (request: any): Promise<any> => {
     data: request,
   });
 };
-
+export const getInventoryItems = async (request: any): Promise<any> => {
+  return await httpClient<any>(`${API_PATH}/list/inventories`, {
+    method: "POST",
+    data: request,
+  });
+};
+getInventoryItems;
 export const getItem = async (itemId: any): Promise<any> => {
   return await httpClient<any>(`${API_PATH}/${itemId}`, {
     method: "GET",

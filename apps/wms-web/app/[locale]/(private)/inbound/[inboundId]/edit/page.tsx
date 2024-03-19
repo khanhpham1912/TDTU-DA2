@@ -37,7 +37,7 @@ const UpdateInboundOrder = () => {
     <div className="app-content">
       <div className="flex justify-between pb-4">
         <span className=" text-gray-900 font-semibold text-2xl">
-          {t("New inbound order")}
+          {t("Edit inbound order")}
         </span>
         <div className="flex gap-2">
           <Button onClick={handleCancelUpdate}>{t("Cancel")}</Button>
@@ -182,7 +182,7 @@ const UpdateInboundOrder = () => {
                 {t("General")}
               </span>
               <div className="flex flex-col">
-              <Form.Item<InboundOrder>
+                <Form.Item<InboundOrder>
                   name={["arrivalTime"]}
                   label={t("Arrival time")}
                   rules={[{ required: true, message: t("Please select") }]}

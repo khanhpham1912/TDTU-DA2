@@ -8,8 +8,7 @@ import { Button, Col, Form, Input, Row } from "antd";
 // hooks
 import { useTranslations } from "next-intl";
 import { PostList } from "@/components/PostList";
-import { getItems } from "@/services/items.service";
-import { Item } from "wms-models/lib/items";
+import { getInventoryItems } from "@/services/items.service";
 import { useRef } from "react";
 import EditTable from "@/components/EditTable";
 import { OutboundOrder } from "wms-models/lib/outbound.order";
@@ -54,9 +53,9 @@ const UpdateOutboundOrder = () => {
               searchPlaceholder={t("Search")}
               queryConfig={{
                 queryKey: "items-management",
-                queryFn: getItems,
+                queryFn: getInventoryItems,
               }}
-              renderItem={(item: Item) => {
+              renderItem={(item: any) => {
                 return (
                   <div
                     key={item._id}
@@ -76,11 +75,21 @@ const UpdateOutboundOrder = () => {
                       </div>
                     </div>
 
-                    <div
-                      className=" text-indigo-600 text-xs"
-                      style={{ fontStyle: "italic" }}
-                    >
-                      {`UOM: ${t(item?.uom as any)}`}
+                    <div className="flex flex-col text-right">
+                      <div
+                        className=" text-indigo-600 text-xs"
+                        style={{ fontStyle: "italic" }}
+                      >
+                        {`UOM: ${t(item?.uom as any)}`}
+                      </div>
+                      <div
+                        className=" text-green-600 text-xs"
+                        style={{ fontStyle: "italic" }}
+                      >
+                        {`${t("Inventory")}: ${t(
+                          item?.availableInventories as any
+                        )}`}
+                      </div>
                     </div>
                   </div>
                 );
